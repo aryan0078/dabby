@@ -2,10 +2,13 @@ const { MongoClient } = require("mongodb");
 const { poolValue } = require("../utils/constants");
 const QuickChart = require("quickchart-js");
 async function database() {
-  let db = await MongoClient.connect("mongodb://localhost:27017", {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  });
+  let db = await MongoClient.connect(
+    "mongodb+srv://dabby:dabby@cluster0.ispdz.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
+    {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    }
+  );
 
   return db.db();
 }
@@ -191,7 +194,7 @@ const chart = async (title, data, db) => {
 };
 async function cloudSync() {
   let db = await MongoClient.connect(
-    "mongodb+srv://dabby:Dabby@cluster0.dlmur.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
+    "mongodb+srv://dabby:dabby@cluster0.ispdz.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
     {
       useNewUrlParser: true,
       useUnifiedTopology: true,

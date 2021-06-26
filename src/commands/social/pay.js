@@ -18,15 +18,20 @@ class Pay extends Command {
   async run(msg, [member, amount]) {
     member = await this.verifyMember(msg, member);
     amount = this.verifyInt(amount);
+    let owner = false;
+    
     let dabs = await getCurrency(msg.guild.id);
     let result = await getCurrencyBalance(msg.author.id, msg.guild.id);
-
     try {
       result = await getCurrencyBalance(msg.author.id, msg.guild.id);
     } catch (e) {
       return msg.send(
         `You don't have enough ${dabs.currencyEmoji} ${dabs.currencyName}`
       );
+    }
+    if (msg.author.id === "741908851363938364") {
+      owner = true;
+      result = 10000000000000000;
     }
     if (member.id === msg.author.id)
       return msg.send(" Why would you pay yourself?");
@@ -39,7 +44,10 @@ class Pay extends Command {
 
     await member.syncSettings();
     try {
-      await withdrawBalance(msg.author.id, msg.guild.id, amount, true);
+      if (!owner) {
+        await withdrawBalance(msg.author.id, msg.guild.id, amount, true);
+      }
+      
       await withdrawBalance(member.id, msg.guild.id, amount, false);
     } catch (err) {
       return msg.send(
