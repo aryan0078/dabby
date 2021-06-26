@@ -1,0 +1,54 @@
+[
+  {
+    "type": "PLAYING",
+    "message": "@Miyako help | {{guilds}} servers"
+  },
+  {
+    "type": "PLAYING",
+    "message": "m!help | {{guilds}} servers"
+  },
+  {
+    "type": "PLAYING",
+    "message": "m!invite | {{guilds}} servers"
+  },
+  {
+    "type": "PLAYING",
+    "message": "m!support | {{guilds}} servers"
+  },
+  {
+    "type": "LISTENING",
+    "message": "{{guilds}} servers"
+  },
+  {
+    "type": "WATCHING",
+    "message": "over {{guilds}} servers"
+  },
+  {
+    "type": "WATCHING",
+    "message": "you"
+  },
+  {
+    "type": "PLAYING",
+    "message": "invite me using m!invite"
+  },
+  {
+    "type": "PLAYING",
+    "message": "life has no limits"
+  },
+  {
+    "type": "PLAYING",
+    "message": "with ones and zeroes"
+  },
+  {
+    "type": "WATCHING",
+    "message": "Anime"
+  },
+  {
+    "type": "PLAYING",
+    "message": "with Senpai"
+  },
+  {
+    "type": "PLAYING",
+    "message": "with {{users}} users"
+  }
+]

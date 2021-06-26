@@ -1,0 +1,34 @@
+{
+  "name": "dabby",
+  "version": "0.0.1",
+  "private": true,
+  "description": "Discord Bot",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "author": "aryan0078",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/pollen5/miyako/issues"
+  },
+  "homepage": "",
+  "dependencies": {
+    "cheerio": "^1.0.0-rc.3",
+    "dblapi.js": "^2.4.0",
+    "discord-buttons": "^3.1.1",
+    "discord.js": "^12.2.0",
+    "dotenv": "^8.2.0",
+    "fast-levenshtein": "^2.0.6",
+    "img-api": "^1.0.4",
+    "module-alias": "^2.2.2",
+    "mongodb": "^3.6.0",
+    "quickchart-js": "^1.2.0",
+    "random-number-csprng": "^1.0.2",
+    "uid": "^2.0.0"
+  }
+}
