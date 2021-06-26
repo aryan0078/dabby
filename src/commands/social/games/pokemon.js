@@ -18,7 +18,8 @@ class Pokemon extends Command {
 
   async run(msg) {
     const pokemon = this.client.utils.random(pokemons);
-
+ let db = this.client.dbClient;
+ db = await db.db();
     const embed = this.client.embed(msg.author)
       .setTitle(msg.tr("COMMAND_POKEMON_GUESS"))
       .setImage(pokemon.imageURL);
@@ -34,7 +35,7 @@ class Pokemon extends Command {
       if (sent.deletable) await sent.delete();
       return msg.send(`You took too long to answer. It was ${pokemon.name}.`);
     }
-    let dabs = await getCurrency(msg.guild.id);
+    let dabs = await getCurrency(msg.guild.id, db);
 
     const answer = attempts.first().content.toLowerCase();
       
@@ -43,7 +44,7 @@ class Pokemon extends Command {
       let points = "";
 
       if (msg.guild.settings.social) {
-        await withdrawBalance(msg.author.id, msg.guild.id, 200, false);
+        await withdrawBalance(msg.author.id, msg.guild.id, 2000, false, db);
         points = ` You got **200** ${dabs.currencyName} ${dabs.currencyEmoji}`;
       }
 

@@ -1,5 +1,6 @@
 const Command = require("../../structures/Command.js");
 const {getCurrency, getCurrencyBalance} =require("../../structures/database.js");
+const { toFancyNum } = require("../../utils/constants.js");
 
 class Profile extends Command {
   constructor(...args) {
@@ -12,9 +13,11 @@ class Profile extends Command {
 
   async run(msg, [member]) {
     member = await this.verifyMember(msg, member, true);
+    let db = this.client.dbClient;
+    db = await db.db();
     if (member.user.bot) return msg.send(" You can't view a bot's profile.");
-    let dabs=await getCurrency(msg.guild.id)
-let bal = await getCurrencyBalance(msg.author.id, msg.guild.id);
+    let dabs = await getCurrency(msg.guild.id, db);
+    let bal = await getCurrencyBalance(msg.author.id, msg.guild.id, db);
     const embed = this.client
       .embed(member.user)
       .setTitle(msg.tr("COMMAND_PROFILE_TITLE", member.displayName))
@@ -26,13 +29,11 @@ let bal = await getCurrencyBalance(msg.author.id, msg.guild.id);
       .addField(msg.tr("COMMAND_PROFILE_LEVEL"), member.settings.level)
       .addField(
         msg.tr("COMMAND_PROFILE_POINTS"),
-        `${parseInt(
-          
-          
-          bal.amount
-        
-        
-        ).toLocaleString()} ${dabs.currencyName} ${dabs.currencyEmoji}`
+        `**${parseInt(bal.amount).toLocaleString()}** ${dabs.currencyName} ${
+          dabs.currencyEmoji
+        } \n\n **${toFancyNum(
+          member.settings.points
+        )}** <:dabs:851218687255773194>`
       )
       .addField(msg.tr("COMMAND_PROFILE_REP"), member.user.settings.reputation);
 

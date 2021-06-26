@@ -2,7 +2,6 @@ const Command = require("../../structures/Command.js");
 const { toFancyNum } = require("../../utils/constants.js");
 const {
   getCurrency,
-  database,
   getCurrencyBalance,
 } = require("../../structures/database.js");
 class Points extends Command {
@@ -20,13 +19,13 @@ class Points extends Command {
     const member = await this.verifyMember(msg, user, true);
     if (member.user.bot) return msg.send(" Bots don't have points.");
     await member.syncSettings();
-    let db = await database();
+    let db = this.client.dbClient;
+    db = await db.db();
 
     let user_ = db.collection("members");
-    let dabs = await getCurrency(msg.guild.id);
+    let dabs = await getCurrency(msg.guild.id, db);
     let wallets = await user_.findOne({ id: msg.author.id });
     if (wallets == null) {
-      let db = await database();
       let cash = db.collection("members");
       await cash.insertOne({
         id: msg.author.id,
@@ -37,7 +36,7 @@ class Points extends Command {
     }
     try {
       wallets = await user_.findOne({ id: msg.author.id });
-      let bal = await getCurrencyBalance(msg.author.id, msg.guild.id);
+      let bal = await getCurrencyBalance(msg.author.id, msg.guild.id, db);
       let walstr = `**${member.displayName}**, you have\n`;
 
       if (!bal) {
@@ -55,7 +54,7 @@ class Points extends Command {
           return;
         }
         if (wallet.id === msg.guild.id) {
-          console.log("");
+          console.log("skip");
         } else {
           walstr +=
             `**${wallet.currencyEmoji} | ** you have ` +
@@ -76,7 +75,6 @@ class Points extends Command {
             )}**  dabs `;
       msg.send(walstr);
     } catch (e) {
-      console.log(e);
       msg.send(
         "I guess you are new to Dab now you are signed Up you can now run command again to see you dabby!"
       );

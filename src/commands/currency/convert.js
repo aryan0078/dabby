@@ -20,7 +20,9 @@ class Convert extends Command {
 
   async run(msg, amount) {
     let amt = parseInt(amount);
-    let currency = await getCurrency(msg.guild.id);
+    let db = this.client.dbClient;
+    db = await db.db();
+    let currency = await getCurrency(msg.guild.id, db);
     if (!amount) {
       replyError(
         msg,
@@ -50,15 +52,14 @@ class Convert extends Command {
       return;
     }
 
-    let db = await database();
     let user = db.collection("members");
 
     let serverVal = await serverValue(msg.guild, msg);
     let estimated = Math.round((amt / serverVal) * 100);
-    let currencyExsis = await getBalanceExists(msg.author.id, msg.guild.id);
+    let currencyExsis = await getBalanceExists(msg.author.id, msg.guild.id, db);
     if (currencyExsis) {
       msg.member.takePoints(amt);
-      let f = await getCurrencyBalance(msg.author.id, msg.guild.id);
+      let f = await getCurrencyBalance(msg.author.id, msg.guild.id, db);
       user.findOneAndUpdate(
         { id: msg.author.id, "wallet.id": msg.guild.id },
         {

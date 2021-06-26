@@ -20,7 +20,9 @@ class PayDab extends Command {
   async run(msg, [member, amount]) {
     member = await this.verifyMember(msg, member);
     amount = this.verifyInt(amount);
-    let balance = await getdabbal(msg.author.id);
+    let db = this.client.dbClient;
+    db = await db.db();
+    let balance = await getdabbal(msg.author.id, db);
     let result = balance.points;
 
     if (member.id === msg.author.id) {
@@ -38,8 +40,8 @@ class PayDab extends Command {
 
     await member.syncSettings();
     try {
-      console.log(amount);
-      await paydab(msg.author.id, member.id, amount);
+      
+      await paydab(msg.author.id, member.id, amount, db);
       /*  member.givePoints(amount);
       msg.member.takePoints(amount); */
     } catch (err) {

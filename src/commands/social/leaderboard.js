@@ -12,6 +12,8 @@ class Leaderboard extends Command {
 
   async run(msg, [page]) {
     page = this.verifyInt(page, 1);
+     let db = this.client.dbClient;
+     db = await db.db();
 
     const rows = await this.client.settings.members.find({ id: { $regex: `^${msg.guild.id}`  } },
       { sort: { points: -1 } }).toArray();
@@ -39,7 +41,7 @@ class Leaderboard extends Command {
         }\n    => ${parseInt(u.points).toLocaleString()}`
       );
     }
-    let dabs = await getCurrency(msg.guild.id);
+    let dabs = await getCurrency(msg.guild.id, db);
     
     const pos = positions.indexOf(msg.author.id).toString().padStart(2, "0");
     const posTxt = pos == -1 ? "??" : (positions.indexOf(msg.author.id) + 1).toString().padStart(2, "0");

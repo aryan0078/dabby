@@ -21,9 +21,10 @@ class ListPools extends Command {
   }
 
   async run(msg, pool) {
-    let pools = await getPools();
+    let db = this.client.dbClient;
+    db = await db.db();
+    let pools = await getPools(db);
     let str = `>>> **${msg.author.username} |** Current pools for dabs <:dabs:851218687255773194> investments, \n\n`;
-    let db = await database();
     let poolData = await db.collection("poolData");
     msg.send(await chart("Pool Graph", "f", poolData));
     pools.forEach((p, index) => {

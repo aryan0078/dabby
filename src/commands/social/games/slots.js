@@ -17,7 +17,9 @@ class Slots extends Command {
   }
 
   async run(msg, amt) {
-     let dabs = await getCurrency(msg.guild.id);
+     let db = this.client.dbClient;
+     db = await db.db();
+     let dabs = await getCurrency(msg.guild.id, db);
   try{  const slots = [
       "<:eggplant:417475705719226369>",
       "<:heart:417475705899712522>",
@@ -59,7 +61,7 @@ class Slots extends Command {
 
     //Check if valid time and flaps
 		
-    let result = await getCurrencyBalance(msg.author.id,msg.guild.id);
+    let result = await getCurrencyBalance(msg.author.id, msg.guild.id, db);
     if (all && result.amount!= undefined)
       amount = result.amount
     if (maxBet && amount > maxBet)
@@ -116,7 +118,7 @@ class Slots extends Command {
         rslots.push(slots[slot2]);
         rslots.push(slots[slot3]);
       }
-      let dabs=await getCurrency(msg.guild.id)
+      let dabs = await getCurrency(msg.guild.id, db);
       
       let winmsg =
         win == 0 ? "nothing... :c" : `${dabs.currencyEmoji} ${dabs.currencyName}` + toFancyNum(win);
@@ -124,9 +126,10 @@ class Slots extends Command {
         msg.author.id,
         msg.guild.id,
         win == 0 ? -amount : win,
-        false
+        false,
+        db
       );
-      result =await getCurrencyBalance(msg.author.id, msg.guild.id);
+      result = await getCurrencyBalance(msg.author.id, msg.guild.id, db);
 		
       //Display slots
       let machine =

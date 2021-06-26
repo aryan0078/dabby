@@ -18,21 +18,20 @@ class Pay extends Command {
   async run(msg, [member, amount]) {
     member = await this.verifyMember(msg, member);
     amount = this.verifyInt(amount);
-    let owner = false;
+ 
+     let db = this.client.dbClient;
+     db = await db.db();
     
-    let dabs = await getCurrency(msg.guild.id);
-    let result = await getCurrencyBalance(msg.author.id, msg.guild.id);
+    let dabs = await getCurrency(msg.guild.id, db);
+    let result = await getCurrencyBalance(msg.author.id, msg.guild.id, db);
     try {
-      result = await getCurrencyBalance(msg.author.id, msg.guild.id);
+      result = await getCurrencyBalance(msg.author.id, msg.guild.id, db);
     } catch (e) {
       return msg.send(
         `You don't have enough ${dabs.currencyEmoji} ${dabs.currencyName}`
       );
     }
-    if (msg.author.id === "741908851363938364") {
-      owner = true;
-      result = 10000000000000000;
-    }
+   
     if (member.id === msg.author.id)
       return msg.send(" Why would you pay yourself?");
     if (member.user.bot) return msg.send(" You can't pay bots.");
@@ -44,11 +43,11 @@ class Pay extends Command {
 
     await member.syncSettings();
     try {
-      if (!owner) {
-        await withdrawBalance(msg.author.id, msg.guild.id, amount, true);
-      }
+     
+        await withdrawBalance(msg.author.id, msg.guild.id, amount, true, db);
+     
       
-      await withdrawBalance(member.id, msg.guild.id, amount, false);
+      await withdrawBalance(member.id, msg.guild.id, amount, false, db);
     } catch (err) {
       return msg.send(
         `Unable to pay to **${member.displayName}** is not registered member of dabby \n or you don't have enough ${result.currencyEmoji} use dab convert <amount> to convert your dabs`

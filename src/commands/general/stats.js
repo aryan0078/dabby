@@ -18,7 +18,9 @@ class Stats extends Command {
     );
     const mostUsed = cmd.length ? `${cmd[0][0]} (${cmd[0][1]} times)` : "None";
     const uptime = this.client.utils.getDuration(client.uptime);
-    const db = await database();
+    let db = this.client.dbClient;
+    db = await db.db();
+    
     let users_ = await db.collection("members").countDocuments();
     return msg.send(
       this.client

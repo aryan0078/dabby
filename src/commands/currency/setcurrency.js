@@ -45,8 +45,9 @@ class SetCurrency extends Command {
         5000
       );
     }
-
-    let server = (await database()).collection("guilds");
+let db = this.client.dbClient;
+db = await db.db();
+let server = db.collection("guilds");
     let checkexist = await server.findOne({ id: msg.guild.id });
     if (!checkexist) {
       await server.insertOne({

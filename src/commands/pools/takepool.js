@@ -1,16 +1,11 @@
 const Command = require("../../structures/Command.js");
 const {
-  database,
-  getPools,
-  addPool,
   addStake,
   withdrawAmount,
   checkStaked,
 } = require("../../structures/database.js");
-const { getCurrency } = require("../../structures/database.js");
-const serverValue = require("../../structures/servervalue.js");
 const {
-  poolValue,
+
   replyError,
   toFancyNum,
 } = require("../../utils/constants.js");
@@ -27,6 +22,8 @@ class TakePool extends Command {
   }
 
   async run(msg, pool) {
+     let db = this.client.dbClient;
+     db = await db.db();
     if (pool.length <= 0) {
       return msg.send(
         "Please enter a pool id \n if you want to know pool id type dab pools"
@@ -41,8 +38,8 @@ class TakePool extends Command {
         4000
       );
     }
-    let dabs = await getCurrency(msg.guild.id);
-    let check = await checkStaked(id, msg.author.id);
+    
+    let check = await checkStaked(id, msg.author.id, db);
     if (!check) {
       return msg.send(
         `You haven't staked dabs in the pool **(${id})** to invest **dab ip amount poolid**`
@@ -60,9 +57,9 @@ class TakePool extends Command {
     }
 
     let poolMultiplier = Math.round(
-      await withdrawAmount(id, msg.author.id, amount)
+      await withdrawAmount(id, msg.author.id, amount, db)
     );
-    let stake = await addStake(id, msg.author.id, amount, true);
+    let stake = await addStake(id, msg.author.id, amount, true, db);
     if (stake == 1) {
       msg.member.givePoints(poolMultiplier);
       return msg.send(

@@ -1,25 +1,17 @@
 const { MongoClient } = require("mongodb");
 const { poolValue } = require("../utils/constants");
 const QuickChart = require("quickchart-js");
-async function database() {
-  let db = await MongoClient.connect(
-    "mongodb+srv://dabby:dabby@cluster0.ispdz.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
-    {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    }
-  );
 
-  return db.db();
-}
-async function getPools() {
-  let pools = await (await database()).collection("pools");
+async function getPools(d) {
+  let db = d;
+  let pools = db.collection("pools");
   return pools.find().toArray();
 }
-async function addStake(id, userid, amount, withdraw = false) {
-  let pools = await (await database()).collection("pools");
+async function addStake(id, userid, amount, withdraw = false, d) {
+  let db = d;
+  let pools = db.collection("pools");
   let pool = await pools.findOne({ id: id });
-  let getPrevAmt = await checkStaked(id, userid);
+  let getPrevAmt = await checkStaked(id, userid,  d);
   if (withdraw) {
     let f =
       getPrevAmt.amount - amount === 0
@@ -42,9 +34,9 @@ async function addStake(id, userid, amount, withdraw = false) {
   );
   return f.ok;
 }
-async function getCurrencyBalance(id, server) {
+async function getCurrencyBalance(id, server, d) {
   try {
-    let db = await database();
+    let db = d;
     let users = db.collection("members");
     let c = await users.findOne({ id: id });
     for (let index = 0; index < c.wallet.length; index++) {
@@ -61,12 +53,13 @@ async function getCurrencyBalance(id, server) {
     return undefined;
   }
 }
-async function withdrawAmount(id, user, amount) {
-  let pools = await (await database()).collection("pools");
+async function withdrawAmount(id, user, amount, d) {
+  let db = d;
+  let pools = db.collection("pools");
   let pool = await pools.findOne({ id: id });
   if (pool) {
     let pooltotal = poolValue(pool);
-    let usercash = await checkStaked(id, user);
+    let usercash = await checkStaked(id, user,d);
     if (usercash.at <= pooltotal) {
       let reducer = 100 - (usercash.at / pooltotal) * 100;
       return (amount * reducer) / 100;
@@ -76,11 +69,11 @@ async function withdrawAmount(id, user, amount) {
   }
 }
 
-async function withdrawBalance(id, server, amount, withdraw = true) {
-  let usercash = await database();
+async function withdrawBalance(id, server, amount, withdraw = true, db) {
+  let usercash = db;
   let cash = usercash.collection("members");
   /* let c = await cash.findOne({ id: id }); */
-  let getPrevAmt = await getCurrencyBalance(id, server);
+  let getPrevAmt = await getCurrencyBalance(id, server,db);
   if (!getPrevAmt) {
     getPrevAmt = 0;
   }
@@ -109,8 +102,8 @@ async function withdrawBalance(id, server, amount, withdraw = true) {
     );
   }
 }
-async function getCurrency(id) {
-  let server = await database();
+async function getCurrency(id, db) {
+  let server = db;
   server = server.collection("guilds");
   let res = await server.findOne({ id: id });
 
@@ -122,8 +115,9 @@ async function getCurrency(id) {
         cryptoEnabled: false,
       };
 }
-async function checkStaked(id, userid) {
-  let pools = await (await database()).collection("pools");
+async function checkStaked(id, userid, d) {
+  let db = d;
+  let pools = db.collection("pools");
   let userstake = await pools.findOne({ id: id });
   if (userstake) {
     for (let index = 0; index < userstake.users.length; index++) {
@@ -135,8 +129,8 @@ async function checkStaked(id, userid) {
   }
   return false;
 }
-async function getBalanceExists(userid, server) {
-  let db = await database();
+async function getBalanceExists(userid, server, d) {
+  let db = d;
   let users = db.collection("members");
   let c = await users.findOne({ id: userid });
   if (!c.wallet) {
@@ -150,8 +144,9 @@ async function getBalanceExists(userid, server) {
   }
   return false;
 }
-async function addPool() {
-  let pool = await (await database()).collection("pools");
+async function addPool(d) {
+  let db = d;
+  let pool = db.collection("pools");
   pool.insertOne({
     host: "aryan",
     poolName: "Massive pool",
@@ -203,8 +198,8 @@ async function cloudSync() {
 
   return db.db();
 }
-async function paydab(id, recieveid, amt) {
-  let db = await database();
+async function paydab(id, recieveid, amt, d) {
+  let db = d;
   let users = db.collection("members");
   let user1bal = await users.findOne({ id: id });
   let user2bal = await users.findOne({ id: recieveid });
@@ -218,13 +213,13 @@ async function paydab(id, recieveid, amt) {
     { $set: { points: user2bal.points + amt } }
   );
 }
-async function getdabbal(id) {
-  let db = await database();
+async function getdabbal(id, d) {
+  let db = d;
   let c = db.collection("members");
   return c.findOne({ id: id });
 }
 module.exports = {
-  database,
+  
   paydab,
   chart,
   getPools,

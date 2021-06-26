@@ -23,9 +23,11 @@ class ServerValue extends Command {
   }
 
   async run(msg, pct) {
+    let db = this.client.dbClient;
+    db = await db.db();
     let percentage = pct.length <= 1 ? parseInt(pct[0]) : parseInt(pct[1]);
     let serverVal = await serverValue(msg.guild, msg);
-    let dabs = await getCurrency(msg.guild.id);
+    let dabs = await getCurrency(msg.guild.id,  db);
     pct.length == 1
       ? msg.send(
           "Server total value is: `" +
@@ -50,18 +52,6 @@ class ServerValue extends Command {
             toFancyNum(serverVal * 1500000) +
             `** ${dabs.currencyName}!`
         );
-    /* if (amount > parseInt(msg.member.settings.points))
-      return msg.send("You can't bet more than what you have!");
-    const flipped = this.client.utils.random(["Heads", "Tails"]);
-    if (flipped === "Tails") {
-      msg.send(`You won ${amount * 2} dabs `);
-      msg.member.takePoints(amount);
-      msg.member.takePoints(amount * 2);
-    } else {
-      msg.send(`You Loss ${amount}`);
-      msg.member.takePoints(amount);
-    }
-    return msg.send(`The coin landed on \`${flipped}\` `); */
   }
 }
 

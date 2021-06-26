@@ -1,11 +1,6 @@
 const Command = require("../../structures/Command.js");
 const { toFancyNum, replyError } = require("../../utils/constants.js");
-const {
-  getCurrency,
-  database,
-  getBalanceExists,
-  getCurrencyBalance,
-} = require("../../structures/database.js");
+const { getCurrency } = require("../../structures/database.js");
 const serverValue = require("../../structures/servervalue.js");
 class Convert extends Command {
   constructor(...args) {
@@ -19,9 +14,9 @@ class Convert extends Command {
   }
 
   async run(msg, amount) {
-    let db = await database();
-    let user = db.collection("members");
-    let currency = await getCurrency(msg.guild.id);
+    let db = this.client.dbClient;
+    db = await db.db();
+    let currency = await getCurrency(msg.guild.id, db);
     let amt = parseInt(amount);
     if (!amt) {
       return replyError(msg, "Please enter a proper amount", 5000);
@@ -30,7 +25,7 @@ class Convert extends Command {
     let serverVal = await serverValue(msg.guild, msg);
     let estimated = Math.round((amt / serverVal) * 100);
     return msg.send(
-      `You will receive ${estimated} ${currency.currencyName} ${currency.currencyEmoji} for ${amt} dabs <:dabs:851218687255773194>`
+      `**${msg.author.username} |** You will receive **${estimated} ${currency.currencyEmoji}** ${currency.currencyName}  for **${amt} dabs** <:dabs:851218687255773194>`
     );
   }
 }

@@ -15,10 +15,18 @@ class Daily extends Command {
   async run(msg, [member]) {
     member = await this.verifyMember(msg, member, true);
 
-    if (msg.member.settings.daily && (Date.now() < msg.member.settings.daily))
-      return msg.send(this.client.utils.random(this.client.responses.dailyFailureMessages)
-        .replace(/{{user}}/g, msg.member.displayName)
-        .replace(/{{time}}/g, this.client.utils.getDuration(msg.member.settings.daily - Date.now())));
+    if (msg.member.settings.daily && Date.now() < msg.member.settings.daily)
+      return msg.send(
+        this.client.utils
+          .random(this.client.responses.dailyFailureMessages)
+          .replace(/{{user}}/g, msg.member.displayName)
+          .replace(
+            /{{time}}/g,
+            this.client.utils.getDuration(
+              msg.member.settings.daily - Date.now()
+            )
+          )
+      );
 
     if (member.id !== msg.member.id) {
       if (member.user.bot) throw " You can't give your daily points to a bot!";
@@ -46,7 +54,7 @@ class Daily extends Command {
           }\n\nDo you wish to claim your daily anyway without voting? (**y**es | **n**o)\n\nReply with \`cancel\` to cancel the message. The message will timeout after 60 seconds.`
         )
         .setTimestamp();
-      
+
       const filter = (m) => m.author.id === msg.author.id;
       const response = await msg.awaitReply("", filter, 60000, embed);
       if (!response) return msg.send("No reply within 60 seconds. Time out.");

@@ -20,7 +20,9 @@ class Reswap extends Command {
   }
 
   async run(msg, amount) {
-    let result = await getCurrencyBalance(msg.author.id, msg.guild.id);
+    let db = this.client.dbClient;
+    db = await db.db();
+    let result = await getCurrencyBalance(msg.author.id, msg.guild.id,  db);
     if (amount == "all") {
       amount = result.amount > 80000 ? 80000 : result.amount;
     }
@@ -44,12 +46,11 @@ class Reswap extends Command {
       return;
     }
 
-    let db = await database();
     let user = db.collection("members");
 
     let serverVal = await serverValue(msg.guild, msg);
     let estimated = Math.round((amt * serverVal) / 100);
-    let currencyExsis = await getBalanceExists(msg.author.id, msg.guild.id);
+    let currencyExsis = await getBalanceExists(msg.author.id, msg.guild.id,  db);
     if (currencyExsis) {
       user.findOneAndUpdate(
         { id: msg.author.id, "wallet.id": msg.guild.id },

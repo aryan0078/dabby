@@ -16,7 +16,8 @@ class Suggestion extends Command {
 
     const channel = this.client.channels.cache.get("844579080854700052");
 
-    const embed = this.client.embed()
+    const embed = this.client
+      .embed()
       .setTitle("New Suggestion")
       .setDescription(args.join(" "))
       .setThumbnail(msg.author.displayAvatarURL({ size: 512 }))
@@ -24,8 +25,7 @@ class Suggestion extends Command {
       .setFooter(`User ID: ${msg.author.id}`);
 
     const message = await channel.send({ embed });
-    await message.react("466669198463074305");
-    await message.react("466669201025925120");
+
     return msg.send(
       `Your idea has been successfully submitted${
         msg.guild && msg.guild.id !== "843887160696635403"
