@@ -28,12 +28,18 @@ class Profile extends Command {
       .setThumbnail(member.user.displayAvatarURL())
       .addField(msg.tr("COMMAND_PROFILE_LEVEL"), member.settings.level)
       .addField(
-        msg.tr("COMMAND_PROFILE_POINTS"),
+        "Dabs",
+        `**${toFancyNum(member.settings.points)}** <:dabs:851218687255773194>`
+      )
+      .addField(
+        "Server Coins",
         `**${parseInt(bal.amount).toLocaleString()}** ${dabs.currencyName} ${
           dabs.currencyEmoji
-        } \n\n **${toFancyNum(
-          member.settings.points
-        )}** <:dabs:851218687255773194>`
+        }`
+      )
+      .addField(
+        "Dab invites",
+        `${bal.invites}`
       )
       .addField(msg.tr("COMMAND_PROFILE_REP"), member.user.settings.reputation);
 

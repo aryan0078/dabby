@@ -124,7 +124,7 @@ class CommandHandler extends Monitor {
     // Command checks.
 
     if (command.ownerOnly && msg.author.id !== this.client.constants.ownerID) {
-      return msg.sendLocale("OWNER_ONLY");
+      return 0;
     }
 
     // Check for NSFW channel. NSFW is allowed in DMs

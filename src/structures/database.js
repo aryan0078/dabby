@@ -1,11 +1,40 @@
 const { MongoClient } = require("mongodb");
 const { poolValue } = require("../utils/constants");
 const QuickChart = require("quickchart-js");
+const { uid } = require("uid");
 
 async function getPools(d) {
   let db = d;
   let pools = db.collection("pools");
   return pools.find().toArray();
+}
+async function generateCoupons(amount, id, d) {
+  let db = d;
+  let coupon = db.collection("coupons");
+  let code = uid(6);
+  await coupon.insertOne({
+    id: code,
+    claimed: false,
+    amount: amount,
+    generatedBy: id,
+    generatedAt: new Date(),
+  });
+  return code;
+}
+async function claimCode(code, id, d) {
+  let db = d;
+  let coupon = db.collection("coupons");
+
+  let coupons = await coupon.findOne({ id: code });
+  if (coupons && !coupons.claimed) {
+    await coupon.findOneAndUpdate(
+      { id: code },
+      { $set: { claimed: true, claimedAt: new Date(), claimedBy: id } }
+    );
+    return coupons;
+  } else {
+    return false;
+  }
 }
 async function addStake(id, userid, amount, withdraw = false, d) {
   let db = d;
@@ -46,6 +75,7 @@ async function getCurrencyBalance(id, server, d) {
           amount: bal.amount,
           currencyEmoji: bal.currencyEmoji,
           currencyName: bal.currencyName,
+          invites: bal.invites ? bal.invites.length : 0,
         };
       }
     }
@@ -219,7 +249,8 @@ async function getdabbal(id, d) {
   return c.findOne({ id: id });
 }
 module.exports = {
-  
+  claimCode,
+  generateCoupons,
   paydab,
   chart,
   getPools,

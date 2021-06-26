@@ -14,11 +14,7 @@ class DM extends Command {
     user = await this.verifyUser(msg, user);
 
     try {
-      await user.send(
-        `${message.join(
-          " "
-        )}\n\n**The message above was sent by the bot owner. You may join our support server at https://discord.gg/3GGspJ6TDb for replying and further discussions.**`
-      );
+      await user.send(`${message.join(" ")}`);
       return msg.send(`Message sent to **${user.tag}** (${user.id})`);
     } catch(err) {
       if(err.status === 403) return msg.send("I cannot DM that user, they probably have DMs blocked.");

@@ -115,6 +115,7 @@ exports.levelMessages = [
   "Only a level **{{level}}**? Even I'm better than that.",
   "Level **{{level}}**? What, where you hoping to be higher than **{{level}}**?",
   "Only level **{{level}}**? Pfft! I've seen much better than that.",
+  "This much fast **{{level}}** how?",
 ];
 
 exports.otherLevelMessages = [
