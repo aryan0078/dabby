@@ -20,7 +20,7 @@
   "dependencies": {
     "cheerio": "^1.0.0-rc.3",
     "dblapi.js": "^2.4.0",
-    "discord-buttons": "^3.1.1",
+    "discord-buttons": "^3.2.1",
     "discord.js": "^12.2.0",
     "dotenv": "^8.2.0",
     "fast-levenshtein": "^2.0.6",

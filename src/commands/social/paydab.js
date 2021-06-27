@@ -1,11 +1,5 @@
 const Command = require("../../structures/Command.js");
-const {
-  getCurrency,
-  getCurrencyBalance,
-  withdrawBalance,
-  getdabbal,
-  paydab,
-} = require("../../structures/database.js");
+const { getdabbal, paydab } = require("../../structures/database.js");
 class PayDab extends Command {
   constructor(...args) {
     super(...args, {

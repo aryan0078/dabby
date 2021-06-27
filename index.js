@@ -11,6 +11,7 @@ require("dotenv").config();
 
 // Setup Module Alias.
 const moduleAlias = require("module-alias");
+const { paydab } = require("./src/structures/database.js");
 
 moduleAlias.addAliases({
   "@utils":      __dirname + "/src/utils",
@@ -29,6 +30,37 @@ require("./src/extensions/User.js");
 
 // Import the Client.
 const MiyakoClient = require("./src/structures/MiyakoClient.js");
+const { toFancyNum } = require("./src/utils/constants.js");
 
 // Login. (And start in development mode if --dev is passed)
-new MiyakoClient(process.argv.includes("--dev")).login();
+let d = new MiyakoClient(process.argv.includes("--dev"));
+d.login();
+require("discord-buttons")(d);
+d.on("clickButton", async (button) => {
+  let l = d.dbClient;
+  l = l.db();
+  let args = button.id;
+  if (args.startsWith("accept")) {
+    let u = args.split(":");
+    await paydab(button.clicker.user.id, u[1], parseInt(u[2]), l);
+    button.message.send(
+      `Sent **${toFancyNum(
+        parseInt(u[2])
+      )}** <:dabs:851218687255773194> dabs to **<@${u[1]}>** `
+    );
+    button.message.delete();
+    let user = d.users.cache.find(u[1]);
+    try {
+      user.send(
+        `**${user.username} |** Payment Accepted from ${
+          button.clicker.user.username
+        } of **${toFancyNum(
+          parseInt(u[2])
+        )}** <:dabs:851218687255773194> dabs you recived the amount is wallet!`
+      );
+    } catch (e) {
+      console.log("");
+    }
+    await button.defer();
+  }
+});

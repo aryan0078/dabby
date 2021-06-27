@@ -42,8 +42,10 @@ class MiyakoClient extends Client {
     this.responses = require("@utils/responses");
     this.img = new imgapi.Client({
       port: process.env.IMGAPI_PORT,
-      host: process.env.IMGAPI_HOST
+      host: process.env.IMGAPI_HOST,
     });
+    
+    /* this */
 
     // Settings.
     this.settings = {
@@ -55,7 +57,10 @@ class MiyakoClient extends Client {
       pools: new Settings(this, "pools", schema.pools),
     };
 
-    this.dbl = process.env.DBL && !this.dev ? new DBL(process.env.DBL, this) : new DBLMock();
+    this.dbl =
+      process.env.DBL && !this.dev
+        ? new DBL(process.env.DBL, this)
+        : new DBLMock();
     this.once("ready", this.onReady.bind(this));
 
     this.dbClient = null;

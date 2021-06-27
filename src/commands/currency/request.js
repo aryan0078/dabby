@@ -1,9 +1,7 @@
 const Command = require("../../structures/Command.js");
-const {
-  getCurrency,
-  getCurrencyBalance,
-  withdrawBalance,
-} = require("../../structures/database.js");
+const { getCurrency } = require("../../structures/database.js");
+const {MessageButton,MessageActionRow}=require("discord-buttons");
+const { toFancyNum } = require("../../utils/constants.js");
 class Request extends Command {
   constructor(...args) {
     super(...args, {
@@ -15,14 +13,16 @@ class Request extends Command {
     });
   }
 
-  async run(msg, [member, amount]) {
-    member = await this.verifyMember(msg, member);
-    amount = this.verifyInt(amount);
+  async run(msg, [member, amount,...reason]) {
+   
 
+    member = await this.verifyMember(msg, member);
+      amount = this.verifyInt(amount);
+    
     let db = this.client.dbClient;
     db = await db.db();
 
-    let dabs = await getCurrency(msg.guild.id, db);
+    
 
     if (member.id === msg.author.id)
       return msg.send(" Why would you request yourself?");
@@ -32,14 +32,30 @@ class Request extends Command {
     if (amount < 1) return msg.send("You can't request that amount");
     if (amount > Number.MAX_SAFE_INTEGER)
       return msg.send(" That amount is too high!");
-
-    await member.syncSettings();
-
-    return msg.send(
-      `**${msg.author.username} |** Requested **${amount.toLocaleString()}** ${
-        dabs.currencyName
-      } ${dabs.currencyEmoji} from **${member.displayName}**`
-    );
+      await member.syncSettings();
+    
+    let acceptButton = new MessageButton()
+      .setLabel("Accept")
+      .setStyle("green")
+    
+          .setID(`accept:${member.id}:${amount}`);
+      let rejectButton = new MessageButton()
+        .setLabel("Reject")
+        .setStyle("red")
+      
+        .setID("like_button");
+      let row = new MessageActionRow()
+          .addComponent(acceptButton)
+          .addComponent(rejectButton);
+      try {
+          msg.send(`**${msg.author.username}** | payment request of **${toFancyNum(amount)}** <:dabs:851218687255773194> dabs is sent to **<@${member.id}>**`);
+          member.send(`**${msg.author.username}** is requesting for **${toFancyNum(amount)}** <:dabs:851218687255773194> dabs reason:\n${reason?reason.join(' '):'Not provided'}`, row);
+      } catch (err) {
+          msg.send(`**<@${member.id}>** dm is off can't request`)
+      }
+    
+     
+     
   }
 }
 
