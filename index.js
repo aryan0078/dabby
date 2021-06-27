@@ -11,13 +11,13 @@ require("dotenv").config();
 
 // Setup Module Alias.
 const moduleAlias = require("module-alias");
-const { paydab } = require("./src/structures/database.js");
+const { paydab, getdabbal } = require("./src/structures/database.js");
 
 moduleAlias.addAliases({
-  "@utils":      __dirname + "/src/utils",
+  "@utils": __dirname + "/src/utils",
   "@structures": __dirname + "/src/structures",
-  "@json":       __dirname + "/assets/json",
-  "@languages":  __dirname + "/src/languages"
+  "@json": __dirname + "/assets/json",
+  "@languages": __dirname + "/src/languages",
 });
 
 // Load discord.js extensions.
@@ -42,32 +42,33 @@ d.on("clickButton", async (button) => {
   let args = button.id;
   if (args.startsWith("accept")) {
     let u = args.split(":");
-    try {
-      await paydab(button.clicker.user.id, u[1], parseInt(u[2]), l);
-    } catch {
+    let balance = await getdabbal(button.clicker.user.id, l);
+    let result = balance.points;
+    if (result < parseInt(u[2])) {
       return button.message.send(
         `You don't have enough <:dabs:851218687255773194> dabs to pay fill your wallet and then pay`
       );
-    }
-    button.message.send(
-      `Sent **${toFancyNum(
-        parseInt(u[2])
-      )}** <:dabs:851218687255773194> dabs to **<@${u[1]}>** `
-    );
-
-    button.message.delete();
-    try {
-      let user = await d.users.fetch(u[3]);
-      user.send(
-        `**${user.username} |** Payment Accepted from ${
-          button.clicker.user.username
-        } of **${toFancyNum(
+    } else {
+      await paydab(button.clicker.user.id, u[3], parseInt(u[2]), l);
+      button.message.send(
+        `Sent **${toFancyNum(
           parseInt(u[2])
-        )}** <:dabs:851218687255773194> dabs you recived the amount is wallet!`
+        )}** <:dabs:851218687255773194> dabs to **<@${u[3]}>** `
       );
-    } catch (e) {
-      console.log("");
+      button.message.delete();
+      try {
+        let user = await d.users.fetch(u[3]);
+        user.send(
+          `**${user.username} |** Payment Accepted from ${
+            button.clicker.user.username
+          } of **${toFancyNum(
+            parseInt(u[2])
+          )}** <:dabs:851218687255773194> dabs you recived the amount is wallet!`
+        );
+      } catch (e) {
+        console.log("");
+      }
+      await button.defer();
     }
-    await button.defer();
   }
 });
