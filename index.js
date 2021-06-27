@@ -42,14 +42,21 @@ d.on("clickButton", async (button) => {
   let args = button.id;
   if (args.startsWith("accept")) {
     let u = args.split(":");
-    await paydab(button.clicker.user.id, u[1], parseInt(u[2]), l);
+    try {
+      await paydab(button.clicker.user.id, u[1], parseInt(u[2]), l);
+    } catch {
+      return button.message.send(
+        `You don't have enough <:dabs:851218687255773194> dabs to pay fill your wallet and then pay`
+      );
+    }
     button.message.send(
       `Sent **${toFancyNum(
         parseInt(u[2])
       )}** <:dabs:851218687255773194> dabs to **<@${u[1]}>** `
     );
     button.message.delete();
-    let user = d.users.cache.find(u[1]);
+    let user = await d.users.fetch(u[1]);
+    
     try {
       user.send(
         `**${user.username} |** Payment Accepted from ${
