@@ -52,12 +52,12 @@ d.on("clickButton", async (button) => {
     button.message.send(
       `Sent **${toFancyNum(
         parseInt(u[2])
-      )}** <:dabs:851218687255773194> dabs to **<@${u[1]}>** `
+      )}** <:dabs:851218687255773194> dabs to **<@${u[2]}>** `
     );
 
     button.message.delete();
     try {
-      let user = await d.users.fetch(u[1]);
+      let user = await d.users.fetch(button.clicker.user.id);
       user.send(
         `**${user.username} |** Payment Accepted from ${
           button.clicker.user.username
