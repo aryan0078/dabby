@@ -71,4 +71,26 @@ d.on("clickButton", async (button) => {
       await button.defer();
     }
   }
+   if (args.startsWith("reject")) {
+     let u = args.split(":");
+
+     button.message.send(
+       `Payment rejected of **${toFancyNum(
+         parseInt(u[2])
+       )}** <:dabs:851218687255773194> dabs to **<@${u[3]}>** `
+     );
+     button.message.delete();
+     try {
+       let user = await d.users.fetch(u[3]);
+       user.send(
+         `**${user.username} |** Payment Rejected from ${
+           button.clicker.user.username
+         } of **${toFancyNum(parseInt(u[2]))}** <:dabs:851218687255773194> dabs`
+       );
+     } catch (e) {
+       console.log("");
+     }
+     await button.defer();
+   }
+   
 });

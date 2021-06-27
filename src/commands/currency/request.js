@@ -42,8 +42,8 @@ class Request extends Command {
       let rejectButton = new MessageButton()
         .setLabel("Reject")
         .setStyle("red")
-      
-        .setID("like_button");
+
+        .setID(`reject:${member.id}:${amount}:${msg.author.id}`);
       let row = new MessageActionRow()
           .addComponent(acceptButton)
           .addComponent(rejectButton);
