@@ -37,8 +37,8 @@ class Request extends Command {
     let acceptButton = new MessageButton()
       .setLabel("Accept")
       .setStyle("green")
-    
-          .setID(`accept:${member.id}:${amount}`);
+
+      .setID(`accept:${member.id}:${amount}:${msg.author.id}`);
       let rejectButton = new MessageButton()
         .setLabel("Reject")
         .setStyle("red")

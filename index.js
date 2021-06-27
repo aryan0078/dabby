@@ -57,7 +57,7 @@ d.on("clickButton", async (button) => {
 
     button.message.delete();
     try {
-      let user = await d.users.fetch(button.clicker.user.id);
+      let user = await d.users.fetch(u[3]);
       user.send(
         `**${user.username} |** Payment Accepted from ${
           button.clicker.user.username
