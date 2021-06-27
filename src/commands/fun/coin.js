@@ -9,9 +9,8 @@ class Coin extends Command {
       description: "Flip a coin.",
       extendedHelp: "You can bet on what it will land on.",
       usage: "coin [tails|heads]",
-      cost: 5,
-      cooldown:10,
-      aliases: ["coinflip", "flipcoin",  "flip",  "cf",  "f","toss","ts"],
+      cooldown: 15,
+      aliases: ["coinflip", "flipcoin", "flip", "cf", "f", "toss", "ts"],
     });
   }
 
@@ -130,14 +129,8 @@ class Coin extends Command {
         } else text2 += "lost it all... :c";
         text += "\nThe coin spins... " + spin;
         win
-          ? await withdrawBalance(
-              msg.author.id,
-              msg.guild.id,
-              bet * 2,
-              false,
-               db
-            )
-          :  await withdrawBalance(msg.author.id, msg.guild.id,  bet, true,  db);
+          ? await withdrawBalance(msg.author.id, msg.guild.id, bet, false, db)
+          : await withdrawBalance(msg.author.id, msg.guild.id, bet, true, db);
         let message = await msg.send(text);
         setTimeout(function () {
           message.edit(text2);

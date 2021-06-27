@@ -11,7 +11,7 @@ class SetReferid extends Command {
       usage: "setinvite [@user]",
       guildOnly: true,
       cooldown: 10,
-      aliases: ["sti", "setinv", "refer", "referid"],
+      aliases: ["sti", "setinv", "refer", "referid", "ref"],
     });
   }
 
