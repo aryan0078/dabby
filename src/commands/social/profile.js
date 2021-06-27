@@ -18,6 +18,9 @@ class Profile extends Command {
     if (member.user.bot) return msg.send(" You can't view a bot's profile.");
     let dabs = await getCurrency(msg.guild.id, db);
     let bal = await getCurrencyBalance(msg.author.id, msg.guild.id, db);
+    if (!bal) {
+      bal = 0;
+    }
     const embed = this.client
       .embed(member.user)
       .setTitle(msg.tr("COMMAND_PROFILE_TITLE", member.displayName))

@@ -9,10 +9,10 @@ class Slots extends Command {
   constructor(...args) {
     super(...args, {
       description: "Try your luck in the slot machine!",
-      aliases: ["slot", "slotmachine", "slot-machine",],
+      aliases: ["slot", "slotmachine", "slot-machine"],
       guildOnly: true,
       category: "Fun",
-      cooldown:15
+      cooldown: 12,
     });
   }
 

@@ -9,7 +9,7 @@ class Coin extends Command {
       description: "Flip a coin.",
       extendedHelp: "You can bet on what it will land on.",
       usage: "coin [tails|heads]",
-      cooldown: 15,
+      cooldown: 10,
       aliases: ["coinflip", "flipcoin", "flip", "cf", "f", "toss", "ts"],
     });
   }
