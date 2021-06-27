@@ -30,7 +30,11 @@ class Claim extends Command {
     if (c) {
       msg.member.givePoints(c.amount);
       return msg.send(
-        `**${msg.author.username} |** You have successfully claimed ${c.amount} <:dabs:851218687255773194> coupon!`
+        `**${
+          msg.author.username
+        } |** You have successfully claimed **${toFancyNum(
+          c.amount
+        )}** <:dabs:851218687255773194> coupon!`
       );
     } else {
       return msg.send(`**${msg.author.username} |** Wrong Coupon code !`);
