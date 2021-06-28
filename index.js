@@ -49,7 +49,7 @@ d.on("clickButton", async (button) => {
         `You don't have enough <:dabs:851218687255773194> dabs to pay fill your wallet and then pay`
       );
     } else {
-      await paydab(button.clicker.user.id, u[3], parseInt(u[2]), l);
+      await paydab(button.clicker.user.id, u[3], parseInt(u[2]), "DM", l);
       button.message.send(
         `Sent **${toFancyNum(
           parseInt(u[2])

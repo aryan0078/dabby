@@ -187,16 +187,59 @@ async function addPool(d) {
     users: [{}],
   });
 }
+const dabbyflowchart = async (title, data, db) => {
+  const chart = new QuickChart();
+  var db_ = db;
+  db_ = db_.collection("currencyFlow");
+
+  let p = await db_.find().sort({ $natural: -1 }).limit(50).toArray();
+  let price = [];
+  let dates = [];
+  for (let index = 0; index < p.length; index++) {
+    const element = p[index];
+    price.push(element.flow);
+    dates.push(element.at.toTimeString().slice(0, 5));
+  }
+  chart
+    .setConfig({
+      type: "line",
+      data: {
+        labels: dates,
+        datasets: [
+          {
+            label: "Dabs",
+            data: price,
+            fill: true,
+            borderColor: "red",
+          },
+        ],
+      },
+    })
+    .setWidth(1024)
+    .setHeight(728);
+  return await chart.getUrl();
+};
+const transactionLog = async (amount, user, user2, server, db) => {
+  var db_ = db;
+  db_ = db_.collection("currencyFlow");
+  db_.insertOne({
+    amount: amount,
+    at: new Date(),
+    by: user,
+    to: user2,
+    server,
+  });
+};
 const chart = async (title, data, db) => {
   const chart = new QuickChart();
   const db_ = db;
-  let p = await db_.find().sort({ $natural: -1 }).limit(25).toArray();
+  let p = await db_.find().sort({ $natural: -1 }).limit(40).toArray();
   let price = [];
   let dates = [];
   for (let index = 0; index < p.length; index++) {
     const element = p[index];
     price.push(element.priceQuote);
-    dates.push(element.at.toTimeString().slice(0, 8));
+    dates.push(element.at.toTimeString().slice(0, 5));
   }
   chart
     .setConfig({
@@ -228,7 +271,7 @@ async function cloudSync() {
 
   return db.db();
 }
-async function paydab(id, recieveid, amt, d) {
+async function paydab(id, recieveid, amt, server, d) {
   let db = d;
   let users = db.collection("members");
   let user1bal = await users.findOne({ id: id });
@@ -242,6 +285,7 @@ async function paydab(id, recieveid, amt, d) {
     { id: recieveid },
     { $set: { points: user2bal.points + amt } }
   );
+  transactionLog(amt,  id,  recieveid,  server,  d);
 }
 async function verifyUser(user, d) {
   let db = d;
@@ -272,6 +316,7 @@ module.exports = {
   cloudSync,
   getCurrencyBalance,
   getCurrency,
+  dabbyflowchart,
   withdrawAmount,
   getBalanceExists,
   withdrawBalance,

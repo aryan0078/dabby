@@ -40,13 +40,13 @@ class PayDab extends Command {
     if (!validation) {
       return replyError(
         msg,
-        "The user you are trying to pay is not a member dabby tell him to use \n  dab cash \nIn order to receive cash ",
+        "The user you are trying to pay is not a member dabby tell him to use \n**dab cash** \nIn order to receive cash ",
         10000
       );
     }
     await member.syncSettings();
     try {
-      await paydab(msg.author.id, member.id, amount, db);
+      await paydab(msg.author.id, member.id, amount, msg.guild.id, db);
       /*  member.givePoints(amount);
       msg.member.takePoints(amount); */
     } catch (err) {

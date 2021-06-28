@@ -1,13 +1,15 @@
 const Command = require("../../structures/Command.js");
+const { dabbyflowchart } = require("../../structures/database.js");
 const { toFancyNum } = require("../../utils/constants.js");
 
 class DabFlowCommand extends Command {
   constructor(...args) {
     super(...args, {
       description: "Check total dabby flow",
-      ownerOnly: true,
+      ownerOnly: false,
+      cooldown: 20,
       usage: "dab flow",
-      aliases: ["flow"],
+      aliases: ["flow",  "df",  "dabflow"],
     });
   }
 
@@ -16,6 +18,8 @@ class DabFlowCommand extends Command {
     db = await db.db();
     let u = await db.collection("members");
     //let cash = await u.find().toArray();
+    let dabs = await db.collection("currencyFlow");
+    
     let flow = 0;
 
     flow = await u.aggregate([
@@ -28,8 +32,10 @@ class DabFlowCommand extends Command {
         },
       },
     ]);
-
+    let url = await dabbyflowchart("f", 3, db);
     flow.toArray().then((result) => {
+      dabs.insertOne({ flow: result[0].points, at: new Date() });
+      msg.send(url);
       msg.send(
         `Total **${toFancyNum(
           result[0].points
