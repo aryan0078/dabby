@@ -32,7 +32,10 @@ class GuildCreate extends Event {
 
     const join = guild.channels.cache.find((c) => c.type === "text" && c.postable);
     if (!join) return;
-    let server = (await database()).collection("guilds");
+  
+    let db = this.client.dbClient;
+    db = await db.db();
+    let server = db.collection("guilds");
     let checkexist = await server.findOne({ id: guild.id });
     if (!checkexist) {
       await server.insertOne({
