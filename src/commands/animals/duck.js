@@ -16,10 +16,12 @@ class Duck extends Command {
     const { url } = await fetch("https://random-d.uk/api/v1/random")
       .then((res) => res.json());
 
-    return msg.send(this.client.embed()
-      .setTitle("Random Duck")
-      .setAuthor(msg.author.tag, msg.author.displayAvatarURL({ size: 64 }))
-      .setImage(url));
+    return msg.send('Duck', {
+      embed: this.client.embed()
+        .setTitle("Random Duck")
+        .setAuthor(msg.author.tag, msg.author.displayAvatarURL({ size: 64 }))
+        .setImage(url)
+    });
   }
 }
 

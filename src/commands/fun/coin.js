@@ -129,7 +129,13 @@ class Coin extends Command {
         } else text2 += "lost it all... :c";
         text += "\nThe coin spins... " + spin;
         win
-          ? await withdrawBalance(msg.author.id, msg.guild.id, bet, false, db)
+          ? await withdrawBalance(
+              msg.author.id,
+              msg.guild.id,
+              bet * 2,
+              false,
+              db
+            )
           : await withdrawBalance(msg.author.id, msg.guild.id, bet, true, db);
         let message = await msg.send(text);
         setTimeout(function () {
@@ -137,7 +143,6 @@ class Coin extends Command {
         }, 2000);
       }
     } catch (e) {
-      console.log(e);
       msg.send(
         `**${msg.author.username} |** I guess you dont have enough ${flaps} use **dab convert <amount>** to convert your dabs`
       );

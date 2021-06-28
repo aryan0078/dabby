@@ -16,11 +16,14 @@ class Dog extends Command {
     const { message } = await fetch("https://dog.ceo/api/breeds/image/random")
       .then((res) => res.json());
 
-    return msg.send(this.client.embed()
-      .setTitle(msg.tr("COMMAND_DOG_TITLE"))
-      .setImage(message)
-      .setAuthor(msg.author.tag, msg.author.displayAvatarURL({ size: 64 })));
+    return msg.send('Dog', {
+      embed: this.client.embed()
+        .setTitle(msg.tr("COMMAND_DOG_TITLE"))
+        .setImage(message)
+        .setAuthor(msg.author.tag, msg.author.displayAvatarURL({ size: 64 }))
+    });
   }
+
 }
 
 module.exports = Dog;

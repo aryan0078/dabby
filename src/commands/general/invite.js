@@ -11,8 +11,8 @@ class Invite extends Command {
   async run(msg, args) { // eslint-disable-line no-unused-vars
     const { link } = this.client.utils;
 
-    return msg.send(
-      this.client
+    return msg.send('Invite',
+      {embed:this.client
         .embed(this.client.user)
         .setTitle("Invite Dabby to your server")
         .setDescription(
@@ -26,7 +26,7 @@ class Invite extends Command {
             ),
             link("Join dabby Server", "https://discord.gg/5DVHcRFzbx"),
           ].join("\n")
-        )
+        )}
     );
   }
 }

@@ -35,34 +35,32 @@ class Help extends Command {
           " You can't view details of that command in a non NSFW channel."
         );
 
-      return msg.send(
-        new MessageEmbed()
-          .setTitle(msg.tr("COMMAND_HELP_FOR", cmd.name))
-          .setDescription(
-            [
-              `**${msg.tr("COMMAND_HELP_DESCRIPTION")}:** ${
-                typeof cmd.description === "function"
+      return msg.send("**Dabby Help**", {
+        embed:
+          new MessageEmbed()
+            .setTitle(msg.tr("COMMAND_HELP_FOR", cmd.name))
+            .setDescription(
+              [
+                `**${msg.tr("COMMAND_HELP_DESCRIPTION")}:** ${typeof cmd.description === "function"
                   ? cmd.description(msg)
                   : cmd.description
-              }`,
-              `**${msg.tr("COMMAND_HELP_CATEGORY")}:** ${cmd.category}`,
-              `**Aliases:** ${
-                cmd.aliases.length ? cmd.aliases.join(", ") : msg.tr("NONE")
-              }`,
-              `**Cooldown:** ${
-                cmd.cooldown
+                }`,
+                `**${msg.tr("COMMAND_HELP_CATEGORY")}:** ${cmd.category}`,
+                `**Aliases:** ${cmd.aliases.length ? cmd.aliases.join(", ") : msg.tr("NONE")
+                }`,
+                `**Cooldown:** ${cmd.cooldown
                   ? cmd.cooldown + " " + msg.tr("SECONDS")
                   : msg.tr("NONE")
-              }`,
-              `**Usage:** ${msg.guild ? msg.guild.prefix : "m!"}${cmd.usage}`,
-              `**Cost:** ${cost}`,
-              `**Extended Help:** ${
-                typeof cmd.extendedHelp === "function"
+                }`,
+                `**Usage:** ${msg.guild ? msg.guild.prefix : "m!"}${cmd.usage}`,
+                `**Cost:** ${cost}`,
+                `**Extended Help:** ${typeof cmd.extendedHelp === "function"
                   ? cmd.extendedHelp(msg)
                   : cmd.extendedHelp
-              }`,
-            ].join("\n")
-          )
+                }`,
+              ].join("\n")
+            )
+      }
       );
     }
 
@@ -99,7 +97,7 @@ class Help extends Command {
       embed.addField(category, map[category].join(", "));
     }
 
-    return msg.send({ embed });
+    return msg.send("**Dabby Help**", { embed: embed });
   }
 }
 

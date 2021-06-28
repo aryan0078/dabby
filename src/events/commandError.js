@@ -9,7 +9,7 @@ class CommandError extends Event {
 
     await msg.send(`Uh! Something went wrong unexpectedly!${msg.author.id !== this.client.constants.ownerID ? " Don't worry my master will keep track of the problem and fix it soon." : ""}`);
 
-    const channel = this.client.channels.cache.get("454776836929617921");
+    const channel = this.client.channels.cache.get("859063231301943297");
     if (!channel) return;
 
     const embed = this.client.embed(msg.author)
@@ -17,7 +17,7 @@ class CommandError extends Event {
       .setDescription(`An Error occured in command: ${msg.command.name}\n\`\`\`js\n${err.stack || err}\`\`\``)
       .setFooter(`User ID: ${msg.author.id}, Guild: ${msg.guild ? msg.guild.name : "DM" }`);
 
-    return channel.send({ embed }).catch(() => null);
+    return channel.send("Error", { embed: embed }).catch(() => null);
   }
 }
 

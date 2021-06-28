@@ -20,7 +20,7 @@ class Bug extends Command {
       .setAuthor(msg.author.tag, msg.author.displayAvatarURL({ size: 64 }))
       .setFooter(msg.author.id);
 
-    await channel.send({ embed });
+    await channel.send("Bugreport", { embed: embed });
     return msg.send(
       `Your bug report has been sent${
         msg.guild && msg.guild.id === "843887160696635403"

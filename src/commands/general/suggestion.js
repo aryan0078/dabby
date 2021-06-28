@@ -24,7 +24,7 @@ class Suggestion extends Command {
       .setAuthor(msg.author.tag, msg.author.displayAvatarURL({ size: 512 }))
       .setFooter(`User ID: ${msg.author.id}`);
 
-    const message = await channel.send({ embed });
+    const message = await channel.send("Suggestion", { embed: embed });
 
     return msg.send(
       `Your idea has been successfully submitted${

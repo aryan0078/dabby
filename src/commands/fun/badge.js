@@ -17,11 +17,11 @@ class Badge extends Command {
     if(isNaN(parseInt(set)) || (parseInt(set) < 0 || parseInt(set) > 5))
       return msg.send("Set must be a number between 1 to 5");
 
-    return msg.send(this.client.embed()
+    return msg.send('Badge',{embed:this.client.embed()
       .setImage(`https://robohash.org/${user.id}?set=set${set}`)
       .setTitle(`${user.tag}'s unique RoboHash.org Set ${set} Avatar.`)
       .setFooter(`Requested by ${msg.author.tag}`, msg.author.displayAvatarURL({ size: 64 }))
-      .setTimestamp());
+      .setTimestamp()});
   }
 }
 

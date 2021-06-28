@@ -2,7 +2,7 @@ const Event = require("../structures/Event.js");
 
 class MonitorError extends Event {
   async run(monitor, err) {
-    const channel = this.client.channels.cache.get("454776836929617921");
+    const channel = this.client.channels.cache.get("859063231301943297");
     if(!channel) return;
 
     const embed = this.client.embed()

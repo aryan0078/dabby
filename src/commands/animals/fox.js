@@ -16,10 +16,10 @@ class Fox extends Command {
     const { image } = await fetch("https://randomfox.ca/floof/")
       .then((res) => res.json());
 
-    return msg.send(this.client.embed()
+    return msg.send('Fox',{fox:this.client.embed()
       .setTitle(msg.tr("COMMAND_FOX_TITLE"))
       .setAuthor(msg.author.tag, msg.author.displayAvatarURL({ size: 64 }))
-      .setImage(image));
+      .setImage(image)});
   }
 }
 

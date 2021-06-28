@@ -46,7 +46,7 @@ class Profile extends Command {
       )
       .addField(msg.tr("COMMAND_PROFILE_REP"), member.user.settings.reputation);
 
-    return msg.send({ embed });
+    return msg.send("Profile", { embed: embed });
   }
 }
 

@@ -25,7 +25,7 @@ class Announcements extends Command {
       .setTimestamp(new Date(announcement.createdTimestamp))
       .setFooter(msg.tr("COMMAND_ANNOUNCEMENTS_FOOTER", msg.guild ? msg.guild.prefix : "m!"));
 
-    return msg.send({ embed });
+    return msg.send("Announcements", { embed: embed });
   }
 }
 

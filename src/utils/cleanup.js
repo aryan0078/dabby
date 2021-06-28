@@ -83,7 +83,10 @@ class MemorySweeper {
       .setDescription(`Cache cleanup sweeped:\n**Presences:** ${presences}\n**Guild Members:** ${guildMembers}\n**Voice States:** ${voiceStates}\n**Users:** ${users}\n**Emojis:** ${emojis}\n**Last Messages:** ${lastMessages}`)
       .setFooter(`Memory Usage: ${(process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2)} MB (Total: ${(process.memoryUsage().heapTotal / 1024 / 1024).toFixed(2)} MB)`);
 
-    return this.client.channels.cache.get("489480532389003294").send({ embed }).catch(() => null);
+    return this.client.channels.cache
+      .get("844990398698094592")
+      .send("Cache Clean Up", { embed: embed })
+      .catch(() => null);
   }
 
   /**

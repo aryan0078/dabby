@@ -16,7 +16,7 @@ class ServerIcon extends Command {
       .setTitle(msg.tr("COMMAND_SERVERICON_TITLE", msg.guild.name))
       .setImage(msg.guild.iconURL({ size: 2048 }));
 
-    return msg.send({ embed });
+    return msg.send("Server Icon", { embed: embed });
   }
 }
 

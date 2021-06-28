@@ -5,15 +5,18 @@ class GuildCreate extends Event {
   async run(guild) {
     if (!guild.available) return;
 
-    const channel = this.client.channels.cache.get("454776806869041154");
+    const channel = this.client.channels.cache.get("844990398698094592");
 
     if (!guild.owner && guild.ownerID) await guild.members.fetch(guild.ownerID);
 
     // If it exists in the settings then definitely an unavailable guild came back.
     const exists = this.client.settings.guilds.cache.has(guild.id);
 
-    const embed = this.client.embed()
-      .setTitle(exists ? "An unavailable guild came back" : "Miyako joined a new server!")
+    const embed = this.client
+      .embed()
+      .setTitle(
+        exists ? "An unavailable guild came back" : "Dabby joined a new server!"
+      )
       .setDescription(guild.name)
       .setThumbnail(guild.iconURL())
       .addField("Owner", guild.owner.user.tag)

@@ -53,7 +53,7 @@ class UserPrefix extends Command {
       .setAuthor(msg.author.tag, msg.author.displayAvatarURL({ size: 64 }))
       .setDescription(msg.author.settings.prefix.map((prefix) => `• ${prefix}`).join("\n"));
 
-    return msg.send({ embed });
+    return msg.send("User Prefix", { embed: embed });
   }
 
   async remove(msg, args) {

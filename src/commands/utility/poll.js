@@ -45,7 +45,7 @@ class Poll extends Command {
       .setDescription(choices.map((c) => `${counter++}. ${c}`).join("\n"))
       .setFooter(`Asked by ${msg.author.tag}`, msg.author.displayAvatarURL({ size: 64 }));
 
-    const poll = await channel.send({ embed });
+    const poll = await channel.send("Poll", { embed: embed });
 
     for(const emoji of emojis) {
       await poll.react(emoji);

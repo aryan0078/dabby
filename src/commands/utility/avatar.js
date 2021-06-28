@@ -12,9 +12,9 @@ class Avatar extends Command {
   async run(msg, [userArg]) {
     const user = await this.verifyUser(msg, userArg, true);
     
-    return msg.send(this.client.embed(user)
+    return msg.send('Avatar',{embed:this.client.embed(user)
       .setTitle(msg.tr("COMMAND_AVATAR_TITLE", user.username))
-      .setImage(user.displayAvatarURL({ size: 2048, format: "png", dynamic: true })));
+      .setImage(user.displayAvatarURL({ size: 2048, format: "png", dynamic: true }))});
   }
 }
 

@@ -29,7 +29,7 @@ class RepLB extends Command {
 
     embed.setDescription(lb.join("\n"));
 
-    return msg.send({ embed });
+    return msg.send("Reputation Leaderboard", { embed: embed });
   }
 }
 

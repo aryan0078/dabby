@@ -135,11 +135,12 @@ class Slots extends Command {
       let winmsg =
         win == 0
           ? "nothing... :c"
-          : ` **${dabs.currencyEmoji} ${dabs.currencyName}**` + toFancyNum(win);
+          : ` **${dabs.currencyEmoji} ${dabs.currencyName}**` +
+            toFancyNum(win * 2);
       await withdrawBalance(
         msg.author.id,
         msg.guild.id,
-        win === 0 ? -amount : win,
+        win === 0 ? -amount : win * 2,
         false,
         db
       );

@@ -44,7 +44,7 @@ class ServerInfo extends Command {
       .addField("❯ Members", `${msg.guild.memberCount}`, true)
       .addField("❯ Ban Count", bans, true);
 
-    return msg.send({ embed });
+    return msg.send("Server Info", { embed: embed });
   }
 }
 

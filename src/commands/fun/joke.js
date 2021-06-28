@@ -23,7 +23,7 @@ class Joke extends Command {
       .setDescription(body.type === "single" ? `${body.joke}` : `**${body.setup}**\n*${body.delivery}*`)
       .setAuthor(msg.author.tag, msg.author.displayAvatarURL({ size: 64 }));
 
-    return msg.send({ embed });
+    return msg.send("Joke", { embed: embed });
   }
 }
 

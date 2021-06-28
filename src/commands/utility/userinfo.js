@@ -26,7 +26,7 @@ class UserInfo extends Command {
       .addField("❯ Highest Role", member.roles.cache.size > 1 ? member.roles.highest.name : "None", true)
       .addField("❯ Hoist Role", member.roles.hoist ? member.roles.hoist.name : "None", true);
 
-    return msg.send({ embed });
+    return msg.send("User info", { embed: embed });
   }
 }
 
