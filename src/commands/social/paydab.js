@@ -1,5 +1,10 @@
 const Command = require("../../structures/Command.js");
-const { getdabbal, paydab } = require("../../structures/database.js");
+const {
+  getdabbal,
+  paydab,
+  verifyUser,
+} = require("../../structures/database.js");
+const { replyError } = require("../../utils/constants.js");
 class PayDab extends Command {
   constructor(...args) {
     super(...args, {
@@ -31,10 +36,16 @@ class PayDab extends Command {
     if (amount < 1) {
       return msg.send(" Why would you pay nothing?");
     }
-
+    let validation = await verifyUser(member.id, db);
+    if (!validation) {
+      return replyError(
+        msg,
+        "The user you are trying to pay is not a member dabby tell him to use \n  dab cash \nIn order to receive cash ",
+        10000
+      );
+    }
     await member.syncSettings();
     try {
-      
       await paydab(msg.author.id, member.id, amount, db);
       /*  member.givePoints(amount);
       msg.member.takePoints(amount); */

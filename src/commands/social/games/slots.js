@@ -12,7 +12,7 @@ class Slots extends Command {
       aliases: ["slot", "slotmachine", "slot-machine"],
       guildOnly: true,
       category: "Fun",
-      cooldown: 12,
+      cooldown: 10,
     });
   }
 

@@ -243,6 +243,16 @@ async function paydab(id, recieveid, amt, d) {
     { $set: { points: user2bal.points + amt } }
   );
 }
+async function verifyUser(user, d) {
+  let db = d;
+  let users = db.collection("members");
+  let u = await users.findOne({ id: user });
+  if (!u) {
+    return false;
+  } else if (u) {
+    return true;
+  }
+}
 async function getdabbal(id, d) {
   let db = d;
   let c = db.collection("members");
@@ -254,6 +264,7 @@ module.exports = {
   paydab,
   chart,
   getPools,
+  verifyUser,
   addPool,
   getdabbal,
   addStake,

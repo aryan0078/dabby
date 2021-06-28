@@ -16,7 +16,7 @@ class Points extends Command {
   }
 
   async run(msg, [user]) {
-    const member = await this.verifyMember(msg, user, true);
+    const member = await this.verifyMember(msg, msg.author.id, true);
     if (member.user.bot) return msg.send(" Bots don't have points.");
     await member.syncSettings();
     let db = this.client.dbClient;

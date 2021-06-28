@@ -36,21 +36,17 @@ class ServerValue extends Command {
             percentage +
             "%** value of server value is: `" +
             (serverVal * pct) / 100 +
-            "`\nWhich is approximately equal to " +
-            dabs.currencyEmoji +
-            " **| " +
+            "`\nWhich is approximately equal to <:dabs:851218687255773194>  **| " +
             toFancyNum(parseInt(((serverVal * pct) / 100) * 1500000)) +
-            `** ${dabs.currencyName}!`
+            `** dabs!`
         )
       : msg.send(
           "Server total value is: `" +
             serverVal +
             "`\n" +
-            "Which is approximately equal to " +
-            dabs.currencyEmoji +
-            " **| " +
+            "Which is approximately equal to <:dabs:851218687255773194>  **| " +
             toFancyNum(serverVal * 1500000) +
-            `** ${dabs.currencyName}!`
+            `** dabs!`
         );
   }
 }

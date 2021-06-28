@@ -3,7 +3,9 @@ const {
   getCurrency,
   getCurrencyBalance,
   withdrawBalance,
+  verifyUser,
 } = require("../../structures/database.js");
+const { replyError } = require("../../utils/constants.js");
 class Pay extends Command {
   constructor(...args) {
     super(...args, {
@@ -21,7 +23,15 @@ class Pay extends Command {
  
      let db = this.client.dbClient;
      db = await db.db();
-    
+    let validation = await verifyUser(member.id, db);
+    if (!validation) {
+      
+      return replyError(
+        msg,
+        "The user you are trying to pay is not a member dabby tell him to use \n >>> dab cash \nIn order to receive cash",
+        10000
+      );
+    }
     let dabs = await getCurrency(msg.guild.id, db);
     let result = await getCurrencyBalance(msg.author.id, msg.guild.id, db);
     try {
