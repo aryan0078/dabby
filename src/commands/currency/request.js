@@ -14,15 +14,11 @@ class Request extends Command {
   }
 
   async run(msg, [member, amount,...reason]) {
-   
-
     member = await this.verifyMember(msg, member);
-      amount = this.verifyInt(amount);
-    
+    amount = this.verifyInt(amount);
+
     let db = this.client.dbClient;
     db = await db.db();
-
-    
 
     if (member.id === msg.author.id)
       return msg.send(" Why would you request yourself?");
@@ -32,30 +28,39 @@ class Request extends Command {
     if (amount < 1) return msg.send("You can't request that amount");
     if (amount > Number.MAX_SAFE_INTEGER)
       return msg.send(" That amount is too high!");
-      await member.syncSettings();
-    
+    await member.syncSettings();
+
     let acceptButton = new MessageButton()
       .setLabel("Accept")
       .setStyle("green")
 
       .setID(`accept:${member.id}:${amount}:${msg.author.id}`);
-      let rejectButton = new MessageButton()
-        .setLabel("Reject")
-        .setStyle("red")
 
-        .setID(`reject:${member.id}:${amount}:${msg.author.id}`);
-      let row = new MessageActionRow()
-          .addComponent(acceptButton)
-          .addComponent(rejectButton);
-      try {
-          msg.send(`**${msg.author.username}** | payment request of **${toFancyNum(amount)}** <:dabs:851218687255773194> dabs is sent to **<@${member.id}>**`);
-          member.send(`**${msg.author.username}** is requesting for **${toFancyNum(amount)}** <:dabs:851218687255773194> dabs reason:\n${reason?reason.join(' '):'Not provided'}`, row);
-      } catch (err) {
-          msg.send(`**<@${member.id}>** dm is off can't request`)
-      }
-    
-     
-     
+    let rejectButton = new MessageButton()
+      .setLabel("Reject")
+      .setStyle("red")
+
+      .setID(`reject:${member.id}:${amount}:${msg.author.id}`);
+    let row = new MessageActionRow()
+      .addComponent(acceptButton)
+      .addComponent(rejectButton);
+    try {
+      msg.send(
+        `**${msg.author.username}** | payment request of **${toFancyNum(
+          amount
+        )}** <:dabs:851218687255773194> dabs is sent to **<@${member.id}>**`
+      );
+      member.send(
+        `**${msg.author.username}** is requesting for **${toFancyNum(
+          amount
+        )}** <:dabs:851218687255773194> dabs reason:\n${
+          reason ? reason.join(" ") : "Not provided"
+        }`,
+        row
+      );
+    } catch (err) {
+      msg.send(`**<@${member.id}>** dm is off can't request`);
+    }
   }
 }
 
