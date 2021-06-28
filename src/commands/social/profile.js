@@ -29,6 +29,7 @@ class Profile extends Command {
           `No Title set yet, use \`${msg.guild.settings.prefix}title\` to set one`
       )
       .setThumbnail(member.user.displayAvatarURL())
+      .addField("DPI ID", `**${msg.author.id}@dpi**`)
       .addField(msg.tr("COMMAND_PROFILE_LEVEL"), member.settings.level)
       .addField(
         "Dabs",
@@ -40,10 +41,8 @@ class Profile extends Command {
           dabs.currencyEmoji
         }`
       )
-      .addField(
-        "Dab invites",
-        `${bal.invites}`
-      )
+      .addField("Dab invites", `**${bal.invites}**`)
+
       .addField(msg.tr("COMMAND_PROFILE_REP"), member.user.settings.reputation);
 
     return msg.send("Profile", { embed: embed });
