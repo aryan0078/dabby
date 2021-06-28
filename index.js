@@ -53,7 +53,7 @@ d.on("clickButton", async (button) => {
       button.message.send(
         `Sent **${toFancyNum(
           parseInt(u[2])
-        )}** <:dabs:851218687255773194> dabs to **<@${u[3]}>** `
+        )}** <:dabs:851218687255773194> dabs to **${u[3]}** `
       );
       button.message.delete();
       try {
