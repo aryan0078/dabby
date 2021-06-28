@@ -11,7 +11,7 @@ async function getPools(d) {
 async function generateCoupons(amount, id, d) {
   let db = d;
   let coupon = db.collection("coupons");
-  let code = uid(6);
+  let code = uid(16);
   await coupon.insertOne({
     id: code,
     claimed: false,

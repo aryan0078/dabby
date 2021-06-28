@@ -1,12 +1,12 @@
 const Command = require("../../structures/Command.js");
 const { getCurrency } = require("../../structures/database.js");
 const {MessageButton,MessageActionRow}=require("discord-buttons");
-const { toFancyNum } = require("../../utils/constants.js");
+const { toFancyNum, replyError } = require("../../utils/constants.js");
 class Request extends Command {
   constructor(...args) {
     super(...args, {
       description: "Request for some currency",
-      cooldown: 5,
+      cooldown: 100,
       usage: "request <@member> <amount>",
       guildOnly: true,
       aliases: ["request", "req", "beg"],
@@ -19,7 +19,22 @@ class Request extends Command {
 
     let db = this.client.dbClient;
     db = await db.db();
-
+    if (reason) {
+      let f = reason.join(",");
+      if (
+        f.includes("https://") ||
+        f.includes("http://") ||
+        f.includes(".com") ||
+        f.includes(".net") ||
+        f.includes(".gg")
+      ) {
+        return replyError(
+          msg,
+          "You included link in your reason thats no allowed",
+          5000
+        );
+      }
+    }
     if (member.id === msg.author.id)
       return msg.send(" Why would you request yourself?");
     if (member.user.bot) return msg.send(" You can't request bots.");
