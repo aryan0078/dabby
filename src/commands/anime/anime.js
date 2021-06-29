@@ -35,7 +35,7 @@ class Anime extends Command {
       .setURL(`https://kitsu.io/anime/${res.id}`)
       .setFooter(`Page ${page}/${data.length}`);
 
-    return msg.send({ embed });
+    return msg.send("ANIME", { embed: embed });
   }
 }
 

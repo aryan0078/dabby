@@ -23,7 +23,7 @@ class Shibe extends Command {
       .setAuthor(msg.author.tag, msg.author.displayAvatarURL({ size: 64 }))
       .setImage(url);
 
-    return msg.send({ embed });
+    return msg.send("SHIBA", { embed: embed });
   }
 }
 

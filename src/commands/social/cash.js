@@ -37,7 +37,7 @@ class Points extends Command {
     try {
       wallets = await user_.findOne({ id: msg.author.id });
       let bal = await getCurrencyBalance(msg.author.id, msg.guild.id, db);
-      let walstr = `**${member.displayName}**, you have \n`;
+      let walstr = `**${msg.author.username}**, you have \n`;
 
       if (!bal) {
         bal = dabs;
@@ -60,8 +60,16 @@ class Points extends Command {
                wallet.serverName ? "from " + wallet.serverName : ""
              } \n`;
          });
-        msg.send(`Check DM`)
-        return member.send(`**${member.username} |** you have ,\n${ful} \n and \n **${member.settings.points}** <:dabs:851218687255773194> dabs`)
+        msg.send(`**Check DM**`).then((m) => {
+          m.react("👍");
+        });
+        return member.send(
+          `**${
+            msg.author.username
+          } |** you have ,\n${ful}------------------------------------- \n **${toFancyNum(
+            member.settings.points
+          )}** <:dabs:851218687255773194> dabs cash`
+        );
       }
      
       walstr +=
@@ -77,6 +85,7 @@ class Points extends Command {
       msg.send(walstr);
     
     } catch (e) {
+      console.log(e);
       msg.send(
         "I guess you are new to Dab now you are signed Up you can now run command again to see you dabby!"
       );

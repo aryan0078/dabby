@@ -16,10 +16,10 @@ class Lizard extends Command {
     const { url } = await fetch("https://nekos.life/api/v2/img/lizard")
       .then((res) => res.json());
 
-    return msg.send(this.client.embed()
+    return msg.send('Lizard',{embed:this.client.embed()
       .setTitle("Random Lizard")
       .setAuthor(msg.author.tag, msg.author.displayAvatarURL({ size: 64 }))
-      .setImage(url));
+      .setImage(url)});
   }
 }
 
