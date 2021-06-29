@@ -37,11 +37,11 @@ class Profile extends Command {
       )
       .addField(
         "Server Coins",
-        `**${parseInt(bal.amount).toLocaleString()}** ${dabs.currencyName} ${
+        `**${bal.amount?parseInt(bal.amount).toLocaleString():0}** ${dabs.currencyName} ${
           dabs.currencyEmoji
         }`
       )
-      .addField("Dab invites", `**${bal.invites}**`)
+      .addField("Dab invites", `**${bal.invites?bal.invites:0}**`)
 
       .addField(msg.tr("COMMAND_PROFILE_REP"), member.user.settings.reputation);
 

@@ -230,7 +230,7 @@ const dabbyflowchart = async (title, data, db) => {
           {
             label: "Dabs",
             data: price,
-            fill: true,
+            fill: false,
             borderColor: "red",
           },
         ],

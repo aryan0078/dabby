@@ -35,10 +35,12 @@ class Leaderboard extends Command {
     for (let i = 0; i < top.length; i++) {
       const u = top[i];
       const user = await this.client.users.fetch(u.id.split(".")[1]);
+      let uu = await this.verifyMember(msg, user);
+      // console.log(uu.settings);
       leaderboard.push(
         `- [${(page * 10 + (i + 1)).toString().padStart(2, "0")}] ❯ ${
           user.tag
-        }\n    => ${parseInt(u.points).toLocaleString()}`
+        }\n    => ${parseInt(uu.settings.points).toLocaleString()} dabs`
       );
     }
     let dabs = await getCurrency(msg.guild.id, db);
@@ -48,7 +50,7 @@ class Leaderboard extends Command {
     leaderboard.push(
       `\n+ [${posTxt}] ❯ ${msg.author.tag}\n    => ${parseInt(
         msg.member.settings.points
-      ).toLocaleString()} ${dabs.currencyName} ${dabs.currencyEmoji}`
+      ).toLocaleString()} dabs`
     );
     return msg.send(`**__${msg.guild.name}__**'s Leaderboard (Page **${page + 1}** out of **${totalPages || 1}**)\n\`\`\`\n${leaderboard.join("\n")}\`\`\``);
   }

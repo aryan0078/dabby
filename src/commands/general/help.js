@@ -78,7 +78,7 @@ class Help extends Command {
         command.category;
 
       if (!map[category]) map[category] = [];
-      map[category].push(command.name);
+      map[category].push("`" + command.name + "`");
     }
 const { link } = this.client.utils;
     const embed = new MessageEmbed()

@@ -35,6 +35,7 @@ class DabFlowCommand extends Command {
     let url = await dabbyflowchart("f", 3, db);
     flow.toArray().then((result) => {
       dabs.insertOne({ flow: result[0].points, at: new Date() });
+
       msg.send(url);
       msg.send(
         `Total **${toFancyNum(
