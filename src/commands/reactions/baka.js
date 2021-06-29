@@ -20,7 +20,7 @@ class bruh extends Command {
       .setImage(url)
       .setFooter(`Requested by: ${msg.author.tag} | Powered by nekos.life`, msg.author.displayAvatarURL({ size: 32 }));
 
-    return msg.send({ embed });
+    return msg.send("BAKA", { embed: embed });
   }
 }
 
