@@ -10,12 +10,12 @@ class Points extends Command {
       description: "View your or someone's balance.",
       usage: "balance [@user]",
       guildOnly: true,
-      cooldown: 5,
+      cooldown: 10,
       aliases: ["balance", "bal", "b", "cash", "c", "wallet", "w", "wal", "dw"],
     });
   }
 
-  async run(msg, [user]) {
+  async run(msg, [all]) {
     const member = await this.verifyMember(msg, msg.author.id, true);
     if (member.user.bot) return msg.send(" Bots don't have points.");
     await member.syncSettings();
@@ -51,31 +51,31 @@ class Points extends Command {
       if (!wallets.wallet) {
         wallets["wallet"] = [];
       }
-      wallets.wallet.forEach((wallet, index) => {
-        if (index > 4) {
-          return;
-        }
-        if (wallet.id === msg.guild.id) {
-          console.log("skip");
-        } else {
-          walstr +=
-            `**${wallet.currencyEmoji} | ** you have ` +
-            `**${toFancyNum(wallet.amount)}** ${wallet.currencyName}! ${
-              wallet.serverName ? "from " + wallet.serverName : ""
-            } \n`;
-        }
-      });
+      let ful=''
+      if (all=='all') {
+         wallets.wallet.forEach((wallet, index) => {
+           ful +=
+             `**${wallet.currencyEmoji} | ** you have ` +
+             `**${toFancyNum(wallet.amount)}** ${wallet.currencyName}! ${
+               wallet.serverName ? "from " + wallet.serverName : ""
+             } \n`;
+         });
+        msg.send(`Check DM`)
+        return member.send(`**${member.username} |** you have ,\n${ful} \n and \n **${member.settings.points}** <:dabs:851218687255773194> dabs`)
+      }
+     
       walstr +=
         wallets.wallet.length > 4
-          ? `.... and ${
+          ? `.... and **${
               wallets.wallet.length - 4
-            } more \n -----------------------------------\n<:dabs:851218687255773194> | Dabs: **${toFancyNum(
+            }** more \n -----------------------------------\n<:dabs:851218687255773194> | Dabs: **${toFancyNum(
               member.settings.points
             )}**  dabs `
           : `-----------------------------------\n<:dabs:851218687255773194> | Dabs: **${toFancyNum(
               member.settings.points
             )}**  dabs `;
       msg.send(walstr);
+    
     } catch (e) {
       msg.send(
         "I guess you are new to Dab now you are signed Up you can now run command again to see you dabby!"
