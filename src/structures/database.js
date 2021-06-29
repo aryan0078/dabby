@@ -83,6 +83,27 @@ async function getCurrencyBalance(id, server, d) {
     return undefined;
   }
 }
+async function channelEandD(id, boolean, d) {
+  let db = d;
+  let pools = db.collection("channels");
+  let c = await pools.findOne({ id: id });
+  if (c) {
+    await pools.findOneAndUpdate({ id: id }, { $set: { enabled: boolean } });
+  } else {
+    await pools.insertOne({ id: id, enabled: boolean });
+  }
+}
+async function checkChannelEandD(id, d) {
+  let db = d;
+  let pools = db.collection("channels");
+  let c = await pools.findOne({ id: id });
+  if (!c) {
+    return true;
+  } else {
+    return c.enabled;
+  }
+}
+
 async function withdrawAmount(id, user, amount, d) {
   let db = d;
   let pools = db.collection("pools");
@@ -319,5 +340,7 @@ module.exports = {
   dabbyflowchart,
   withdrawAmount,
   getBalanceExists,
+  checkChannelEandD,
+  channelEandD,
   withdrawBalance,
 };

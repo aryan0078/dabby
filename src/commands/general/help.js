@@ -80,11 +80,16 @@ class Help extends Command {
       if (!map[category]) map[category] = [];
       map[category].push(command.name);
     }
-
+const { link } = this.client.utils;
     const embed = new MessageEmbed()
-      .setTitle(msg.tr("COMMAND_HELP_TITLE"))
-      .setDescription("Join our [Discord Server] for support and updates!")
-      .setFooter("For more information about a command run dabhelp <command>");
+
+      .setDescription(
+        "Here is the list of commands!\n for more info on specific command , use `dab help {command}`\nJoin our " +
+          link("[Discord Server]", "https://discord.gg/DXwENpAed5") +
+          " for **support** and **updates**!"
+      )
+      .setColor("#00FF7D");
+     
 
     // Sort the categories alphabetically.
     const keys = Object.keys(map).sort();
@@ -94,10 +99,14 @@ class Help extends Command {
       if (category === "Social" && msg.guild && !msg.guild.settings.social)
         continue;
 
-      embed.addField(category, map[category].join(", "));
+      embed
+        .addField(category, map[category].join(", "))
+        .setAuthor("Command List", msg.author.displayAvatarURL());
     }
 
-    return msg.send("**Dabby Help**", { embed: embed });
+    return msg.send(`Requested by **${msg.author.username}**`, {
+      embed: embed,
+    });
   }
 }
 

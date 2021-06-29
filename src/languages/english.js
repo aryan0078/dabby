@@ -67,6 +67,7 @@ module.exports = new Language(
     CATEGORY_PROGRAMMING: "Programming",
     CATEGORY_MISC: "Miscellaneous",
     CATEGORY_REACTIONS: "Reactions",
+    CATEGORY_COUPONS: "Coupons",
 
     COMMAND_STATS_DESCRIPTION:
       "Hi, I'm dabbby. The all-in-one entertainment bot for your server.",

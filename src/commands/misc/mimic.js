@@ -1,4 +1,5 @@
 const Command = require("../../structures/Command.js");
+const { replyError } = require("../../utils/constants.js");
 
 class Mimic extends Command {
   constructor(...args) {
@@ -8,13 +9,14 @@ class Mimic extends Command {
       botPermissions: ["MANAGE_WEBHOOKS"],
       usage: "mimic <@user> <msg...>",
       guildOnly: true,
-      cost: 20
     });
   }
 
   async run(msg, [user, ...message]) {
     user = await this.verifyUser(msg, user);
-
+    if (!message) {
+      return replyError(msg, "Cannot send empty message", 5000);
+    }
     if (msg.deletable) await msg.delete();
 
     const avatar = user.displayAvatarURL({ format: "png", size: 2048 });

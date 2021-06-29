@@ -41,24 +41,31 @@ class GuildCreate extends Event {
       await server.insertOne({
         id: guild.id,
 
-        currencyEmoji: "<:dabs:851218687255773194>",
-        currencyName: guild.name+' coins',
+        currencyEmoji: "💰",
+        currencyName: guild.name + " coins",
         cryptoEnabled: true,
       });
       
     }
-    return join.send([
-      "Hey there, thanks for inviting me in to this wonderful server",
-      `Start by typing \`${guild.prefix}help\` to get a list of commands`,
+    return join
       
-     
-      "",
-      `Note: levelup messages are enabled by default if you found them annoying feel free to disable it using \`${guild.prefix}levelup disable\``,
-      "",
-      `If you still have any questions ask them in our server, use \`${guild.prefix}support\``,
-      "",
-      "Have a great day!"
-    ].join("\n")).catch(() => null);
+      .send(
+        
+        [
+              "Hey there, thanks for inviting me in to this wonderful server",
+              `Start by typing \`${guild.prefix} help\` to get a list of commands`,
+              "Use dab help to get a list of commands",
+              "Use dab stc to set server currency `dab sti {currencyName} {curencyEomji}`",
+              `Note: levelup messages are enabled by default if you found them annoying feel free to disable it using \`${guild.prefix} levelup disable\``,
+              "",
+              `If you still have any questions ask them in our server, use \`${guild.prefix} support\``,
+              "",
+              "Have a great day!",,
+            ].join("\n")
+      
+      )
+      
+      .catch(() => null);
   }
 }
 

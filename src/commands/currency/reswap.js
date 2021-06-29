@@ -22,7 +22,15 @@ class Reswap extends Command {
   async run(msg, amount) {
     let db = this.client.dbClient;
     db = await db.db();
-    let result = await getCurrencyBalance(msg.author.id, msg.guild.id,  db);
+  
+    let result = await getCurrencyBalance(msg.author.id, msg.guild.id, db);
+    if (!result) {
+      return replyError(
+        msg,
+        "You dont hold this server currency use `dab convert {amount}` to convert currency",
+        5000
+      );
+    }
     if (amount == "all") {
       amount = result.amount > 80000 ? 80000 : result.amount;
     }

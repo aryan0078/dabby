@@ -1,17 +1,24 @@
 const Monitor = require("../structures/Monitor.js");
 const { Collection, Permissions } = require("discord.js");
-
+const { checkChannelEandD, verifyUser } = require("../structures/database.js");
+const { replyError } = require("../utils/constants.js");
+const { MessageButton, MessageActionRow } = require("discord-buttons");
 
 // Taken from klasa https://github.com/dirigeants/klasa
 /* eslint-disable-next-line quotes */
-const quotes = ['"', "'", '“”', '‘’'];
-const flagRegex = new RegExp(`(?:--|—)(\\w[\\w-]+)(?:=(?:${quotes.map((qu) => `[${qu}]((?:[^${qu}\\\\]|\\\\.)*)[${qu}]`).join("|")}|([\\w<>@#&!-]+)))?`, "g");
+const quotes = ['"', "'", "“”", "‘’"];
+const flagRegex = new RegExp(
+  `(?:--|—)(\\w[\\w-]+)(?:=(?:${quotes
+    .map((qu) => `[${qu}]((?:[^${qu}\\\\]|\\\\.)*)[${qu}]`)
+    .join("|")}|([\\w<>@#&!-]+)))?`,
+  "g"
+);
 const delim = new RegExp("(\\s)(?:\\s)+");
 
 class CommandHandler extends Monitor {
   constructor(...args) {
     super(...args);
-    this.prefix = ["dab","d","da","dabby"]; // Default prefix.
+    this.prefix = ["dab", "d", "da", "dabby"]; // Default prefix.
     this.ratelimits = new Collection();
     this.friendlyPerms = Object.keys(Permissions.FLAGS).reduce((obj, key) => {
       obj[key] = this.client.utils.toProperCase(key.split("_").join(" "));
@@ -21,10 +28,15 @@ class CommandHandler extends Monitor {
 
   getFlags(content) {
     const flags = {};
-    content = content.replace(flagRegex, (match, fl, ...quote) => {
-      flags[fl] = (quote.slice(0, -2).find((el) => el) || fl).replace(/\\/g, "");
-      return "";
-    }).replace(delim, "$1");
+    content = content
+      .replace(flagRegex, (match, fl, ...quote) => {
+        flags[fl] = (quote.slice(0, -2).find((el) => el) || fl).replace(
+          /\\/g,
+          ""
+        );
+        return "";
+      })
+      .replace(delim, "$1");
 
     return { content, flags };
   }
@@ -33,23 +45,35 @@ class CommandHandler extends Monitor {
     if (msg.channel.type !== "text") return true; // No permissions in DMs.
 
     // Check if user has permissions to run the command. Owner gets a bypass.
-    const user = msg.author.id === this.client.constants.ownerID ? [] :
-      msg.channel.permissionsFor(msg.author).missing(cmd.userPermissions);
+    const user =
+      msg.author.id === this.client.constants.ownerID
+        ? []
+        : msg.channel.permissionsFor(msg.author).missing(cmd.userPermissions);
 
     if (user.length > 0) {
-      const perms = user.map(perm => this.friendlyPerms[perm]).join(", ");
-      await msg.send(`You do not have the following permission${user.length === 1 ? "" : "s"} to run this command: \`${perms}\``);
+      const perms = user.map((perm) => this.friendlyPerms[perm]).join(", ");
+      await msg.send(
+        `You do not have the following permission${
+          user.length === 1 ? "" : "s"
+        } to run this command: \`${perms}\``
+      );
       return false;
     }
 
     // Now check if the bot has the permissions to perform the intended action.
-    const bot = msg.channel.permissionsFor(this.client.user).missing(cmd.botPermissions);
+    const bot = msg.channel
+      .permissionsFor(this.client.user)
+      .missing(cmd.botPermissions);
     if (bot.length > 0) {
-      const perms = bot.map(perm => this.friendlyPerms[perm]).join(", ");
-      await msg.send(`Hey! I need the following permission${bot.length === 1 ? "" : "s"} to do that: \`${perms}\``);
+      const perms = bot.map((perm) => this.friendlyPerms[perm]).join(", ");
+      await msg.send(
+        `Hey! I need the following permission${
+          bot.length === 1 ? "" : "s"
+        } to do that: \`${perms}\``
+      );
       return false;
     }
-    
+
     return true;
   }
 
@@ -60,27 +84,54 @@ class CommandHandler extends Monitor {
     if (!f) {
       return msg.send('You are New user type `dab signup`')
     } */
-    
+
     if (msg.webhookID || msg.author.bot) return; // Ignore bots and webhooks.
+    let db = this.client.dbClient;
+    db = await db.db();
+    let enabled = await checkChannelEandD(msg.channel.id, db);
+    let m = msg.content;
+    if (m === "dab enable") {
+      console.log("Enabling");
+    } else {
+      if (m.includes("dab")) {
+        if (!enabled) {
+          return replyError(
+            msg,
+            "Dabby commands are disabled on this channel",
+            5000
+          );
+        }
+      }
+    }
 
     // Ensure the bot itself is in the member cache.
-    if (msg.guild && !msg.guild.me) await msg.guild.members.fetch(this.client.user);
+    if (msg.guild && !msg.guild.me)
+      await msg.guild.members.fetch(this.client.user);
 
     // Grab the current prefix.
-    const prefix = msg.guild ? msg.guild.settings.prefix : this.prefix[this.prefix.indexOf(msg.split(' ')[0])];
+    const prefix = msg.guild
+      ? msg.guild.settings.prefix
+      : this.prefix[this.prefix.indexOf(msg.split(" ")[0])];
 
     // If we don't have permissions to send messages don't run the command.
     if (!msg.channel.postable) return;
 
     // Check for @mention only.
-    if (msg.content === this.client.user.toString() || (msg.guild && msg.content === msg.guild.me.toString()))
+    if (
+      msg.content === this.client.user.toString() ||
+      (msg.guild && msg.content === msg.guild.me.toString())
+    )
       return msg.sendLocale("MENTION_REMINDER", [prefix]);
 
     // Users can have their own list of prefixes globally.
     // Might confuse other users but doesn't matter too much
     // it allows users to use their comfortable prefix everywhere.
-    const userPrefix = (msg.author.settings.prefix && msg.author.settings.prefix.length) ?
-      `|${msg.author.settings.prefix.map((p) => `^${this.client.utils.escapeRegex(p)}`).join("|")}` : "";
+    const userPrefix =
+      msg.author.settings.prefix && msg.author.settings.prefix.length
+        ? `|${msg.author.settings.prefix
+            .map((p) => `^${this.client.utils.escapeRegex(p)}`)
+            .join("|")}`
+        : "";
 
     // Possibilities:
     // - miyako ping
@@ -92,15 +143,51 @@ class CommandHandler extends Monitor {
     // - Or custom per-user prefix.
     //
     // A comma can be added after the (hey|yo|ok) and the (miyako) (e.g hey, miyako, ping)
-    const prefixMatch = new RegExp(`^(?:(?:(?:dab|d|da),? )?dabby,? )|^<@!?${this.client.user.id}> |^${
-      this.client.utils.escapeRegex(prefix)}${userPrefix}`, "i").exec(msg.content);
+    const prefixMatch = new RegExp(
+      `^(?:(?:(?:dab|d|da),? )?dabby,? )|^<@!?${
+        this.client.user.id
+      }> |^${this.client.utils.escapeRegex(prefix)}${userPrefix}`,
+      "i"
+    ).exec(msg.content);
 
     // If the message is not a command do nothing.
     if (!prefixMatch) return;
+    let u = await verifyUser(msg.author.id, db);
+    if (!u && msg.content != "dab help") {
+      let users_ = await db.collection("members").countDocuments();
+      const guild = this.client.guilds.cache.get("843887160696635403"); //Dabby support server ID
+      const channel = guild.channels.cache.get("859505241166577704");
+      const messages = await channel.messages.fetch({ limit: 1 });
+      const announcement = messages.first();
+      //console.log(announcement.embeds[0].description);
+      const embed = this.client
+        .embed()
+        .setTitle(announcement.embeds[0].title)
+        .setAuthor(
+          announcement.embeds[0].author.name,
+          msg.author.displayAvatarURL({ size: 64 })
+        )
+        .setColor(announcement.embeds[0].color)
+
+        .setDescription(
+          announcement.embeds[0].description.replace("{Totalmembers}", users_)
+        );
+      db.collection("members").insertOne({
+        id: msg.author.id,
+        points: 1500,
+        wallet: [],
+      });
+      msg.channel.send("Signup", embed).then((m) => m.react("👍"));
+      return;
+    }
 
     // Ignore blacklisted users/guilds. DM them a reminder if possible.
-    if (msg.guild && msg.guild.blacklisted) return msg.author.send(msg.tr("BLACKLISTED_GUILD", msg.guild)).catch(() => null);
-    if (msg.author.blacklisted) return msg.author.send(msg.tr("BLACKLISTED")).catch(() => null);
+    if (msg.guild && msg.guild.blacklisted)
+      return msg.author
+        .send(msg.tr("BLACKLISTED_GUILD", msg.guild))
+        .catch(() => null);
+    if (msg.author.blacklisted)
+      return msg.author.send(msg.tr("BLACKLISTED")).catch(() => null);
 
     // Parse flags.
     const { content, flags } = this.getFlags(msg.content);
@@ -115,11 +202,12 @@ class CommandHandler extends Monitor {
 
     // Check cooldown.
     const rl = this.ratelimit(msg, command);
-    if (typeof rl === "string") return msg.send(rl).then((m) => {
-      setTimeout(() => {
-        m.delete();
-      }, 5000);
-    });
+    if (typeof rl === "string")
+      return msg.send(rl).then((m) => {
+        setTimeout(() => {
+          m.delete();
+        }, 5000);
+      });
 
     // Command checks.
 
@@ -129,7 +217,9 @@ class CommandHandler extends Monitor {
 
     // Check for NSFW channel. NSFW is allowed in DMs
     if (command.nsfw && msg.guild && !msg.channel.nsfw) {
-      return msg.send(this.client.utils.random(this.client.responses.notNSFWChannel));
+      return msg.send(
+        this.client.utils.random(this.client.responses.notNSFWChannel)
+      );
     }
 
     if (command.guildOnly && !msg.guild) {
@@ -137,11 +227,15 @@ class CommandHandler extends Monitor {
     }
 
     if (!command.enabled && msg.author.id !== this.client.constants.ownerID) {
-      return msg.send("My master has ordered me to disable that command so I cannot let you use it!");
+      return msg.send(
+        "My master has ordered me to disable that command so I cannot let you use it!"
+      );
     }
 
     if (command.category === "Social" && !msg.guild.settings.social) {
-      return msg.send("The social economy system has been disabled in this server by an Admin so I cannot let you use that command.");
+      return msg.send(
+        "The social economy system has been disabled in this server by an Admin so I cannot let you use that command."
+      );
     }
 
     // Verify the member is available and its settings are synchronized.
@@ -157,7 +251,7 @@ class CommandHandler extends Monitor {
     if (!(await this.checkPerms(msg, command))) return;
 
     // If the command costs points and we are in a guild with the social system enabled.
-   /*  if (command.cost && msg.guild && msg.guild.settings.social) {
+    /*  if (command.cost && msg.guild && msg.guild.settings.social) {
 
       const premium = await this.client.verifyPremium(msg.author);
 
@@ -189,7 +283,7 @@ class CommandHandler extends Monitor {
     msg.command = command;
     msg.alias = cmd;
     msg.prefix = prefixMatch[0];
-    
+
     // Increment the counter.
     this.client.commands.ran++;
 
@@ -216,18 +310,21 @@ class CommandHandler extends Monitor {
     // Calculate the difference.
     const difference = Date.now() - ratelimits[cmd.name];
 
-    if (difference < cooldown) { // check the if the duration the command was run, is more than the cooldown
+    if (difference < cooldown) {
+      // check the if the duration the command was run, is more than the cooldown
       // Return a human-readable string to the user with the remaining seconds.
-      
-     /*  replyError(
+
+      /*  replyError(
         msg,
         `Woah! Why the hurry? You can run this command again in **${Math.round(
           (cooldown - difference) / 1000
         )}** seconds.`,
         3000
       ); */
-      
-     return `Woah! Why the hurry? You can run this command again in **${(cooldown - difference) / 1000}** seconds.`;
+
+      return `Woah! Why the hurry? You can run this command again in **${
+        (cooldown - difference) / 1000
+      }** seconds.`;
     } else {
       ratelimits[cmd.name] = Date.now(); // set the key to now, to mark the start of the cooldown
       this.ratelimits.set(msg.author.id, ratelimits); // set it
@@ -239,7 +336,7 @@ class CommandHandler extends Monitor {
   stats(command) {
     const commands = this.client.user.settings.commands || {};
     if (!commands[command.name]) commands[command.name] = 0;
-    
+
     commands[command.name]++;
 
     return this.client.user.update({ commands });
