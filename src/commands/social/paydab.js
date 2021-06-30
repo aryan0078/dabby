@@ -18,6 +18,9 @@ class PayDab extends Command {
 
   async run(msg, [member, amount]) {
     member = await this.verifyMember(msg, member);
+    if (!amount) {
+      return replyError(msg, "You don't have enough dabs ");
+    }
     amount = this.verifyInt(amount);
     let db = this.client.dbClient;
     db = await db.db();
