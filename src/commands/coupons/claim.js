@@ -37,7 +37,7 @@ class Claim extends Command {
         )}** <:dabs:851218687255773194> coupon!`
       );
     } else {
-      return msg.send(`**${msg.author.username} |** Wrong Coupon code !`);
+      return replyError(msg, "Wrong Coupon code or its claimed already", 5000);
     }
   }
 }
