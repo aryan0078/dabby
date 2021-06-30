@@ -3,6 +3,7 @@ const {
   getdabbal,
   paydab,
   verifyUser,
+  transactionLog,
 } = require("../../structures/database.js");
 const { replyError } = require("../../utils/constants.js");
 class PayDab extends Command {
@@ -49,9 +50,10 @@ class PayDab extends Command {
     }
     await member.syncSettings();
     try {
-      await paydab(msg.author.id, member.id, amount, msg.guild.id, db);
-      /*  member.givePoints(amount);
-      msg.member.takePoints(amount); */
+      // await paydab(msg.author.id, member.id, amount, msg.guild.id, db);
+      member.givePoints(amount);
+      msg.member.takePoints(amount);
+      await transactionLog(amount, msg.author.id, member.id, msg.guild.id, db);
     } catch (err) {
       return msg.send(
         `Unable to pay to **${member.displayName}** is not registered member of dabby \n or you don't have enough <:dabs:851218687255773194> use dab reswap <amount> to convert your dabs`

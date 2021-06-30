@@ -242,7 +242,7 @@ const dabbyflowchart = async (title, data, db) => {
 };
 const transactionLog = async (amount, user, user2, server, db) => {
   var db_ = db;
-  db_ = db_.collection("currencyFlow");
+  db_ = db_.collection("transations");
   db_.insertOne({
     amount: amount,
     at: new Date(),
@@ -306,7 +306,7 @@ async function paydab(id, recieveid, amt, server, d) {
     { id: recieveid },
     { $set: { points: user2bal.points + amt } }
   );
-  transactionLog(amt,  id,  recieveid,  server,  d);
+    transactionLog(amt, id, recieveid, server, d); 
 }
 async function verifyUser(user, d) {
   let db = d;
@@ -343,4 +343,5 @@ module.exports = {
   checkChannelEandD,
   channelEandD,
   withdrawBalance,
+  transactionLog,
 };
