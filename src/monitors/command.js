@@ -89,7 +89,7 @@ class CommandHandler extends Monitor {
     let db = this.client.dbClient;
     db = await db.db();
     let enabled = await checkChannelEandD(msg.channel.id, db);
-    let m = msg.content;
+    let m = msg.content.toLowerCase();
     if (m === "dab enable") {
       console.log("Enabling");
     } else {
@@ -133,16 +133,6 @@ class CommandHandler extends Monitor {
             .join("|")}`
         : "";
 
-    // Possibilities:
-    // - miyako ping
-    // - yo miyako ping
-    // - hey miyako ping
-    // - @Miyako ping
-    // - m!ping
-    // - Or custom prefix.
-    // - Or custom per-user prefix.
-    //
-    // A comma can be added after the (hey|yo|ok) and the (miyako) (e.g hey, miyako, ping)
     const prefixMatch = new RegExp(
       `^(?:(?:(?:dab|d|da),? )?dabby,? )|^<@!?${
         this.client.user.id
@@ -250,31 +240,6 @@ class CommandHandler extends Monitor {
     // Check for permissions.
     if (!(await this.checkPerms(msg, command))) return;
 
-    // If the command costs points and we are in a guild with the social system enabled.
-    /*  if (command.cost && msg.guild && msg.guild.settings.social) {
-
-      const premium = await this.client.verifyPremium(msg.author);
-
-      // Premium users get a 25% off the cost.
-      const cost = command.cost - Math.floor(premium ? (command.cost / 2 / 2) : 0);
-
-      // Grab the current balance.
-      const balance = parseInt(msg.member.settings.points);
-
-      // Give the user a tip if their daily is available.
-      const claim = (msg.member.settings.daily === null || msg.member.settings.daily <  Date.now()) ?
-        `\n\nSeems like you're broke. Why don't you start with claiming your daily credits with \`${prefix}daily\`?` : "";
-
-      // Verify enough balance.
-      if (balance < cost) {
-        return msg.send(
-          `You need **${cost}** dabs <:dabs:851218687255773194> to run that command but you only have **${balance}** dabs <:dabs:851218687255773194>.${claim}`
-        );
-      }
-
-      // Deduct.
-      await msg.member.takePoints(cost);
-    } */
 
     // Initialize message for command execution.
     msg.args = args;
@@ -311,16 +276,7 @@ class CommandHandler extends Monitor {
     const difference = Date.now() - ratelimits[cmd.name];
 
     if (difference < cooldown) {
-      // check the if the duration the command was run, is more than the cooldown
-      // Return a human-readable string to the user with the remaining seconds.
-
-      /*  replyError(
-        msg,
-        `Woah! Why the hurry? You can run this command again in **${Math.round(
-          (cooldown - difference) / 1000
-        )}** seconds.`,
-        3000
-      ); */
+     
 
       return `Woah! Why the hurry? You can run this command again in **${
         (cooldown - difference) / 1000
