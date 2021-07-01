@@ -142,6 +142,7 @@ class MiyakoClient extends Client {
     const url =
       "mongodb+srv://dabby:dabby@cluster0.ispdz.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
     // Connect our database.
+    const devurl = "mongodb://localhost:27017";
     this.dbClient = await MongoClient.connect(url, {
       useNewUrlParser: true,
       useUnifiedTopology: true,

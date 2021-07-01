@@ -28,7 +28,7 @@ class Points extends Monitor {
     await msg.member.syncSettingsCache();
 
     // Random point between 1-5
-    const points = Math.floor(Math.random() * 5) + 1;
+    //const points = Math.floor(Math.random() * 5) + 1;
     //await msg.member.givePoints(points);
 
     const curLevel = Math.floor(0.1 * Math.sqrt(msg.member.points));
