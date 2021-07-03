@@ -12,7 +12,15 @@ require("dotenv").config();
 // Setup Module Alias.
 const moduleAlias = require("module-alias");
 const { paydab, getdabbal } = require("./src/structures/database.js");
+const express = require("express");
+const app = express();
+const port = 3000;
 
+app.get("/", (req, res) => res.send("Hello World!"));
+
+app.listen(port, () =>
+  console.log(`Example app listening at http://localhost:${port}`)
+);
 moduleAlias.addAliases({
   "@utils": __dirname + "/src/utils",
   "@structures": __dirname + "/src/structures",

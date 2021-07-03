@@ -23,6 +23,7 @@
     "discord-buttons": "^3.2.1",
     "discord.js": "^12.2.0",
     "dotenv": "^8.2.0",
+    "express": "^4.17.1",
     "fast-levenshtein": "^2.0.6",
     "img-api": "^1.0.4",
     "module-alias": "^2.2.2",
