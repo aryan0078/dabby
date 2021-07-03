@@ -140,7 +140,7 @@ class Slots extends Command {
       await withdrawBalance(
         msg.author.id,
         msg.guild.id,
-        win === 0 ? -amount : win * 2,
+        win === 0 ? -amount : win,
         false,
         db
       );
