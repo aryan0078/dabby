@@ -19,7 +19,7 @@ class MiyakoClient extends Client {
       messageCacheMaxSize: 100,
       messageCacheLifetime: 240,
       messageSweepInterval: 300,
-      ws: {
+      /* ws: {
         intents: [
           "GUILD_PRESENCES",
           "GUILDS",
@@ -28,7 +28,7 @@ class MiyakoClient extends Client {
           "GUILD_MESSAGE_REACTIONS",
           "DIRECT_MESSAGES",
         ],
-      },
+      }, */
     });
 
     this.dev = dev;
