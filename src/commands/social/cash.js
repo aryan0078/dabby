@@ -44,7 +44,7 @@ class Points extends Command {
         bal["amount"] = 0;
       }
       walstr +=
-        `**${bal.currencyEmoji} | ** you have ` +
+        `**${bal.currencyEmoji} | ** you own ` +
         `**${toFancyNum(bal.amount)}** ${bal.currencyName}! from **${
           msg.guild.name
         }**`;
@@ -72,9 +72,9 @@ class Points extends Command {
      
       walstr +=
         wallets.wallet.length > 4
-          ? `.... and **${
+          ? `and **${
               wallets.wallet.length - 4
-            }** more \n<:dabs:851218687255773194> | you own : **${toFancyNum(
+            }** more \n<:dabs:851218687255773194> | you own **${toFancyNum(
               member.settings.points
             )}**  dabs `
           : `\n<:dabs:851218687255773194> | Dabs: **${toFancyNum(
