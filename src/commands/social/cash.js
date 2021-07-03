@@ -47,7 +47,7 @@ class Points extends Command {
         `**${bal.currencyEmoji} | ** you have ` +
         `**${toFancyNum(bal.amount)}** ${bal.currencyName}! from **${
           msg.guild.name
-        }** \n`;
+        }**`;
       if (!wallets.wallet) {
         wallets["wallet"] = [];
       }
