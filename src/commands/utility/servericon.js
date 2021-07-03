@@ -12,8 +12,10 @@ class ServerIcon extends Command {
   async run(msg) {
     if (!msg.guild.iconURL()) throw "There is no server icon in this server. What do you expect me to show you?";
 
-    const embed = this.client.embed(msg.author)
+    const embed = this.client
+      .embed(msg.author)
       .setTitle(msg.tr("COMMAND_SERVERICON_TITLE", msg.guild.name))
+      .setColor("#7289DA")
       .setImage(msg.guild.iconURL({ size: 2048 }));
 
     return msg.send("Server Icon", { embed: embed });

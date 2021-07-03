@@ -17,10 +17,23 @@ class TopInvites extends Command {
 
     if(topTen.length === 0) return msg.send("There are no invites, or none of them have been used!");
 
-    return msg.send('Top Invites',{embed:this.client.embed()
-      .setTitle(`Top Invites in ${msg.guild.name}`)
-      .setAuthor(msg.guild.name, msg.guild.iconURL())
-      .setDescription(topTen.map((inv) => `• **${inv.inviter.username}**'s invite **${inv.code}** has **${inv.uses.toLocaleString()}** uses.`).join("\n"))});
+    return msg.send("Top Invites", {
+      embed: this.client
+        .embed()
+        .setTitle(`Top Invites in ${msg.guild.name}`)
+        .setAuthor(msg.guild.name, msg.guild.iconURL())
+        .setColor("#7289DA")
+        .setDescription(
+          topTen
+            .map(
+              (inv) =>
+                `• **${inv.inviter.username}**'s invite **${
+                  inv.code
+                }** has **${inv.uses.toLocaleString()}** uses.`
+            )
+            .join("\n")
+        ),
+    });
   }
 }
 

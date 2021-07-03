@@ -44,8 +44,8 @@ class Points extends Command {
         bal["amount"] = 0;
       }
       walstr +=
-        `**${bal.currencyEmoji} | ** you own ` +
-        `**${toFancyNum(bal.amount)}** ${bal.currencyName}! from **${
+        `**${bal.currencyEmoji} | **you own ` +
+        `**${toFancyNum(bal.amount)}** ${bal.currencyName} from **${
           msg.guild.name
         }** `;
       if (!wallets.wallet) {
@@ -56,7 +56,7 @@ class Points extends Command {
         wallets.wallet.forEach((wallet, index) => {
           ful +=
             `**${wallet.currencyEmoji} | ** you have ` +
-            `**${toFancyNum(wallet.amount)}** ${wallet.currencyName}! ${
+            `**${toFancyNum(wallet.amount)}** ${wallet.currencyName} ${
               wallet.serverName ? "from " + wallet.serverName : ""
             } \n`;
         });
@@ -74,12 +74,12 @@ class Points extends Command {
         wallets.wallet.length > 4
           ? `and **${
               wallets.wallet.length - 4
-            }** more \n<:dabs:851218687255773194> **|** you own **${toFancyNum(
+            }** more ... \n<:dabs:851218687255773194> **|** you own **${toFancyNum(
               member.settings.points
             )}** dabs `
           : `\n<:dabs:851218687255773194> | Dabs: **${toFancyNum(
               member.settings.points
-            )}**  dabs`;
+            )}**  Dabs`;
       msg.send(walstr);
     } catch (e) {
       console.log(e);

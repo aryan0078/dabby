@@ -53,6 +53,7 @@ class Daily extends Command {
               : ""
           }\n\nDo you wish to claim your daily anyway without voting? (**y**es | **n**o)\n\nReply with \`cancel\` to cancel the message. The message will timeout after 60 seconds.`
         )
+        .setColor("#7289DA")
         .setTimestamp();
 
       const filter = (m) => m.author.id === msg.author.id;

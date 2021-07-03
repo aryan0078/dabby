@@ -32,15 +32,35 @@ class ServerInfo extends Command {
 
     if (!msg.guild.owner) await msg.guild.members.fetch(msg.guild.ownerID).catch(() => null);
 
-    const embed = this.client.embed()
+    const embed = this.client
+      .embed()
       .setThumbnail(msg.guild.iconURL())
       .addField("❯ Name", msg.guild.name, true)
       .addField("❯ ID", msg.guild.id, true)
-      .addField("❯ Creation Date", `${msg.guild.createdAt.toDateString()} (${days} days ago!)`, true)
+      .setColor("#7289DA")
+      .addField(
+        "❯ Creation Date",
+        `${msg.guild.createdAt.toDateString()} (${days} days ago!)`,
+        true
+      )
       .addField("❯ Region", msg.guild.region, true)
-      .addField("❯ Explicit Filter", this.filterLevels[msg.guild.explicitContentFilter], true)
-      .addField("❯ Verification Level", this.verificationLevels[msg.guild.verificationLevel], true)
-      .addField("❯ Owner", msg.guild.owner ? msg.guild.owner.user.tag : "Failed to get owner information.", true)
+      .addField(
+        "❯ Explicit Filter",
+        this.filterLevels[msg.guild.explicitContentFilter],
+        true
+      )
+      .addField(
+        "❯ Verification Level",
+        this.verificationLevels[msg.guild.verificationLevel],
+        true
+      )
+      .addField(
+        "❯ Owner",
+        msg.guild.owner
+          ? msg.guild.owner.user.tag
+          : "Failed to get owner information.",
+        true
+      )
       .addField("❯ Members", `${msg.guild.memberCount}`, true)
       .addField("❯ Ban Count", bans, true);
 

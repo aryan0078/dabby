@@ -70,7 +70,7 @@ module.exports = new Language(
     CATEGORY_COUPONS: "Coupons",
 
     COMMAND_STATS_DESCRIPTION:
-      "Hi, I'm dabbby. The all-in-one entertainment bot for your server.",
+      "Hi, I'm dabbby. The all-in-one fun currency bot for your server.",
     COMMAND_STATS_TITLE: "dabby - Bot Statistics",
     COMMAND_STATS_FIELD: "Bot Stats",
     COMMAND_CHOOSE: (choice) => `I think ${choice}`,

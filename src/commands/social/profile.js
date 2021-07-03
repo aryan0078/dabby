@@ -23,6 +23,7 @@ class Profile extends Command {
     }
     const embed = this.client
       .embed(member.user)
+      .setColor("#7289DA")
       .setTitle(msg.tr("COMMAND_PROFILE_TITLE", member.displayName))
       .setDescription(
         member.user.settings.title ||
@@ -37,11 +38,11 @@ class Profile extends Command {
       )
       .addField(
         "Server Coins",
-        `**${bal.amount?parseInt(bal.amount).toLocaleString():0}** ${dabs.currencyName} ${
-          dabs.currencyEmoji
-        }`
+        `**${bal.amount ? parseInt(bal.amount).toLocaleString() : 0}** ${
+          dabs.currencyName
+        } ${dabs.currencyEmoji}`
       )
-      .addField("Dab invites", `**${bal.invites?bal.invites:0}**`)
+      .addField("Dab invites", `**${bal.invites ? bal.invites : 0}**`)
 
       .addField(msg.tr("COMMAND_PROFILE_REP"), member.user.settings.reputation);
 

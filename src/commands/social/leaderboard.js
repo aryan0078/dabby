@@ -1,5 +1,6 @@
 const Command = require("../../structures/Command.js");
 const { getCurrency } = require("../../structures/database.js");
+const { replyError } = require("../../utils/constants.js");
 class Leaderboard extends Command {
   constructor(...args) {
     super(...args, {
@@ -10,13 +11,23 @@ class Leaderboard extends Command {
     });
   }
 
-  async run(msg, [page]) {
+  async run(msg, [args,page]) {
     page = this.verifyInt(page, 1);
      let db = this.client.dbClient;
-     db = await db.db();
-
-    const rows = await this.client.settings.members.find({ id: { $regex: `^${msg.guild.id}`  } },
-      { sort: { points: -1 } }).toArray();
+    db = await db.db();
+    if (!args) {
+      return replyError(msg,'What do you want to see gloabl or server please type it with the command',7000)
+    }
+     var rows = "";
+     if (args == "global") {
+       rows = await this.client.settings.members
+         .find({ $query: {}, $orderby: { points: -1 } }).limit(20)
+         .toArray();
+     } else if (args == "server" || args == "guild") {
+       rows = await this.client.settings.members
+         .find({ id: { $regex: `^${msg.guild.id}` } }, { sort: { points: -1 } })
+         .toArray();
+     }
 
     if (rows.length === 0) return msg.send("There is no leaderboard in this server, maybe its a dead place???");
 
@@ -30,20 +41,20 @@ class Leaderboard extends Command {
     const positions = rows.map((row) => row.id.split(".")[1]);
     const leaderboard = [];
 
-    const top = rows.slice(page * 10, (page + 1) * 10);
+    const top = rows
 
     for (let i = 0; i < top.length; i++) {
       const u = top[i];
       const user = await this.client.users.fetch(u.id.split(".")[1]);
-      let uu = await this.verifyMember(msg, user);
+      let uu = await this.verifyUser(msg, user);
       // console.log(uu.settings);
       leaderboard.push(
         `- [${(page * 10 + (i + 1)).toString().padStart(2, "0")}] ❯ ${
           user.tag
-        }\n    => ${parseInt(uu.settings.points).toLocaleString()} dabs`
+        }\n    => ${parseInt(u.points).toLocaleString()} dabs`
       );
     }
-    let dabs = await getCurrency(msg.guild.id, db);
+    
     
     const pos = positions.indexOf(msg.author.id).toString().padStart(2, "0");
     const posTxt = pos == -1 ? "??" : (positions.indexOf(msg.author.id) + 1).toString().padStart(2, "0");

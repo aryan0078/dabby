@@ -48,12 +48,18 @@ class UserPrefix extends Command {
     if(!msg.author.settings.prefix || !msg.author.settings.prefix.length)
       return msg.send("You don't have any user prefixes yet!");
 
-    const embed = this.client.embed()
+    const embed = this.client
+      .embed()
       .setTitle("User Prefixes")
+      .setColor("#7289DA")
       .setAuthor(msg.author.tag, msg.author.displayAvatarURL({ size: 64 }))
-      .setDescription(msg.author.settings.prefix.map((prefix) => `• ${prefix}`).join("\n"));
+      .setDescription(
+        msg.author.settings.prefix.map((prefix) => `• ${prefix}`).join("\n")
+      );
 
-    return msg.send("User Prefix", { embed: embed });
+    return msg.send(`Requested by **${msg.author.username}**`, {
+      embed: embed,
+    });
   }
 
   async remove(msg, args) {

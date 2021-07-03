@@ -36,32 +36,35 @@ class Help extends Command {
         );
 
       return msg.send("**Dabby Help**", {
-        embed:
-          new MessageEmbed()
-            .setTitle(msg.tr("COMMAND_HELP_FOR", cmd.name))
-            .setDescription(
-              [
-                `**${msg.tr("COMMAND_HELP_DESCRIPTION")}:** ${typeof cmd.description === "function"
+        embed: new MessageEmbed()
+          .setTitle(msg.tr("COMMAND_HELP_FOR", cmd.name))
+          .setColor("#7289DA")
+          .setDescription(
+            [
+              `**${msg.tr("COMMAND_HELP_DESCRIPTION")}:** ${
+                typeof cmd.description === "function"
                   ? cmd.description(msg)
                   : cmd.description
-                }`,
-                `**${msg.tr("COMMAND_HELP_CATEGORY")}:** ${cmd.category}`,
-                `**Aliases:** ${cmd.aliases.length ? cmd.aliases.join(", ") : msg.tr("NONE")
-                }`,
-                `**Cooldown:** ${cmd.cooldown
+              }`,
+              `**${msg.tr("COMMAND_HELP_CATEGORY")}:** ${cmd.category}`,
+              `**Aliases:** ${
+                cmd.aliases.length ? cmd.aliases.join(", ") : msg.tr("NONE")
+              }`,
+              `**Cooldown:** ${
+                cmd.cooldown
                   ? cmd.cooldown + " " + msg.tr("SECONDS")
                   : msg.tr("NONE")
-                }`,
-                `**Usage:** ${msg.guild ? msg.guild.prefix : "m!"}${cmd.usage}`,
-                `**Cost:** ${cost}`,
-                `**Extended Help:** ${typeof cmd.extendedHelp === "function"
+              }`,
+              `**Usage:** ${msg.guild ? msg.guild.prefix : "m!"}${cmd.usage}`,
+              `**Cost:** ${cost}`,
+              `**Extended Help:** ${
+                typeof cmd.extendedHelp === "function"
                   ? cmd.extendedHelp(msg)
                   : cmd.extendedHelp
-                }`,
-              ].join("\n")
-            )
-      }
-      );
+              }`,
+            ].join("\n")
+          ),
+      });
     }
 
     const map = {}; // Map<Category, Array<Command.Name>>
@@ -88,7 +91,7 @@ const { link } = this.client.utils;
           link("[Discord Server]", "https://discord.gg/DXwENpAed5") +
           " for **support** and **updates**!"
       )
-      .setColor("#00FF7D");
+      .setColor("#7289DA");
      
 
     // Sort the categories alphabetically.

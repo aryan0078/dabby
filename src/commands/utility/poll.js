@@ -40,10 +40,15 @@ class Poll extends Command {
     const emojis = this.emojis.slice(0, choices.length);
     let counter = 1;
 
-    const embed = this.client.embed()
+    const embed = this.client
+      .embed()
       .setTitle(question)
+      .setColor("#7289DA")
       .setDescription(choices.map((c) => `${counter++}. ${c}`).join("\n"))
-      .setFooter(`Asked by ${msg.author.tag}`, msg.author.displayAvatarURL({ size: 64 }));
+      .setFooter(
+        `Asked by ${msg.author.tag}`,
+        msg.author.displayAvatarURL({ size: 64 })
+      );
 
     const poll = await channel.send("Poll", { embed: embed });
 

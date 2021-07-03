@@ -14,10 +14,18 @@ class RepLB extends Command {
 
     if(!rows.length) return msg.send("Looks like no one has any reputations.");
 
-    const embed = this.client.embed()
-      .setTitle(`Top${rows.length === 1 ? "" : ` ${rows.length}`} respected user${rows.length > 1 ? "s" : ""} by reputations`)
+    const embed = this.client
+      .embed()
+      .setTitle(
+        `Top${rows.length === 1 ? "" : ` ${rows.length}`} respected user${
+          rows.length > 1 ? "s" : ""
+        } by reputations`
+      )
       .setAuthor(msg.author.tag, msg.author.displayAvatarURL({ size: 64 }))
-      .setFooter(`Give reputation to users via ${msg.guild.settings.prefix}rep @user to help them climb the leaderboard.`);
+      .setColor("#7289DA")
+      .setFooter(
+        `Give reputation to users via ${msg.guild.settings.prefix}rep @user to help them climb the leaderboard.`
+      );
 
     const lb = [];
     

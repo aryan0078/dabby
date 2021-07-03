@@ -22,41 +22,42 @@ class Stats extends Command {
     db = await db.db();
     
     let users_ = await db.collection("members").countDocuments();
-    return msg.send('Stats',
-      {
-        embed: this.client
-          .embed(this.client.user)
-          .setTitle(msg.language.get("COMMAND_STATS_TITLE"))
-          .setDescription(msg.language.get("COMMAND_STATS_DESCRIPTION"))
-          .addField(
-            msg.language.get("COMMAND_STATS_FIELD"),
-            [
-              `**Guilds:** ${client.guilds.cache.size}`,
-              `**Users:** ${users_}`,
-              `**Channels:** ${client.channels.cache.size}`,
-              `**Uptime:** ${uptime}`,
-              `**Total Memory Usage:** ${(
-                process.memoryUsage().heapTotal /
-                1024 /
-                1024
-              ).toFixed(2)} MB`,
-              `**Memory Usage:** ${(
-                process.memoryUsage().heapUsed /
-                1024 /
-                1024
-              ).toFixed(2)} MB`,
-            ].join("\n")
-          )
-      
-          .addField(
-            "Command Stats",
-            [
-              `**Total Commands:** ${this.store.size}`,
-              `**Commands Ran:** ${this.store.ran}`,
-              `**Most Used:** ${mostUsed}`,
-            ].join("\n")
-          )
-      } );
+    return msg.send(`Requested by **${msg.author.username}**`, {
+      embed: this.client
+        .embed(this.client.user)
+        .setColor("#7289DA")
+        .setAuthor("Stats", msg.author.displayAvatarURL())
+        .setTitle(msg.language.get("COMMAND_STATS_TITLE"))
+        .setDescription(msg.language.get("COMMAND_STATS_DESCRIPTION"))
+        .addField(
+          msg.language.get("COMMAND_STATS_FIELD"),
+          [
+            `**Servers:** ${client.guilds.cache.size}`,
+            `**Users:** ${users_}`,
+            `**Channels:** ${client.channels.cache.size}`,
+            `**Uptime:** ${uptime}`,
+            `**Total Memory Usage:** ${(
+              process.memoryUsage().heapTotal /
+              1024 /
+              1024
+            ).toFixed(2)} MB`,
+            `**Memory Usage:** ${(
+              process.memoryUsage().heapUsed /
+              1024 /
+              1024
+            ).toFixed(2)} MB`,
+          ].join("\n")
+        )
+
+        .addField(
+          "Command Stats",
+          [
+            `**Total Commands:** ${this.store.size}`,
+            `**Commands Ran:** ${this.store.ran}`,
+            `**Most Used:** ${mostUsed}`,
+          ].join("\n")
+        ),
+    });
   }
 }
 

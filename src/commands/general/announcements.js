@@ -17,13 +17,23 @@ class Announcements extends Command {
     const messages = await channel.messages.fetch({ limit: 1 });
     const announcement = messages.first();
     
-    const embed = this.client.embed()
+    const embed = this.client
+      .embed()
       .setTitle(msg.tr("COMMAND_ANNOUNCEMENTS_TITLE"))
-      .setAuthor(announcement.author.username, announcement.author.displayAvatarURL({ size: 64 }))
+      .setColor("#7289DA")
+      .setAuthor(
+        announcement.author.username,
+        announcement.author.displayAvatarURL({ size: 64 })
+      )
       .setDescription(announcement.cleanContent)
       .setThumbnail(announcement.author.displayAvatarURL({ size: 512 }))
       .setTimestamp(new Date(announcement.createdTimestamp))
-      .setFooter(msg.tr("COMMAND_ANNOUNCEMENTS_FOOTER", msg.guild ? msg.guild.prefix : "m!"));
+      .setFooter(
+        msg.tr(
+          "COMMAND_ANNOUNCEMENTS_FOOTER",
+          msg.guild ? msg.guild.prefix : "m!"
+        )
+      );
 
     return msg.send("Announcements", { embed: embed });
   }

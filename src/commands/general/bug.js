@@ -14,9 +14,11 @@ class Bug extends Command {
   async run(msg, args) {
     if (!args.length) return msg.send(" What is the bug report?");
     const channel = this.client.channels.cache.get("849061099310546975");
-    const embed = this.client.embed()
+    const embed = this.client
+      .embed()
       .setTitle("Bug Report")
       .setDescription(args.join(" "))
+      .setColor("#7289DA")
       .setAuthor(msg.author.tag, msg.author.displayAvatarURL({ size: 64 }))
       .setFooter(msg.author.id);
 

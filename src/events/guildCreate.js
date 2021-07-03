@@ -41,7 +41,7 @@ class GuildCreate extends Event {
       await server.insertOne({
         id: guild.id,
 
-        currencyEmoji: "💰",
+        currencyEmoji: "<:servercoin:860947979615338516>",
         currencyName: guild.name + " coins",
         cryptoEnabled: true,
       });

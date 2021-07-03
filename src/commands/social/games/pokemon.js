@@ -20,8 +20,10 @@ class Pokemon extends Command {
     const pokemon = this.client.utils.random(pokemons);
  let db = this.client.dbClient;
  db = await db.db();
-    const embed = this.client.embed(msg.author)
+    const embed = this.client
+      .embed(msg.author)
       .setTitle(msg.tr("COMMAND_POKEMON_GUESS"))
+      .setColor("#7289DA")
       .setImage(pokemon.imageURL);
     
     const sent = await msg.send({ embed });
