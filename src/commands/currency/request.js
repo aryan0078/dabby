@@ -13,8 +13,9 @@ class Request extends Command {
     });
   }
 
-  async run(msg, [member, amount,...reason]) {
-    member = await this.verifyMember(msg, member);
+  async run(msg, [member, amount, ...reason]) {
+    return msg.send('Coming Soon....')
+    /* member = await this.verifyMember(msg, member);
     amount = this.verifyInt(amount);
 
     let db = this.client.dbClient;
@@ -76,6 +77,7 @@ class Request extends Command {
     } catch (err) {
       msg.send(`**<@${member.id}>** dm is off can't request`);
     }
+  } */
   }
 }
 
