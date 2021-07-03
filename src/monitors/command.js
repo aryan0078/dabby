@@ -2,7 +2,7 @@ const Monitor = require("../structures/Monitor.js");
 const { Collection, Permissions } = require("discord.js");
 const { checkChannelEandD, verifyUser } = require("../structures/database.js");
 const { replyError } = require("../utils/constants.js");
-const { MessageButton, MessageActionRow } = require("discord-buttons");
+/* const { MessageButton, MessageActionRow } = require("discord-buttons"); */
 
 // Taken from klasa https://github.com/dirigeants/klasa
 /* eslint-disable-next-line quotes */

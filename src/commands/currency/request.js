@@ -1,7 +1,7 @@
 const Command = require("../../structures/Command.js");
-const { getCurrency } = require("../../structures/database.js");
+/* const { getCurrency } = require("../../structures/database.js");
 const {MessageButton,MessageActionRow}=require("discord-buttons");
-const { toFancyNum, replyError } = require("../../utils/constants.js");
+const { toFancyNum, replyError } = require("../../utils/constants.js"); */
 class Request extends Command {
   constructor(...args) {
     super(...args, {
