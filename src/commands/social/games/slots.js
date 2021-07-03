@@ -200,10 +200,11 @@ class Slots extends Command {
               rslots[1] +
               " " +
               rslots[2] +
-              "    " +
+              "    **" +
               msg.author.username +
-              ` bet **${dabs.currencyEmoji} ${dabs.currencyName}**` +
-              toFancyNum(amount) +
+              `** bet **${dabs.currencyEmoji} ${dabs.currencyName}**` +
+              toFancyNum(amount)+
+               
               "\n`|         |`  and won " +
               winmsg +
               "\n`|         |`";
