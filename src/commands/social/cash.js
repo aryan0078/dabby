@@ -74,7 +74,7 @@ class Points extends Command {
         wallets.wallet.length > 4
           ? `.... and **${
               wallets.wallet.length - 4
-            }** more \n \n<:dabs:851218687255773194> | Dabs: **${toFancyNum(
+            }** more \n<:dabs:851218687255773194> | you own : **${toFancyNum(
               member.settings.points
             )}**  dabs `
           : `\n<:dabs:851218687255773194> | Dabs: **${toFancyNum(
