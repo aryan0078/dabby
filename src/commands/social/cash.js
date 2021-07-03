@@ -44,7 +44,7 @@ class Points extends Command {
         bal["amount"] = 0;
       }
       walstr +=
-        `>>> **${bal.currencyEmoji} | ** you have ` +
+        `**${bal.currencyEmoji} | ** you have ` +
         `**${toFancyNum(bal.amount)}** ${bal.currencyName}! from **${
           msg.guild.name
         }** \n`;
@@ -64,9 +64,7 @@ class Points extends Command {
           m.react("👍");
         });
         return member.send(
-          `**${
-            msg.author.username
-          } |** you have ,\n${ful}------------------------------------- \n **${toFancyNum(
+          `**${msg.author.username} |** you have ,\n${ful} \n **${toFancyNum(
             member.settings.points
           )}** <:dabs:851218687255773194> dabs cash`
         );
@@ -76,10 +74,10 @@ class Points extends Command {
         wallets.wallet.length > 4
           ? `.... and **${
               wallets.wallet.length - 4
-            }** more \n -----------------------------------\n<:dabs:851218687255773194> | Dabs: **${toFancyNum(
+            }** more \n \n<:dabs:851218687255773194> | Dabs: **${toFancyNum(
               member.settings.points
             )}**  dabs `
-          : `-----------------------------------\n<:dabs:851218687255773194> | Dabs: **${toFancyNum(
+          : `\n<:dabs:851218687255773194> | Dabs: **${toFancyNum(
               member.settings.points
             )}**  dabs `;
       msg.send(walstr);
