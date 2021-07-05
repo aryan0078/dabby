@@ -12,7 +12,7 @@ class Slots extends Command {
       aliases: ["slot", "slotmachine", "slot-machine"],
       guildOnly: true,
       category: "Fun",
-      cooldown: 10,
+      cooldown: 13,
     });
   }
 
@@ -136,11 +136,11 @@ class Slots extends Command {
         win == 0
           ? "nothing... :c"
           : ` **${dabs.currencyEmoji} ${dabs.currencyName}**` +
-            toFancyNum(win * 2);
+          toFancyNum(parseInt(win * 1.5));
       await withdrawBalance(
         msg.author.id,
         msg.guild.id,
-        win === 0 ? -amount : win,
+        win === 0 ? -amount : parseInt(win * 1.5),
         false,
         db
       );
