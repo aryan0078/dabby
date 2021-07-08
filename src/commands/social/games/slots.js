@@ -4,6 +4,7 @@ const { replyError, toFancyNum } = require("../../../utils/constants.js");
 const {getCurrency, getCurrencyBalance, withdrawBalance} =require("../../../structures/database.js");
 const random = require("random-number-csprng");
 const slots = require("../../../utils/slots.js");
+const { MessageEmbed } = require("discord.js");
 
 class Slots extends Command {
   constructor(...args) {
@@ -19,17 +20,12 @@ class Slots extends Command {
   async run(msg, amt) {
      let db = this.client.dbClient;
      db = await db.db();
-     let dabs = await getCurrency(msg.guild.id, db);
-  try{
-    const slots = [
-      "<:eggplant:417475705719226369>",
-      "<:heart:417475705899712522>",
-      "<:cherries:851517165865795654>",
+    let dabs = await getCurrency(msg.guild.id, db);
+    let loosembed = new MessageEmbed().setImage('https://i.pinimg.com/originals/9a/f1/4e/9af14e0ae92487516894faa9ea2c35dd.gif');
+    let winembed = new MessageEmbed().setImage('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRDzctc2vB6zNct-3XZRcMyZI22HmBg2ThZIL4qJl9kLcubx29GhjOZQ1oRfAAukxkmvsM&usqp=CAU')
+    try {
 
-      "<a:box_shake:849188341361934336>",
-      "<a:giveaway:847872806938345472>",
-    ];
-    const moving = "<a:slotmoving:851520573414965299>";
+
     const maxBet = 80000;
     let args = amt;
 
@@ -78,144 +74,37 @@ class Slots extends Command {
       //Decide results
      
       let rslots = [];
-      let rand = (await random(1, 1000)) / 10;
+      let rand = await random(1, 5);
       let win = 0;
       let logging = 0;
-      if (rand <= 20) {
-        //1x 20%
-        win = amount ;
-        rslots.push(slots[0]);
-        rslots.push(slots[0]);
-        rslots.push(slots[0]);
-        logging = 0;
-      } else if (rand <= 40) {
-        //2x 20%
-        win = amount ;
-        rslots.push(slots[1]);
-        rslots.push(slots[1]);
-        rslots.push(slots[1]);
-        logging = 1;
-      } else if (rand <= 45) {
-        //3x 5%
-        win = amount ;
-        rslots.push(slots[2]);
-        rslots.push(slots[2]);
-        rslots.push(slots[2]);
-        logging = 2;
-      } else if (rand <= 47.5) {
-        //4x 2.5%
-        win = amount ;
-        rslots.push(slots[3]);
-        rslots.push(slots[3]);
-        rslots.push(slots[3]);
-        logging = 3;
-      } else if (rand <= 48.5) {
-        //10x 1%
-        win = amount ;
-        rslots.push(slots[4]);
-        rslots.push(slots[5]);
-        rslots.push(slots[4]);
-        logging = 9;
-      } else {
-        logging = -1;
-        var slot1 = Math.floor(Math.random() * (slots.length - 1));
-        var slot2 = Math.floor(Math.random() * (slots.length - 1));
-        var slot3 = Math.floor(Math.random() * (slots.length - 1));
-        if (slot3 == slot1)
-          slot2 =
-            (slot1 + Math.ceil(Math.random() * (slots.length - 2))) %
-            (slots.length - 1);
-        if (slot2 == slots.length - 2) slot2++;
-        rslots.push(slots[slot1]);
-        rslots.push(slots[slot2]);
-        rslots.push(slots[slot3]);
-      }
+
       let dabs = await getCurrency(msg.guild.id, db);
+      let embed = new MessageEmbed().setImage('https://cdn.dribbble.com/users/1648363/screenshots/3581559/slotmachine.gif')
+      msg.send(`**${msg.author.username}** bet ${toFancyNum(amount)} ${dabs.currencyEmoji} ${dabs.currencyName}`, { embed: embed }).then(m => {
+        setTimeout(async () => {
+          if (rand == 4) {
+            win = 4
+          }
+          win == 4 ? m.edit(`**${msg.author.username}** bet ${toFancyNum(amount)} ${dabs.currencyEmoji} ${dabs.currencyName} and won`, { embed: loosembed }) : m.edit(`**${msg.author.username}** bet ${toFancyNum(amount)} ${dabs.currencyEmoji} ${dabs.currencyName}\n and lost.`, { embed: winembed })
+          await withdrawBalance(
+            msg.author.id,
+            msg.guild.id,
+            win === 4 ? parseInt(win * 1.5) : -amount,
+            false,
+            db
+          );
+        }, 3000)
+      })
 
-      let winmsg =
-        win == 0
-          ? "nothing... :c"
-          : ` **${dabs.currencyEmoji} ${dabs.currencyName}**` +
-          toFancyNum(parseInt(win * 1.5));
-      await withdrawBalance(
-        msg.author.id,
-        msg.guild.id,
-        win === 0 ? -amount : parseInt(win * 1.5),
-        false,
-        db
-      );
-      result = await getCurrencyBalance(msg.author.id, msg.guild.id, db);
 
-      //Display slots
-      let machine =
-        "**`___SLOTS___`**\n" +
-        moving +
-        " " +
-        moving +
-        " " +
-        moving +
-        "    " +
-        msg.author.username +
-        ` bet **${dabs.currencyEmoji} ${dabs.currencyName}**` +
-        toFancyNum(amount) +
-        "\n`|         |`\n`|         |`";
 
-      machine = alter(msg.author.username.id, machine);
-      let message = await msg.send(machine);
-      setTimeout(async function () {
-        machine =
-          "**`___SLOTS___`**\n" +
-          rslots[0] +
-          " " +
-          moving +
-          " " +
-          moving +
-          "    " +
-          msg.author.username +
-          ` bet **${dabs.currencyEmoji} ${dabs.currencyName}**` +
-          toFancyNum(amount) +
-          "\n`|         |`\n`|         |`";
-        machine = alter(msg.author.username.id, machine);
-        await message.edit(machine);
-        setTimeout(async function () {
-          machine =
-            "**`___SLOTS___`**\n" +
-            rslots[0] +
-            " " +
-            moving +
-            " " +
-            rslots[2] +
-            "    " +
-            msg.author.username +
-            ` bet **${dabs.currencyEmoji} ${dabs.currencyName}**` +
-            toFancyNum(amount) +
-            "\n`|         |`\n`|         |`";
-          machine = alter(msg.author.username.id, machine);
-          await message.edit(machine);
-          setTimeout(async function () {
-            machine =
-              "**`___SLOTS___`**\n " +
-              rslots[0] +
-              " " +
-              rslots[1] +
-              " " +
-              rslots[2] +
-              "    **" +
-              msg.author.username +
-              `** bet **${dabs.currencyEmoji} ${dabs.currencyName}**` +
-              toFancyNum(amount)+
-               
-              "\n`|         |`  and won " +
-              winmsg +
-              "\n`|         |`";
-            machine = alter(msg.author.username.id, machine);
-            message.edit(machine);
-          }, 1000);
-        }, 700);
-      }, 1000);
+
+
+
+
     }
   } catch (e) {
-    
+      console.log(e)
       msg.send(
         `I guess you dont have enough ${dabs.currencyEmoji} ${dabs.currencyName} use dab convert <amount> to convert your dabs`
       );
