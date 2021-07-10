@@ -79,19 +79,27 @@ class Slots extends Command {
       let logging = 0;
 
       let dabs = await getCurrency(msg.guild.id, db);
+      await withdrawBalance(
+        msg.author.id,
+        msg.guild.id,
+        -amount,
+        false,
+        db
+      );
       let embed = new MessageEmbed().setImage('https://cdn.dribbble.com/users/1648363/screenshots/3581559/slotmachine.gif')
       msg.send(`**${msg.author.username}** bet ${toFancyNum(amount)} ${dabs.currencyEmoji} ${dabs.currencyName}`, { embed: embed }).then(m => {
         setTimeout(async () => {
           if (rand == 4) {
-            win = 4
+            win = 4;
+            await withdrawBalance(
+              msg.author.id,
+              msg.guild.id,
+              parseInt(amount * 1.5),
+              false,
+              db
+            );
           }
-          await withdrawBalance(
-            msg.author.id,
-            msg.guild.id,
-            win === 4 ? parseInt(amount * 1.5) : -amount,
-            false,
-            db
-          );
+
           win == 4 ? m.edit(`**${msg.author.username}** bet ${toFancyNum(amount)} ${dabs.currencyEmoji} ${dabs.currencyName} and won **${toFancyNum(parseInt(amount * 1.5))}**`, { embed: loosembed }) : m.edit(`**${msg.author.username}** bet ${toFancyNum(amount)} ${dabs.currencyEmoji} ${dabs.currencyName}\n and lost.`, { embed: winembed })
 
         }, 3000)
