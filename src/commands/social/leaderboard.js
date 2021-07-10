@@ -26,9 +26,9 @@ class Leaderboard extends Command {
           let u = this.verifyMember(msg, element)
           sorted.push({ id: u.id, points: u.points })
         });
-        //fetchedMembers.sort((a, b) => parseInt(this.verifyMember(msg, a)) - parseInt(a.member.settings.points))
+        sorted.sort((a, b) => parseInt(b.points) - parseInt(a.points))
         const leaderboard = [];
-        const top = fetchedMembers
+        const top = sorted
 
         for (let i = 0; i < top.length; i++) {
           const u = top[i];
