@@ -166,6 +166,12 @@ async function getCurrency(id, db) {
         cryptoEnabled: false,
       };
 }
+async function topleaderboard(param, db) {
+  let server = db;
+  members = server.collection("members");
+  let lists = await members.find().sort({ points: -1 }).limit(20).toArray();
+  return lists;
+}
 async function checkStaked(id, userid, d) {
   let db = d;
   let pools = db.collection("pools");
@@ -344,4 +350,5 @@ module.exports = {
   channelEandD,
   withdrawBalance,
   transactionLog,
+  topleaderboard
 };
