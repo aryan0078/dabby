@@ -25,7 +25,7 @@ class Coin extends Command {
       const spin = "<a:flip:857700086728884264>";
       const heads = "<:coin:849002406124716113>";
       const tails = "<:coin:849002406124716113>";
-      const maxBet = 80000;
+      const maxBet = 40000;
       //Syntax Check
       let bet = 1,
         arg1 = args[0];

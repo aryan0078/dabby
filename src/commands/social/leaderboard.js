@@ -98,7 +98,7 @@ class Leaderboard extends Command {
     
     
       const pos = top.findIndex(user => user.id === msg.author.id)
-      const posTxt = pos == -1 ? "??" : (top.findIndex(user => user.id === msg.author.id) + 1).toString().padStart(2, "0");
+      const posTxt = pos == -1 ? "∞" : (top.findIndex(user => user.id === msg.author.id) + 1).toString().padStart(2, "0");
       leaderboard.push(
         `\n+ [${posTxt}] ❯ ${msg.author.tag}\n    => ${parseInt(
           msg.member.settings.points

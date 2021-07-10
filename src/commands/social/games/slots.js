@@ -26,7 +26,7 @@ class Slots extends Command {
     try {
 
 
-    const maxBet = 80000;
+      const maxBet = 40000;
     let args = amt;
 
     //Check arguments
@@ -85,14 +85,15 @@ class Slots extends Command {
           if (rand == 4) {
             win = 4
           }
-          win == 4 ? m.edit(`**${msg.author.username}** bet ${toFancyNum(amount)} ${dabs.currencyEmoji} ${dabs.currencyName} and won ${toFancyNum(amount * 2)}`, { embed: loosembed }) : m.edit(`**${msg.author.username}** bet ${toFancyNum(amount)} ${dabs.currencyEmoji} ${dabs.currencyName}\n and lost.`, { embed: winembed })
           await withdrawBalance(
             msg.author.id,
             msg.guild.id,
-            win === 4 ? parseInt(win * 2) : -amount,
+            win === 4 ? parseInt(amount * 1.5) : -amount,
             false,
             db
           );
+          win == 4 ? m.edit(`**${msg.author.username}** bet ${toFancyNum(amount)} ${dabs.currencyEmoji} ${dabs.currencyName} and won ${toFancyNum(amount * 2)}`, { embed: loosembed }) : m.edit(`**${msg.author.username}** bet ${toFancyNum(amount)} ${dabs.currencyEmoji} ${dabs.currencyName}\n and lost.`, { embed: winembed })
+
         }, 3000)
       })
 
