@@ -85,11 +85,11 @@ class Slots extends Command {
           if (rand == 4) {
             win = 4
           }
-          win == 4 ? m.edit(`**${msg.author.username}** bet ${toFancyNum(amount)} ${dabs.currencyEmoji} ${dabs.currencyName} and won`, { embed: loosembed }) : m.edit(`**${msg.author.username}** bet ${toFancyNum(amount)} ${dabs.currencyEmoji} ${dabs.currencyName}\n and lost.`, { embed: winembed })
+          win == 4 ? m.edit(`**${msg.author.username}** bet ${toFancyNum(amount)} ${dabs.currencyEmoji} ${dabs.currencyName} and won ${toFancyNum(amount * 2)}`, { embed: loosembed }) : m.edit(`**${msg.author.username}** bet ${toFancyNum(amount)} ${dabs.currencyEmoji} ${dabs.currencyName}\n and lost.`, { embed: winembed })
           await withdrawBalance(
             msg.author.id,
             msg.guild.id,
-            win === 4 ? parseInt(win * 1.5) : -amount,
+            win === 4 ? parseInt(win * 2) : -amount,
             false,
             db
           );
