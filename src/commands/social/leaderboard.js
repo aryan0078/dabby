@@ -14,6 +14,9 @@ class Leaderboard extends Command {
   async run(msg, [args, page]) {
     //page = this.verifyInt(page, 1);
     let db = this.client.dbClient;
+    if (!page || !parseInt(page) || page >= 25) {
+      page = 10
+    }
     db = await db.db();
     if (!args) {
       return replyError(msg, 'What do you want to see gloabl or server please type it with the command', 7000)
@@ -34,7 +37,7 @@ class Leaderboard extends Command {
 
       });
       sorted.sort((a, b) => parseInt(b.points) - parseInt(a.points))
-      for (let i = 0; i < 20; i++) {
+      for (let i = 0; i < page; i++) {
         const u = sorted[i];
 
 
@@ -53,7 +56,7 @@ class Leaderboard extends Command {
           msg.member.settings.points
         ).toLocaleString()} dabs`
       );
-      return msg.send(`Leaderboard\n\`\`\`\n${leaderboard.join("\n")}\`\`\``);
+      return msg.send(`**Top ${page} Ranking in server **\n\`\`\`\n${leaderboard.join("\n")}\`\`\``);
 
 
 
@@ -65,7 +68,7 @@ class Leaderboard extends Command {
 
 
       const leaderboard = [];
-      const top = await topleaderboard('param', db)
+      const top = await topleaderboard('param', page, db)
 
       for (let i = 0; i < top.length; i++) {
         const u = top[i];
@@ -90,7 +93,7 @@ class Leaderboard extends Command {
           msg.member.settings.points
         ).toLocaleString()} dabs`
       );
-      return msg.send(`Leaderboard\n\`\`\`\n${leaderboard.join("\n")}\`\`\``);
+      return msg.send(`**Top ${page} Ranking in Global**\n\`\`\`\n${leaderboard.join("\n")}\`\`\``);
     }
   }
 }

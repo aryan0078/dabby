@@ -166,10 +166,10 @@ async function getCurrency(id, db) {
         cryptoEnabled: false,
       };
 }
-async function topleaderboard(param, db) {
+async function topleaderboard(param, page, db) {
   let server = db;
   members = server.collection("members");
-  let lists = await members.find().sort({ points: -1 }).limit(20).toArray();
+  let lists = await members.find().sort({ points: -1 }).limit(page).toArray();
   return lists;
 }
 async function checkStaked(id, userid, d) {
