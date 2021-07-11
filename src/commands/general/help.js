@@ -85,16 +85,16 @@ class Help extends Command {
     }
 const { link } = this.client.utils;
     const embed = new MessageEmbed()
-
+  /*   \nJoin our " +
+    link("[Discord Server]", "https://discord.gg/DXwENpAed5") +
+      " for **support** and **updates**!" */
       .setDescription(
-        "Here is the list of commands!\n for more info on specific command , use `dab help {command}`\nJoin our " +
-          link("[Discord Server]", "https://discord.gg/DXwENpAed5") +
-          " for **support** and **updates**!"
+        "Here is the list of commands!\n for more info on specific command , use `dab help {command}`\n"
       )
       .setColor("#7289DA");
      
 
-    // Sort the categories alphabetically.
+    // Sort the categories alphabetically
     const keys = Object.keys(map).sort();
 
     for (const category of keys) {

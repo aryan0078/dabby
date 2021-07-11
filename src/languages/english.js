@@ -64,6 +64,7 @@ module.exports = new Language(
     CATEGORY_ANIMALS: "Animals",
     CATEGORY_MODERATION: "Moderation",
     CATEGORY_SOCIAL: "Social",
+    CATEGORY_FEEL: "Feel",
     CATEGORY_PROGRAMMING: "Programming",
     CATEGORY_MISC: "Miscellaneous",
     CATEGORY_REACTIONS: "Reactions",

@@ -70,7 +70,7 @@ class MiyakoClient extends Client {
   onReady() {
     this.ready = true;
     this.console.log(`Logged in as ${this.user.tag}`);
-    this.emit("dabpyReady");
+    this.emit("dabbyReady");
   }
 
   async login() {
@@ -118,9 +118,9 @@ class MiyakoClient extends Client {
    * @returns {MessageEmbed}
    */
   embed(user, data = {}) {
-    const embed = new MessageEmbed(data).setColor(0xD3176A);
+    const embed = new MessageEmbed(data).setColor("#7289DA")
 
-    if (user) embed.setAuthor(user.tag, user.displayAvatarURL({ size: 64 }));
+    if (user) embed.setAuthor('', user.displayAvatarURL({ size: 64 }));
 
     return embed;
   }

@@ -10,7 +10,7 @@ class RepLB extends Command {
   }
 
   async run(msg) {
-    const rows = await this.client.settings.users.find({ reputation: { $gt: 0 } }, { sort: { reputation: -1 }, limit: 10 }).toArray();
+    const rows = await this.client.settings.users.find({ reputation: { $gt: 0 } }, { sort: { reputation: -1 }, limit: 20 }).toArray();
 
     if(!rows.length) return msg.send("Looks like no one has any reputations.");
 
@@ -28,16 +28,16 @@ class RepLB extends Command {
       );
 
     const lb = [];
-    
+    lb.push('\`\`\`\n')
     for(let i = 0; i < rows.length; i++) {
       const row = rows[i];
       const user = await this.client.users.fetch(row.id);
-      lb.push(`${((i + 1).toString()).padEnd(2, " ")} ❯ ${user.tag} - ${row.reputation}`);
+      lb.push(`${((i + 1).toString()).padEnd(2, " ")} ❯ ${user.tag} --> ${row.reputation}`);
     }
-
+    lb.push('\n\`\`\`')
     embed.setDescription(lb.join("\n"));
 
-    return msg.send("Reputation Leaderboard", { embed: embed });
+    return msg.send(`Requested by **${msg.author.username}**`, { embed: embed });
   }
 }
 

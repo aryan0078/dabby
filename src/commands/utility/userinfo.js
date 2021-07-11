@@ -44,7 +44,7 @@ class UserInfo extends Command {
         true
       );
 
-    return msg.send("User info", { embed: embed });
+    return msg.send(`Requested by **${msg.author.username}**`, { embed: embed });
   }
 }
 

@@ -47,12 +47,24 @@ class GuildCreate extends Event {
       });
       
     }
+
+    guild.owner.send([
+      ">>> **Hey there, thanks for inviting me in to this wonderful server " + guild.name,
+      `Start by typing \`${guild.prefix} help\` to get a list of commands`,
+      "Use dab help to get a list of commands",
+      "Use dab stc to set server currency `dab sti {currencyName} {curencyEomji}`",
+      `Note: levelup messages are enabled by default if you found them annoying feel free to disable it using \`${guild.prefix} levelup disable\``,
+      "",
+      `If you still have any questions ask them in our server, use \`${guild.prefix} support\``,
+      "",
+      "Have a great day!**", ,
+    ].join("\n"))
     return join
       
       .send(
         
         [
-              "Hey there, thanks for inviting me in to this wonderful server",
+          ">>> **Hey there, thanks for inviting me in to this wonderful server " + guild.name,
               `Start by typing \`${guild.prefix} help\` to get a list of commands`,
               "Use dab help to get a list of commands",
               "Use dab stc to set server currency `dab sti {currencyName} {curencyEomji}`",
@@ -60,7 +72,7 @@ class GuildCreate extends Event {
               "",
               `If you still have any questions ask them in our server, use \`${guild.prefix} support\``,
               "",
-              "Have a great day!",,
+          "Have a great day!**", ,
             ].join("\n")
       
       )
