@@ -17,6 +17,7 @@ class Leaderboard extends Command {
     if (!page || !parseInt(page) || page >= 25) {
       page = 10
     }
+    page = parseInt(page)
     db = await db.db();
     if (!args) {
       return replyError(msg, 'What do you want to see gloabl or server please type it with the command', 7000)
