@@ -2,6 +2,7 @@ const Command = require("../../structures/Command.js");
 const {getCurrency, getCurrencyBalance} =require("../../structures/database.js");
 const { toFancyNum } = require("../../utils/constants.js");
 
+
 class Profile extends Command {
   constructor(...args) {
     super(...args, {
