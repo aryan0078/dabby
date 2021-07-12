@@ -1,7 +1,7 @@
 const Command = require("../../structures/Command.js");
-/* const { getCurrency } = require("../../structures/database.js");
+const { getCurrency } = require("../../structures/database.js");
 const {MessageButton,MessageActionRow}=require("discord-buttons");
-const { toFancyNum, replyError } = require("../../utils/constants.js"); */
+const { toFancyNum, replyError } = require("../../utils/constants.js");
 class Request extends Command {
   constructor(...args) {
     super(...args, {
@@ -14,8 +14,8 @@ class Request extends Command {
   }
 
   async run(msg, [member, amount, ...reason]) {
-    return msg.send('Coming Soon....')
-    /* member = await this.verifyMember(msg, member);
+    /*  return msg.send('Coming Soon....') */
+    member = await this.verifyMember(msg, member);
     amount = this.verifyInt(amount);
 
     let db = this.client.dbClient;
@@ -69,16 +69,16 @@ class Request extends Command {
       member.send(
         `**${msg.author.username}** is requesting for **${toFancyNum(
           amount
-        )}** <:dabs:851218687255773194> dabs reason:\n${
-          reason ? reason.join(" ") : "Not provided"
+        )}** <:dabs:851218687255773194> dabs reason:\n${reason ? reason.join(" ") : "Not provided"
         }`,
         row
       );
     } catch (err) {
       msg.send(`**<@${member.id}>** dm is off can't request`);
     }
-  } */
   }
+
+
 }
 
 module.exports = Request;

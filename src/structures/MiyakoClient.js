@@ -19,16 +19,16 @@ class MiyakoClient extends Client {
       messageCacheMaxSize: 100,
       messageCacheLifetime: 240,
       messageSweepInterval: 300,
-      /* ws: {
+      ws: {
         intents: [
-          "GUILD_PRESENCES",
+          /*  "GUILD_PRESENCES", */
           "GUILDS",
           "GUILD_MEMBERS",
           "GUILD_MESSAGES",
           "GUILD_MESSAGE_REACTIONS",
           "DIRECT_MESSAGES",
         ],
-      }, */
+      },
     });
 
     this.dev = dev;
@@ -67,9 +67,14 @@ class MiyakoClient extends Client {
     this.db = null;
   }
 
-  onReady() {
+  async onReady() {
     this.ready = true;
     this.console.log(`Logged in as ${this.user.tag}`);
+
+    this.user.setActivity(`${this.guilds.cache.size} servers`, {
+      type: "WATCHING",
+      url: "https://discord.com/api/oauth2/authorize?client_id=784717683454378024&permissions=2081291377&scope=bot"
+    });
     this.emit("dabbyReady");
   }
 
