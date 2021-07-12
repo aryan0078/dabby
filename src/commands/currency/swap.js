@@ -19,10 +19,8 @@ class Convert extends Command {
   }
 
   async run(msg, amount) {
-    if (amount == "all") {
-      amount = result.amount > 80000 ? 80000 : result.amount;
-    }
-    let amt = parseInt(amount);
+
+
     let db = this.client.dbClient;
     db = await db.db();
     let currency = await getCurrency(msg.guild.id, db);
@@ -34,8 +32,12 @@ class Convert extends Command {
       );
       return;
     }
-
     let result = msg.member.settings.points;
+    if (amount == "all") {
+      amount = result.amount > 80000 ? 80000 : result.amount;
+    }
+    let amt = parseInt(amount);
+
     if (!amt) {
       replyError(
         msg,
