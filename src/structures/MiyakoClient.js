@@ -71,7 +71,7 @@ class MiyakoClient extends Client {
     this.ready = true;
     this.console.log(`Logged in as ${this.user.tag}`);
 
-    setTimeout(() => {
+    setInterval(() => {
       this.user.setActivity(`${this.guilds.cache.size} servers`, {
       type: "WATCHING",
       url: "https://discord.com/api/oauth2/authorize?client_id=784717683454378024&permissions=2081291377&scope=bot"

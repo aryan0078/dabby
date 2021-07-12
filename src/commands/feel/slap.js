@@ -26,7 +26,8 @@ class Slap extends Command {
             .setImage(url)
             .setFooter(`from ${msg.member.displayName}`, msg.author.displayAvatarURL())
 
-        return msg.send(``, { embed });
+
+        return msg.send(`Requested by **${msg.author.username}**`, { embed: embed });
     }
 }
 
