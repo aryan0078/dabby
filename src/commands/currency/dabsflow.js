@@ -1,6 +1,6 @@
 const Command = require("../../structures/Command.js");
 const { dabbyflowchart } = require("../../structures/database.js");
-const { toFancyNum } = require("../../utils/constants.js");
+const { toFancyNum, replyError } = require("../../utils/constants.js");
 
 class DabFlowCommand extends Command {
   constructor(...args) {
@@ -14,7 +14,8 @@ class DabFlowCommand extends Command {
   }
 
   async run(msg) {
-    let db = this.client.dbClient;
+    if (msg.author.id == "741908851363938364") {
+      let db = this.client.dbClient;
     db = await db.db();
     let u = await db.collection("members");
     //let cash = await u.find().toArray();
@@ -43,6 +44,9 @@ class DabFlowCommand extends Command {
         )}** <:dabs:851218687255773194> in flow`
       );
     });
+    } else {
+      return replyError(msg, 'This command is only for partners and owners', 5000)
+    }
   }
 }
 
