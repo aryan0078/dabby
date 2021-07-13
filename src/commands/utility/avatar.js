@@ -12,7 +12,7 @@ class Avatar extends Command {
   async run(msg, [userArg]) {
     const user = await this.verifyUser(msg, userArg, true);
     
-    return msg.send("Avatar", {
+    return msg.send(`Requested by **${msg.author.id}** ${await this.beta(msg) ? this.betaemoji : ''}`, {
       embed: this.client
         .embed(user)
         .setTitle(msg.tr("COMMAND_AVATAR_TITLE", user.username))

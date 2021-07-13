@@ -131,7 +131,8 @@ class MiyakoClient extends Client {
 
     return embed;
   }
-  
+
+
   async init() {
     // Load pieces.
     const [commands, events, monitors] = await Promise.all([

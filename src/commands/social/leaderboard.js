@@ -76,7 +76,7 @@ class Leaderboard extends Command {
           msg.member.settings.points
         ).toLocaleString()} dabs`
       );
-      return msg.send(`Requested by **${msg.author.username}** \n\`\`\`\n🎖️ Top ${page} Dab Holders in ${msg.guild.name} Server\n\n${leaderboard.join("\n")}\n\n${timestamp}\n\`\`\``);
+      return msg.send(`Requested by **${msg.author.username} ${await this.beta(msg) ? this.betaemoji : ''}** \n\`\`\`\n🎖️ Top ${page} Dab Holders in ${msg.guild.name} Server\n\n${leaderboard.join("\n")}\n\n${timestamp}\n\`\`\``);
 
 
 
@@ -132,7 +132,7 @@ class Leaderboard extends Command {
       );
 
 
-      return msg.send(`Requested by **${msg.author.username}** \n\`\`\`\n🎖️ Globally Top ${page} Dab Holders \n\n${leaderboard.join("\n")}\n\n${timestamp}\n\`\`\``);
+      return msg.send(`Requested by **${msg.author.username}** ${await this.beta(msg) ? this.betaemoji : ''} \n\`\`\`\n🎖️ Globally Top ${page} Dab Holders \n\n${leaderboard.join("\n")}\n\n${timestamp}\n\`\`\``);
     }
   }
 }

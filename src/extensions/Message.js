@@ -86,6 +86,7 @@ module.exports = Structures.extend(
         }
 
         // Condition 3: No previous reply to edit. Send a reply and save it.
+
         const sent = await this.channel.send(transformedOptions);
 
         // Store the response for editing.

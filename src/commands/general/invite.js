@@ -11,7 +11,7 @@ class Invite extends Command {
   async run(msg, args) { // eslint-disable-line no-unused-vars
     const { link } = this.client.utils;
 
-    return msg.send(`Requested by **${msg.author.username}**`, {
+    return msg.send(`Requested by **${msg.author.username}** ${await this.beta(msg) ? this.betaemoji : ''}`, {
       embed: this.client
         .embed(this.client.user)
         .setColor("#7289DA")

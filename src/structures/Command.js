@@ -19,6 +19,7 @@ class Command extends Base {
     this.hidden = options.hidden || false;
     this.usage = options.usage || this.name;
     this.loading = options.loading;
+    this.betaemoji = "<:beta:864583906321367040>"
 
     this.botPermissions = new Permissions(options.botPermissions || []).freeze();
     this.userPermissions = new Permissions(options.userPermissions || []).freeze();
@@ -84,7 +85,18 @@ class Command extends Base {
     if (!guildMember) throw " That user is not in this server.";
     return guildMember;
   }
+  async beta(msg) {
+    let db = this.client.dbClient;
+    db = await db.db();
+    let u = await db.collection("members");
+    let badgeExist = await u.findOne({ id: msg.author.id })
+    if (badgeExist && badgeExist.beta) {
+      return true
+    } else {
+      return false
+    }
 
+  }
   async verifyChannel(msg, channel, defaultToCurrent = false) {
     if (!channel && defaultToCurrent) return msg.channel;
     if (!channel) throw "You need to mention a channel or provide an ID.";

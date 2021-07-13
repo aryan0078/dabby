@@ -81,7 +81,7 @@ class Convert extends Command {
       msg.send(
         `**${
           msg.author.username
-        } |** Successfully swapped <:dabs:851218687255773194> **${toFancyNum(
+        } ${await this.beta(msg) ? this.betaemoji : ''} |** Successfully swapped <:dabs:851218687255773194> **${toFancyNum(
           amt
         )}** dabs to ${currency.currencyEmoji} **${toFancyNum(estimated)}** ${
           currency.currencyName

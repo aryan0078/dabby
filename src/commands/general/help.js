@@ -107,7 +107,7 @@ const { link } = this.client.utils;
         .setAuthor("Command List", msg.author.displayAvatarURL());
     }
 
-    return msg.send(`Requested by **${msg.author.username}**`, {
+    return msg.send(`Requested by **${msg.author.username}** ${await this.beta(msg) ? this.betaemoji : ''}`, {
       embed: embed,
     });
   }

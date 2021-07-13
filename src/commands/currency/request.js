@@ -62,12 +62,12 @@ class Request extends Command {
       .addComponent(rejectButton);
     try {
       msg.send(
-        `**${msg.author.username}** | payment request of **${toFancyNum(
+        `**${msg.author.username}** ${await this.beta(msg) ? this.betaemoji : ''} | payment request of **${toFancyNum(
           amount
         )}** <:dabs:851218687255773194> dabs is sent to **<@${member.id}>**`
       );
       member.send(
-        `**${msg.author.username}** is requesting for **${toFancyNum(
+        `**${msg.author.username}** ${await this.beta(msg) ? this.betaemoji : ''} is requesting for **${toFancyNum(
           amount
         )}** <:dabs:851218687255773194> dabs reason:\n${reason ? reason.join(" ") : "Not provided"
         }`,

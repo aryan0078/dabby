@@ -25,7 +25,7 @@ class Convert extends Command {
     let serverVal = await serverValue(msg.guild, msg);
     let estimated = Math.round((amt / serverVal) * 100);
     return msg.send(
-      `**${msg.author.username} |** You will receive **${estimated} ${currency.currencyEmoji}** ${currency.currencyName}  for **${amt} dabs** <:dabs:851218687255773194>`
+      `**${msg.author.username} ${await this.beta(msg) ? this.betaemoji : ''} |** You will receive **${estimated} ${currency.currencyEmoji}** ${currency.currencyName}  for **${amt} dabs** <:dabs:851218687255773194>`
     );
   }
 }

@@ -64,7 +64,7 @@ class ServerInfo extends Command {
       .addField("❯ Members", `${msg.guild.memberCount}`, true)
       .addField("❯ Ban Count", bans, true);
 
-    return msg.send(`Requested by **${msg.author.username}**`, { embed: embed });
+    return msg.send(`Requested by **${msg.author.username}** ${await this.beta(msg) ? this.betaemoji : ''}`, { embed: embed });
   }
 }
 

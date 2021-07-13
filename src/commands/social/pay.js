@@ -45,7 +45,9 @@ class Pay extends Command {
         `You don't have enough ${dabs.currencyEmoji} ${dabs.currencyName}`
       );
     }
-   
+    if (!result.amount) {
+      return replyError(msg, 'Please check your balance then pay', 5000)
+    }
     if (member.id === msg.author.id)
       return msg.send(" Why would you pay yourself?");
     if (member.user.bot) return msg.send(" You can't pay bots.");

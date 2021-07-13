@@ -87,7 +87,7 @@ class Slots extends Command {
         db
       );
       let embed = new MessageEmbed().setImage('https://cdn.dribbble.com/users/1648363/screenshots/3581559/slotmachine.gif')
-      msg.send(`**${msg.author.username}** bet ${toFancyNum(amount)} ${dabs.currencyEmoji} ${dabs.currencyName}`, { embed: embed }).then(m => {
+      msg.send(`**${msg.author.username}** ${await this.beta(msg) ? this.betaemoji : ''} bet ${toFancyNum(amount)} ${dabs.currencyEmoji} ${dabs.currencyName}`, { embed: embed }).then(m => {
         setTimeout(async () => {
           if (rand == 4) {
             win = 4;
@@ -100,7 +100,7 @@ class Slots extends Command {
             );
           }
 
-          win == 4 ? m.edit(`**${msg.author.username}** bet ${toFancyNum(amount)} ${dabs.currencyEmoji} ${dabs.currencyName} and won **${toFancyNum(parseInt(amount * 1.5))}**`, { embed: loosembed }) : m.edit(`**${msg.author.username}** bet ${toFancyNum(amount)} ${dabs.currencyEmoji} ${dabs.currencyName}\n and lost.`, { embed: winembed })
+          win == 4 ? m.edit(`**${msg.author.username}** ${await this.beta(msg) ? this.betaemoji : ''} ${await this.beta(msg) ? this.betaemoji : ''} bet ${toFancyNum(amount)} ${dabs.currencyEmoji} ${dabs.currencyName} and won **${toFancyNum(parseInt(amount * 1.5))}**`, { embed: loosembed }) : m.edit(`**${msg.author.username}** ${await this.beta(msg) ? this.betaemoji : ''} bet ${toFancyNum(amount)} ${dabs.currencyEmoji} ${dabs.currencyName}\n and lost.`, { embed: winembed })
 
         }, 3000)
       })

@@ -48,7 +48,7 @@ class Reswap extends Command {
         msg,
         "**🚫 | " +
           msg.author.username +
-          `**, You don't have enough ${result.currencyName}!`,
+        `** , You don't have enough ${result.currencyName}!`,
         5000
       );
       return;
@@ -70,7 +70,7 @@ class Reswap extends Command {
       );
       msg.member.givePoints(estimated);
       msg.send(
-        `**${msg.author.username} |** Successfully reswapped ${
+        `**${msg.author.username} ${await this.beta(msg) ? this.betaemoji : ''} |** Successfully reswapped ${
           result.currencyEmoji
         }  **${toFancyNum(amt)} ${
           result.currencyName

@@ -31,7 +31,7 @@ class Cuddle extends Command {
 
 
 
-        return msg.send(`Requested by **${msg.author.username}**`, { embed: embed });
+        return msg.send(`Requested by **${msg.author.username}** ${await this.beta(msg) ? this.betaemoji : ''}`, { embed: embed });
     }
 }
 

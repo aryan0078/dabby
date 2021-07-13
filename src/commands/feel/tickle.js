@@ -27,7 +27,7 @@ class Tickle extends Command {
             .setFooter(`by ${msg.member.displayName}`, msg.author.displayAvatarURL())
 
 
-        return msg.send(`Requested by **${msg.author.username}**`, { embed: embed });
+        return msg.send(`Requested by **${msg.author.username}** ${await this.beta(msg) ? this.betaemoji : ''}`, { embed: embed });
     }
 }
 

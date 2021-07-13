@@ -21,6 +21,12 @@ class Points extends Command {
     await member.syncSettings();
     let db = this.client.dbClient;
     db = await db.db();
+    let beta = false;
+    let emoji = '<:beta:864583906321367040>'
+    if (msg.member.settings.beta) {
+      beta = true;
+
+    }
 
     let user_ = db.collection("members");
     let dabs = await getCurrency(msg.guild.id, db);
@@ -37,7 +43,7 @@ class Points extends Command {
     try {
       wallets = await user_.findOne({ id: msg.author.id });
       let bal = await getCurrencyBalance(msg.author.id, msg.guild.id, db);
-      let walstr = `**${msg.author.username}**, you have \n`;
+      let walstr = `**${msg.author.username}** ${await this.beta(msg) ? this.betaemoji : ''}, you have \n`;
 
       if (!bal) {
         bal = dabs;
