@@ -104,7 +104,7 @@ class Coin extends Command {
 
         result = result;
 
-        let text = `${await this.badge(msg)} **|** ` +
+        let text = `${await this.badge(msg)} | ` +
           "**" +
           msg.member.displayName + ` ${await this.beta(msg) ? this.betaemoji : ''}`
           "** spent **" +

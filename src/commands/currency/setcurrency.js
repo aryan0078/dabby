@@ -54,7 +54,7 @@ let server = db.collection("guilds");
         id: msg.guild.id,
 
         currencyEmoji: emojiID,
-        currencyName: currencyName + " coins",
+        currencyName: currencyName + " tokens",
         cryptoEnabled: true,
       });
       msg.send("Successfully updated the currency settings");
@@ -66,7 +66,7 @@ let server = db.collection("guilds");
         {
           $set: {
             currencyEmoji: emojiID,
-            currencyName: currencyName + " coins",
+            currencyName: currencyName + " tokens",
             cryptoEnabled: true,
           },
         }
@@ -79,7 +79,7 @@ let server = db.collection("guilds");
       {
         $set: {
           currencyEmoji: emojiID,
-          currencyName: currencyName + " coins",
+          currencyName: currencyName + " tokens",
           cryptoEnabled: true,
         },
       }
