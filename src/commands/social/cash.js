@@ -43,17 +43,15 @@ class Points extends Command {
     try {
       wallets = await user_.findOne({ id: msg.author.id });
       let bal = await getCurrencyBalance(msg.author.id, msg.guild.id, db);
-      let walstr = `**${msg.author.username}** ${await this.beta(msg) ? this.betaemoji : ''}, you have \n`;
+      let walstr = `>>> ${await this.badge(msg)} **|** **${msg.author.username}** ${await this.beta(msg) ? this.betaemoji : ''}, \n`;
 
       if (!bal) {
         bal = dabs;
         bal["amount"] = 0;
       }
       walstr +=
-        `**${bal.currencyEmoji} | **you own ` +
-        `**${toFancyNum(bal.amount)}** ${bal.currencyName} from **${
-          msg.guild.name
-        }** `;
+        `you have ` +
+        `**${toFancyNum(bal.amount)}** ${bal.currencyEmoji} ${bal.currencyName}`;
       if (!wallets.wallet) {
         wallets["wallet"] = [];
       }
@@ -80,12 +78,12 @@ class Points extends Command {
         wallets.wallet.length > 4
           ? `and **${
               wallets.wallet.length - 4
-            }** more ... \n<:dabs:851218687255773194> **|** you own **${toFancyNum(
+        }** more ... \nand **${toFancyNum(
               member.settings.points
-            )}** dabs `
-          : `\n<:dabs:851218687255773194> | Dabs: **${toFancyNum(
+        )}** <:dabs:851218687255773194> dabs `
+        : `\n **${toFancyNum(
               member.settings.points
-            )}**  Dabs`;
+          )}** <:dabs:851218687255773194> dabs`;
       msg.send(walstr);
     } catch (e) {
       console.log(e);

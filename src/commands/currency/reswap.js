@@ -70,7 +70,7 @@ class Reswap extends Command {
       );
       msg.member.givePoints(estimated);
       msg.send(
-        `**${msg.author.username} ${await this.beta(msg) ? this.betaemoji : ''} |** Successfully reswapped ${
+        `${await this.badge(msg)} **| ${msg.author.username} ${await this.beta(msg) ? this.betaemoji : ''} |** Successfully reswapped ${
           result.currencyEmoji
         }  **${toFancyNum(amt)} ${
           result.currencyName

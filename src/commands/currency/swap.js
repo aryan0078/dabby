@@ -79,7 +79,7 @@ class Convert extends Command {
       );
 
       msg.send(
-        `**${
+        `${await this.badge(msg)} **| ${
           msg.author.username
         } ${await this.beta(msg) ? this.betaemoji : ''} |** Successfully swapped <:dabs:851218687255773194> **${toFancyNum(
           amt

@@ -104,7 +104,7 @@ class Coin extends Command {
 
         result = result;
 
-        let text =
+        let text = `${await this.badge(msg)} **|** ` +
           "**" +
           msg.member.displayName + ` ${await this.beta(msg) ? this.betaemoji : ''}`
           "** spent **" +
@@ -144,7 +144,7 @@ class Coin extends Command {
       }
     } catch (e) {
       msg.send(
-        `**${msg.author.username} ${await this.beta(msg) ? this.betaemoji : ''} |** I guess you dont have enough ${flaps} use **dab convert <amount>** to convert your dabs`
+        `${await this.badge(msg)} **| ${msg.author.username} ${await this.beta(msg) ? this.betaemoji : ''} |** I guess you dont have enough ${flaps} use **dab convert <amount>** to convert your dabs`
       );
     }
   }

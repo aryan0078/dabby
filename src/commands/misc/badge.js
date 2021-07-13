@@ -18,11 +18,7 @@ class Badge extends Command {
 
     if (isNaN(parseInt(set)) || (parseInt(set) < 0 || parseInt(set) > 5))
       return msg.send("Set must be a number between 1 to 5");
-    let badges = {
-      "1": { emoji: '<:bughunter:864570206894686238>', name: 'Bug Hunter', id: 1 }, "2": { id: 2, emoji: '<:supporter:864572703918129172>', name: 'Supporter' }, "3": { id: 3, emoji: '<:partner:864571816932933672>', name: 'Partner' }, "4": { name: 'Beta User', emoji: '<:beta:864583906321367040>' }, "5": { name: 'Top Global', emoji: '<:TopGlobal:864596160547127297>' }, "6": {
-        emoji: '<:reputation:864607883949375498>', name: "Reputed one's"
-      }
-    }
+    let badges = this.badges
     let embeds = [];
     let db = this.client.dbClient;
     db = await db.db();
@@ -40,7 +36,7 @@ class Badge extends Command {
     let em = new MessageEmbed()
       .setDescription(b)
       .setColor("#7289DA");
-    return msg.send(`Badges of **${msg.author.username}** ${await this.beta(msg) ? this.betaemoji : ''}`, { embed: em })
+    return msg.send(`${await this.badge(msg)} **|** Badges of **${msg.author.username}** ${await this.beta(msg) ? this.betaemoji : ''}`, { embed: em })
 
   }
 }

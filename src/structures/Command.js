@@ -20,7 +20,11 @@ class Command extends Base {
     this.usage = options.usage || this.name;
     this.loading = options.loading;
     this.betaemoji = "<:beta:864583906321367040>"
-
+    this.badges = {
+      "1": { emoji: '<:bughunter:864570206894686238>', name: 'Bug Hunter', id: 1 }, "2": { id: 2, emoji: '<:supporter:864572703918129172>', name: 'Supporter' }, "3": { id: 3, emoji: '<:partner:864571816932933672>', name: 'Partner' }, "4": { name: 'Beta User', emoji: '<:beta:864583906321367040>' }, "5": { name: 'Top Global', emoji: '<:TopGlobal:864596160547127297>' }, "6": {
+        emoji: '<:reputation:864607883949375498>', name: "Reputed one's"
+      }
+    }
     this.botPermissions = new Permissions(options.botPermissions || []).freeze();
     this.userPermissions = new Permissions(options.userPermissions || []).freeze();
 
@@ -95,6 +99,19 @@ class Command extends Base {
     } else {
       return false
     }
+
+  }
+  async badge(msg) {
+    let db = this.client.dbClient;
+    db = await db.db();
+    let u = await db.collection("members");
+    let badgeExist = await u.findOne({ id: msg.author.id });
+    if (badgeExist.badge) {
+      return this.badges[badgeExist.badge].emoji
+    } else {
+      return this.badges[badgeExist.badges[0].badgeid].emoji
+    }
+
 
   }
   async verifyChannel(msg, channel, defaultToCurrent = false) {

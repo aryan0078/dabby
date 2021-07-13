@@ -30,7 +30,7 @@ class Claim extends Command {
     if (c) {
       msg.member.givePoints(c.amount);
       return msg.send(
-        `**${
+        `${await this.badge(msg)} **| ${
           msg.author.username
         } ${await this.beta(msg) ? this.betaemoji : ''} |** You have successfully claimed **${toFancyNum(
           c.amount

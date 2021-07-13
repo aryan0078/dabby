@@ -37,7 +37,7 @@ class RepLB extends Command {
     lb.push('\n\`\`\`')
     embed.setDescription(lb.join("\n"));
 
-    return msg.send(`Requested by **${msg.author.username}** ${await this.beta(msg) ? this.betaemoji : ''}`, { embed: embed });
+    return msg.send(`${await this.badge(msg)} **|** Requested by **${msg.author.username}** ${await this.beta(msg) ? this.betaemoji : ''}`, { embed: embed });
   }
 }
 
