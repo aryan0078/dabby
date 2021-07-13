@@ -329,6 +329,7 @@ async function getdabbal(id, d) {
   let c = db.collection("members");
   return c.findOne({ id: id });
 }
+
 module.exports = {
   claimCode,
   generateCoupons,

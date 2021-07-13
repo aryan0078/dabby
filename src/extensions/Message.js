@@ -7,7 +7,9 @@ module.exports = Structures.extend(
   (Message) =>
     class MiyakoMessage extends Message {
       constructor(...args) {
-        super(...args);
+        try { super(...args); } catch (error) {
+          console.log(error)
+        }
         // Last response sent if any, for editing.
         this.lastResponse = null;
         // The used alias to invoke the command.

@@ -1,4 +1,6 @@
+const { MessageEmbed } = require("discord.js");
 const Command = require("../../structures/Command.js");
+const { replyError } = require("../../utils/constants.js");
 
 
 class Badge extends Command {
@@ -14,21 +16,30 @@ class Badge extends Command {
   async run(msg, [user, set = 1]) {
     user = await this.verifyUser(msg, user, true);
 
-    if(isNaN(parseInt(set)) || (parseInt(set) < 0 || parseInt(set) > 5))
+    if (isNaN(parseInt(set)) || (parseInt(set) < 0 || parseInt(set) > 5))
       return msg.send("Set must be a number between 1 to 5");
+    let badges = {
+      "1": { emoji: '<:bughunter:864570206894686238>', name: 'Bug Hunter', id: 1 }, "2": { id: 2, emoji: '<:supporter:864572703918129172>', name: 'Supporter' }, "3": { id: 3, emoji: '<:partner:864571816932933672>', name: 'Partner' }
+    }
+    let embeds = [];
+    let db = this.client.dbClient;
+    db = await db.db();
+    let u = await db.collection("members");
+    let badgeExist = await u.findOne({ id: msg.author.id });
+    if (!badgeExist || !badgeExist.badges) {
+      return replyError(msg, 'You dont have any badges', 5000)
+    }
 
-    return msg.send("Badge", {
-      embed: this.client
-        .embed()
-        .setImage(`https://robohash.org/${user.id}?set=set${set}`)
-        .setColor("#7289DA")
-        .setTitle(`${user.tag}'s unique RoboHash.org Set ${set} Avatar.`)
-        .setFooter(
-          `Requested by ${msg.author.tag}`,
-          msg.author.displayAvatarURL({ size: 64 })
-        )
-        .setTimestamp(),
-    });
+    let b = '';
+    badgeExist.badges.forEach(ba => {
+
+      b += `${badges[ba.badgeid].emoji} **${badges[ba.badgeid].name}**\n`
+    })
+    let em = new MessageEmbed()
+      .setDescription(b)
+      .setColor("#7289DA");
+    return msg.send(`Badges of **${msg.author.username}**`, { embed: em })
+
   }
 }
 

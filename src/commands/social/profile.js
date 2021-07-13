@@ -1,8 +1,8 @@
 const Command = require("../../structures/Command.js");
 const {getCurrency, getCurrencyBalance} =require("../../structures/database.js");
 const { toFancyNum } = require("../../utils/constants.js");
-
-
+const base64 = require('node-base64-image');
+const fetch = require('node-fetch')
 class Profile extends Command {
   constructor(...args) {
     super(...args, {
@@ -16,6 +16,7 @@ class Profile extends Command {
     member = await this.verifyMember(msg, member, true);
     let db = this.client.dbClient;
     db = await db.db();
+    let name = 'df'
     if (member.user.bot) return msg.send(" You can't view a bot's profile.");
     let dabs = await getCurrency(msg.guild.id, db);
     let bal = await getCurrencyBalance(msg.author.id, msg.guild.id, db);
@@ -46,6 +47,13 @@ class Profile extends Command {
       .addField("Dab invites", `**${bal.invites ? bal.invites : 0}**`)
 
       .addField(msg.tr("COMMAND_PROFILE_REP"), member.user.settings.reputation);
+    /*  const outputBuffer = await svg2png({
+       input: ,
+       encoding: 'buffer',
+       format: 'png',
+       quality: 1
+     }) */
+
 
     return msg.send(`Requested by **${msg.author.username}**`, { embed: embed });
   }
