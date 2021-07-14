@@ -77,6 +77,7 @@ class Slots extends Command {
                 let winembed = new MessageEmbed().setImage('https://cdn.discordapp.com/attachments/864952156033253416/864963981176995840/winning.gif').setFooter(`${ran_mem.username} , Lost`)
                 let loseembed = new MessageEmbed().setImage('https://cdn.discordapp.com/attachments/864952156033253416/864963999733121054/loosing.gif').setFooter(`${ran_mem.username} , Won ${toFancyNum(amount)}`)
                 let rslots = [];
+                let dmwon = new MessageEmbed().setImage('https://cdn.discordapp.com/attachments/864952156033253416/864963981176995840/winning.gif').setFooter(`${ran_mem.username} , Won ${amount}`)
                 let rand = await random(4, 6);
                 let percentage = 2;
                 let win = 0;
@@ -93,7 +94,7 @@ class Slots extends Command {
                         } else {
                             await givedabs(random_user.id, amount, db);
                             try {
-                                await ran_mem.send(`** ${msg.author.username} ** ${await this.beta(msg) ? this.betaemoji : ''} Participated in the race for ** ${toFancyNum(amount)} ** <:dabs:851218687255773194> dabs \n and lost but you won`, { embed: winembed });
+                                await ran_mem.send(`** ${msg.author.username} ** ${await this.beta(msg) ? this.betaemoji : ''} Participated in the race for ** ${toFancyNum(amount)} ** <:dabs:851218687255773194> dabs \n and lost but you won **${toFancyNum(amount)}**\n use **dab race {amount}**\nExample-: dab race 100\nto race against random users`, { embed: dmwon });
                             } catch (er) {
                                 console.log('Cant dm')
                             }
