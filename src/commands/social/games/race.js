@@ -78,7 +78,7 @@ class Slots extends Command {
                 let loseembed = new MessageEmbed().setImage('https://cdn.discordapp.com/attachments/864952156033253416/864963999733121054/loosing.gif').setFooter(`${ran_mem.username} , Won ${toFancyNum(amount)}`)
                 let rslots = [];
                 let dmwon = new MessageEmbed().setImage('https://cdn.discordapp.com/attachments/864952156033253416/864963981176995840/winning.gif').setFooter(`${ran_mem.username} , Won ${amount}`)
-                let rand = await random(4, 6);
+                let rand = await random(4, 5);
                 let percentage = 2;
                 let win = 0;
                 let logging = 0;

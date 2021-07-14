@@ -76,7 +76,7 @@ class Slots extends Command {
       //Decide results
      
       let rslots = [];
-      let rand = await random(4, 6);
+      let rand = await random(4, 5);
       let percentage = 2;
       let win = 0;
       let logging = 0;
