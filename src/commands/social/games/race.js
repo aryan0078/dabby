@@ -94,7 +94,7 @@ class Slots extends Command {
                         } else {
                             await givedabs(random_user.id, amount, db);
                             try {
-                                await ran_mem.send(`** ${msg.author.username} ** ${await this.beta(msg) ? this.betaemoji : ''} Participated in the race for ** ${toFancyNum(amount)} ** <:dabs:851218687255773194> dabs \n and lost but you won **${toFancyNum(amount)}**\n use **dab race {amount}**\nExample-: dab race 100\nto race against random users`, { embed: dmwon });
+                                await ran_mem.send(`** ${msg.author.username} ** ${await this.beta(msg) ? this.betaemoji : ''} Participated in the race for ** ${toFancyNum(amount)} ** <:dabs:851218687255773194> dabs and lost but you won **${toFancyNum(amount)} <:dabs:851218687255773194> dabs **\nuse **dab race {amount}**\nExample-: dab race 100\nto race against random users`, { embed: dmwon });
                             } catch (er) {
                                 console.log('Cant dm')
                             }
