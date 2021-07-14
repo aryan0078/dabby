@@ -54,20 +54,20 @@ class Slots extends Command {
 
     //Check if valid time and flaps
 
-    let result = await getCurrencyBalance(msg.author.id, msg.guild.id, db);
+      let result = msg.member.settings.points;
 
-    if (all && result.amount != undefined) amount = result.amount;
+      if (all && result != undefined) amount = result;
     if (maxBet && amount > maxBet) amount = maxBet;
     if (
-      result.amount == undefined ||
-      result.amount < amount ||
-      result.amount <= 0
+      result == undefined ||
+      result < amount ||
+      result <= 0
     ) {
       replyError(
         msg,
         "**🚫 | " +
           msg.author.username +
-          `**, You don't have enough ${dabs.currencyEmoji} ${dabs.currencyName}!`,
+        `**, You don't have enough <:dabs:851218687255773194> dabs!`,
         3000
       );
     } else {
@@ -75,32 +75,20 @@ class Slots extends Command {
      
       let rslots = [];
       let rand = await random(3, 5);
+      let percentage = await random(1, 3)
       let win = 0;
       let logging = 0;
 
-      let dabs = await getCurrency(msg.guild.id, db);
-      await withdrawBalance(
-        msg.author.id,
-        msg.guild.id,
-        -amount,
-        false,
-        db
-      );
+      let dabs = msg.member.takePoints(amount);
       let embed = new MessageEmbed().setImage('https://cdn.dribbble.com/users/1648363/screenshots/3581559/slotmachine.gif')
-      msg.send(`**${msg.author.username}** ${await this.beta(msg) ? this.betaemoji : ''} bet ${toFancyNum(amount)} ${dabs.currencyEmoji} ${dabs.currencyName}`, { embed: embed }).then(m => {
+      msg.send(`**${msg.author.username}** ${await this.beta(msg) ? this.betaemoji : ''} bet **${toFancyNum(amount)}** <:dabs:851218687255773194> dabs`, { embed: embed }).then(m => {
         setTimeout(async () => {
           if (rand == 4) {
             win = 4;
-            await withdrawBalance(
-              msg.author.id,
-              msg.guild.id,
-              parseInt(amount * 1.5),
-              false,
-              db
-            );
+            msg.member.givePoints(amount * percentage);
           }
 
-          win == 4 ? m.edit(`**${msg.author.username}** ${await this.beta(msg) ? this.betaemoji : ''} ${await this.beta(msg) ? this.betaemoji : ''} bet ${toFancyNum(amount)} ${dabs.currencyEmoji} ${dabs.currencyName} and won **${toFancyNum(parseInt(amount * 1.5))}**`, { embed: loosembed }) : m.edit(`**${msg.author.username}** ${await this.beta(msg) ? this.betaemoji : ''} bet ${toFancyNum(amount)} ${dabs.currencyEmoji} ${dabs.currencyName}\n and lost.`, { embed: winembed })
+          win == 4 ? m.edit(`**${msg.author.username}** ${await this.beta(msg) ? this.betaemoji : ''} ${await this.beta(msg) ? this.betaemoji : ''} bet ${toFancyNum(amount)} <:dabs:851218687255773194> dabs and won **${toFancyNum(parseInt(amount * percentage))}**`, { embed: loosembed }) : m.edit(`**${msg.author.username}** ${await this.beta(msg) ? this.betaemoji : ''} bet ${toFancyNum(amount)} <:dabs:851218687255773194> dabs \n and lost.`, { embed: winembed })
 
         }, 3000)
       })
@@ -115,7 +103,7 @@ class Slots extends Command {
   } catch (e) {
       console.log(e)
       msg.send(
-        `I guess you dont have enough ${dabs.currencyEmoji} ${dabs.currencyName} use dab convert <amount> to convert your dabs`
+        `I guess you dont have enough <:dabs:851218687255773194> dabs or you are new use dab cash for signup`
       );
     
     }

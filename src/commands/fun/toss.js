@@ -21,7 +21,7 @@ class Coin extends Command {
       //let con=p.con
 
       var flaps = await getCurrency(msg.guild.id,  db);;
-      flaps = flaps.currencyEmoji + " " + flaps.currencyName;
+      flaps = '<:dabs:851218687255773194> dabs';
       const spin = "<a:flip:857700086728884264>";
       const heads = "<:coin:849002406124716113>";
       const tails = "<:coin:849002406124716113>";
@@ -66,11 +66,11 @@ class Coin extends Command {
         return;
       }
 
-      let result = await getCurrencyBalance(msg.author.id,  msg.guild.id,  db);
+      let result = msg.member.settings.points;
       if (
         result == undefined ||
-        result.amount == 0 ||
-        (bet != "all" && result.amount < bet)
+        result == 0 ||
+        (bet != "all" && result < bet)
       ) {
         replyError(
           msg,
@@ -81,7 +81,7 @@ class Coin extends Command {
         );
         return;
       } else {
-        if (bet == "all") bet = result.amount;
+        if (bet == "all") bet = result;
 
         if (maxBet && bet > maxBet) {
           bet = maxBet;
@@ -96,6 +96,7 @@ class Coin extends Command {
         }
 
         let rand = await random(0, 3);
+        let percentage = await random(1, 3);
         let win = false;
         //tails
         if (rand == 0 && choice == "t") win = true;
@@ -103,16 +104,8 @@ class Coin extends Command {
         else if (rand == 1 && choice == "h") win = true;
 
         result = result;
-
-        let text = `${await this.badge(msg)} | **` +
-
-          msg.member.displayName + `** ${await this.beta(msg) ? this.betaemoji : ''}`
-        " spent **" +
-          flaps +
-          " " +
-          toFancyNum(bet) +
-          "** and chose " +
-          (choice == "h" ? "**heads**" : "**tails**");
+        msg.member.takePoints(bet)
+        let text = `${await this.badge(msg)} | **` + msg.member.displayName + `** ${await this.beta(msg) ? this.betaemoji : ''}` + " spent **" + flaps + " " + toFancyNum(bet) + "** and chose " + (choice == "h" ? "**heads**" : "**tails**");
         let text2 = text;
         text2 +=
           "\nThe coin spins... " +
@@ -125,24 +118,19 @@ class Coin extends Command {
             : heads) +
           " and you ";
         if (win) {
-          text2 += "won **" + flaps + " " + toFancyNum(bet * 2) + "**!!";
+          text2 += "won **" + flaps + " " + toFancyNum(bet * percentage) + "**!!";
         } else text2 += "lost it all... :c";
         text += "\nThe coin spins... " + spin;
         win
-          ? await withdrawBalance(
-              msg.author.id,
-              msg.guild.id,
-              bet * 2,
-              false,
-              db
-            )
-          : await withdrawBalance(msg.author.id, msg.guild.id, bet, true, db);
+          ? msg.member.givePoints(bet * percentage)
+          : null;
         let message = await msg.send(text);
         setTimeout(function () {
           message.edit(text2);
         }, 2000);
       }
     } catch (e) {
+      console.log(e)
       msg.send(
         `${await this.badge(msg)} **| ${msg.author.username} ${await this.beta(msg) ? this.betaemoji : ''} |** I guess you dont have enough ${flaps} use **dab convert <amount>** to convert your dabs`
       );
