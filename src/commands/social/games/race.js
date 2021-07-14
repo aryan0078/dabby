@@ -91,7 +91,12 @@ class Slots extends Command {
                             win = 4;
                             msg.member.givePoints(amount * percentage);
                         } else {
-                            await givedabs(random_user.id, amount, db)
+                            await givedabs(random_user.id, amount, db);
+                            try {
+                                await ran_mem.send(`** ${msg.author.username} ** ${await this.beta(msg) ? this.betaemoji : ''} Participated in the race for ** ${toFancyNum(amount)} ** <:dabs:851218687255773194> dabs \n and lost but you won`, { embed: winembed });
+                            } catch (er) {
+                                console.log('Cant dm')
+                            }
                         }
 
                         win == 4 ? m.edit(`** ${msg.author.username} ** ${await this.beta(msg) ? this.betaemoji : ''} You Participated in the race for ** ${toFancyNum(amount)} ** <:dabs:851218687255773194> dabs \n and won **${toFancyNum(amount * 2)}** <:dabs:851218687255773194> dabs`, { embed: winembed }) : m.edit(`** ${msg.author.username} ** ${await this.beta(msg) ? this.betaemoji : ''} You Participated in the race for ** ${toFancyNum(amount)} ** <:dabs:851218687255773194> dabs \n and lost...`, { embed: loseembed })
