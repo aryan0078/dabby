@@ -27,10 +27,15 @@ class Profile extends Command {
     let u = await db.collection("members");
     let badgeExist = await u.findOne({ id: msg.author.id });
     let b = '';
-    badgeExist.badges.forEach(ba => {
+    if (!badgeExist.badges) {
+      b = 'No badges'
+    } else {
+      badgeExist.badges.forEach(ba => {
 
-      b += `${this.badges[ba.badgeid].emoji} `
-    })
+        b += `${this.badges[ba.badgeid].emoji} `
+      })
+    }
+
     const embed = this.client
       .embed(member.user)
       .setColor("#7289DA")
