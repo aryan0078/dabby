@@ -63,6 +63,14 @@ async function addStake(id, userid, amount, withdraw = false, d) {
   );
   return f.ok;
 }
+async function randomUser(d) {
+  let db = d;
+  let users = db.collection("members");
+  let found = await users.aggregate([{ $sample: { size: 1 } }]);
+  let u = await found.toArray()
+  //console.log(u[0])
+  return u[0]
+}
 async function getCurrencyBalance(id, server, d) {
   try {
     let db = d;
@@ -314,6 +322,17 @@ async function paydab(id, recieveid, amt, server, d) {
   );
     transactionLog(amt, id, recieveid, server, d); 
 }
+async function givedabs(id, amount, d) {
+  let db = d;
+  let users = db.collection("members");
+  let user1bal = await users.findOne({ id: id });
+
+
+  await users.findOneAndUpdate(
+    { id: id },
+    { $set: { points: user1bal.points + amount } }
+  );
+}
 async function verifyUser(user, d) {
   let db = d;
   let users = db.collection("members");
@@ -351,5 +370,7 @@ module.exports = {
   channelEandD,
   withdrawBalance,
   transactionLog,
-  topleaderboard
+  topleaderboard,
+  randomUser,
+  givedabs
 };

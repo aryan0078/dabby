@@ -21,8 +21,10 @@ class Slots extends Command {
      let db = this.client.dbClient;
      db = await db.db();
     let dabs = await getCurrency(msg.guild.id, db);
-    let loosembed = new MessageEmbed().setImage('https://i.pinimg.com/originals/9a/f1/4e/9af14e0ae92487516894faa9ea2c35dd.gif');
-    let winembed = new MessageEmbed().setImage('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRDzctc2vB6zNct-3XZRcMyZI22HmBg2ThZIL4qJl9kLcubx29GhjOZQ1oRfAAukxkmvsM&usqp=CAU')
+    let winingembeds = ['https://cdn.discordapp.com/attachments/864939236183375942/864939279532818462/w1.gif', 'https://cdn.discordapp.com/attachments/864939236183375942/864939460634083379/w2.gif', 'https://cdn.discordapp.com/attachments/864939236183375942/864939654623920188/w3.gif', 'https://cdn.discordapp.com/attachments/864939236183375942/864939836984262706/w4.gif']
+
+    let loosembed = new MessageEmbed().setImage('https://cdn.discordapp.com/attachments/864940776172814396/864945374145544202/wasted.gif');
+    let winembed = new MessageEmbed().setImage('https://cdn.discordapp.com/attachments/864940776172814396/864945639795327056/winner.gif')
     try {
 
 
@@ -74,13 +76,13 @@ class Slots extends Command {
       //Decide results
      
       let rslots = [];
-      let rand = await random(3, 5);
-      let percentage = await random(1, 3)
+      let rand = await random(4, 6);
+      let percentage = 2;
       let win = 0;
       let logging = 0;
 
       let dabs = msg.member.takePoints(amount);
-      let embed = new MessageEmbed().setImage('https://cdn.dribbble.com/users/1648363/screenshots/3581559/slotmachine.gif')
+      let embed = new MessageEmbed().setImage('https://cdn.discordapp.com/attachments/864939847943847956/864940129650868294/l1.gif')
       msg.send(`**${msg.author.username}** ${await this.beta(msg) ? this.betaemoji : ''} bet **${toFancyNum(amount)}** <:dabs:851218687255773194> dabs`, { embed: embed }).then(m => {
         setTimeout(async () => {
           if (rand == 4) {
@@ -88,9 +90,9 @@ class Slots extends Command {
             msg.member.givePoints(amount * percentage);
           }
 
-          win == 4 ? m.edit(`**${msg.author.username}** ${await this.beta(msg) ? this.betaemoji : ''} bet **${toFancyNum(amount)}** <:dabs:851218687255773194> dabs and won **${toFancyNum(parseInt(amount * percentage))}** <:dabs:851218687255773194> dabs`, { embed: loosembed }) : m.edit(`**${msg.author.username}** ${await this.beta(msg) ? this.betaemoji : ''} bet **${toFancyNum(amount)}** <:dabs:851218687255773194> dabs \n and lost.`, { embed: winembed })
+          win == 4 ? m.edit(`**${msg.author.username}** ${await this.beta(msg) ? this.betaemoji : ''} bet **${toFancyNum(amount)}** <:dabs:851218687255773194> dabs and won **${toFancyNum(parseInt(amount * percentage))}** <:dabs:851218687255773194> dabs`, { embed: winembed }) : m.edit(`**${msg.author.username}** ${await this.beta(msg) ? this.betaemoji : ''} bet **${toFancyNum(amount)}** <:dabs:851218687255773194> dabs \n and lost.`, { embed: loosembed })
 
-        }, 3000)
+        }, 5000)
       })
 
 
