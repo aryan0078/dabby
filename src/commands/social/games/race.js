@@ -9,8 +9,8 @@ const { MessageEmbed } = require("discord.js");
 class Slots extends Command {
     constructor(...args) {
         super(...args, {
-            description: "Try your luck in the slot machine!",
-            aliases: ["slot", "slotmachine", "slot-machine"],
+            description: "Race against random opponent",
+            aliases: ["race", "carrace", "crace"],
             guildOnly: true,
             category: "Fun",
             cooldown: 13,
@@ -94,7 +94,7 @@ class Slots extends Command {
                             await givedabs(random_user.id, amount, db)
                         }
 
-                        win == 4 ? m.edit(`** ${msg.author.username} ** ${await this.beta(msg) ? this.betaemoji : ''} You Participated in the race for ** ${toFancyNum(amount)} ** <:dabs:851218687255773194> dabs \n and won **${toFancyNum(amount) * 2}** <:dabs:851218687255773194> dabs`, { embed: winembed }) : m.edit(`** ${msg.author.username} ** ${await this.beta(msg) ? this.betaemoji : ''} You Participated in the race for ** ${toFancyNum(amount)} ** <:dabs:851218687255773194> dabs \n and lost...`, { embed: loseembed })
+                        win == 4 ? m.edit(`** ${msg.author.username} ** ${await this.beta(msg) ? this.betaemoji : ''} You Participated in the race for ** ${toFancyNum(amount)} ** <:dabs:851218687255773194> dabs \n and won **${toFancyNum(amount * 2)}** <:dabs:851218687255773194> dabs`, { embed: winembed }) : m.edit(`** ${msg.author.username} ** ${await this.beta(msg) ? this.betaemoji : ''} You Participated in the race for ** ${toFancyNum(amount)} ** <:dabs:851218687255773194> dabs \n and lost...`, { embed: loseembed })
 
                     }, 7000)
                 });
