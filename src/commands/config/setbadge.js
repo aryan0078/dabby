@@ -26,8 +26,8 @@ class SetBadge extends Command {
         if (!this.badges[id]) {
             return replyError(msg, "You don't have this badge", 5000);
         }
-        if (badgeExist.badges.findIndex(b => b.badgeid = id) == -1) {
-            return replyError(msg, 'You dont have this badge', 5000)
+        if (badgeExist.badges.findIndex(b => b.badgeid == id) == -1) {
+            return replyError(msg, `You don't have ${this.badges[id].emoji} ${this.badges[id].name} badge`, 5000)
         }
         u.findOneAndUpdate({ id: msg.author.id }, { $set: { badge: id } });
         return msg.send(`${this.badges[id].emoji} **| ${msg.author.username
