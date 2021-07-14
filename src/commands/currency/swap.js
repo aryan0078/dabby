@@ -34,7 +34,7 @@ class Convert extends Command {
     }
     let result = msg.member.settings.points;
     if (amount == "all") {
-      amount = result.amount > 80000 ? 80000 : result.amount;
+      amount = result > 40000 ? 40000 : result;
     }
     let amt = parseInt(amount);
 

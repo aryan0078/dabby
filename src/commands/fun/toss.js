@@ -26,7 +26,7 @@ class Coin extends Command {
       const heads = "<:coin:849002406124716113>";
       const tails = "<:coin:849002406124716113>";
       const maxBet = 40000;
-      //Syntax Check
+      //Syntax Checkdd
       let bet = 1,
         arg1 = args[0];
       if (parseInt(arg1)) {
@@ -104,10 +104,10 @@ class Coin extends Command {
 
         result = result;
 
-        let text = `${await this.badge(msg)} | ` +
-          "**" +
-          msg.member.displayName + ` ${await this.beta(msg) ? this.betaemoji : ''}`
-          "** spent **" +
+        let text = `${await this.badge(msg)} | **` +
+
+          msg.member.displayName + `** ${await this.beta(msg) ? this.betaemoji : ''}`
+        " spent **" +
           flaps +
           " " +
           toFancyNum(bet) +

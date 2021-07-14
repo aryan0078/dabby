@@ -1,4 +1,5 @@
 const Command = require("../../structures/Command.js");
+const { replyError } = require("../../utils/constants.js");
 
 class SetBadge extends Command {
     constructor(...args) {
@@ -12,7 +13,22 @@ class SetBadge extends Command {
     }
 
     async run(msg, [id]) {
-        return msg.send('Coming soon')
+        let db = this.client.dbClient;
+        db = await db.db();
+        let u = await db.collection("members");
+        let badgeExist = await u.findOne({ id: msg.author.id });
+        if (!badgeExist || !badgeExist.badges) {
+            return replyError(msg, 'You dont have any badges', 5000)
+        }
+        if (!id) {
+            return replyError(msg, 'Provide proper badge id according to your badges', 5000)
+        }
+        if (!this.badges[id]) {
+            return replyError(msg, "You don't have this badge", 5000);
+        }
+        u.findOneAndUpdate({ id: msg.author.id }, { $set: { badge: id } });
+        return msg.send(`${this.badges[id].emoji} **| ${msg.author.username
+            }** ${await this.beta(msg) ? this.betaemoji : ''} updated badge `)
     }
 }
 

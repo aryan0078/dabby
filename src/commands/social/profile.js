@@ -23,15 +23,24 @@ class Profile extends Command {
     if (!bal) {
       bal = 0;
     }
+
+    let u = await db.collection("members");
+    let badgeExist = await u.findOne({ id: msg.author.id });
+    let b = '';
+    badgeExist.badges.forEach(ba => {
+
+      b += `${this.badges[ba.badgeid].emoji} `
+    })
     const embed = this.client
       .embed(member.user)
       .setColor("#7289DA")
-      .setTitle(msg.tr("COMMAND_PROFILE_TITLE", member.displayName))
+      .setTitle(b)
       .setDescription(
         member.user.settings.title ||
           `No Title set yet, use \`${msg.guild.settings.prefix}title\` to set one`
       )
       .setThumbnail(member.user.displayAvatarURL())
+
       .addField("DPI ID", `**${msg.author.id}@dpi**`)
       .addField(msg.tr("COMMAND_PROFILE_LEVEL"), member.settings.level)
       .addField(

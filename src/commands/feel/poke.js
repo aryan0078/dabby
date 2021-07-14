@@ -22,10 +22,9 @@ class Poke extends Command {
             .then((res) => res.json());
 
         const embed = this.client.embed()
-            .setTitle("Poke")
-            .setDescription(`**${member.displayName}**, you just got poked by **${msg.member.displayName}**`)
+            .setAuthor(`${member.displayName}, you just got poked`, user.displayAvatarURL())
             .setImage(url)
-            .setFooter(`Requested by: ${msg.author.tag} | Powered by nekos.life`, msg.author.displayAvatarURL({ size: 32 }));
+            .setFooter(`from ${msg.member.displayName}`, msg.author.displayAvatarURL())
 
 
         return msg.send(`${await this.badge(msg)} **|** Requested by **${msg.author.username}** ${await this.beta(msg) ? this.betaemoji : ''}`, { embed: embed });
