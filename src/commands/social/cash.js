@@ -50,16 +50,14 @@ class Points extends Command {
         bal["amount"] = 0;
       }
       walstr +=
-        wallets.wallet.length > 4
-          ? `you own **${toFancyNum(
+
+        `you own **${toFancyNum(
             member.settings.points
           )}** <:dabs:851218687255773194> dabs, `
-          : ` **${toFancyNum(
-            member.settings.points
-          )}** <:dabs:851218687255773194> dabs, `;
-      walstr +=
+
+      walstr += wallets.wallet.length > 0 ?
         `**${toFancyNum(bal.amount)}** ${bal.currencyEmoji} ${bal.currencyName} and **${wallets.wallet.length
-        }** more ...  `;
+        }** more ...  ` : `**${toFancyNum(bal.amount)}** ${bal.currencyEmoji} ${bal.currencyName}`;
       if (!wallets.wallet) {
         wallets["wallet"] = [];
       }
