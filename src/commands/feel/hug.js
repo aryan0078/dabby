@@ -26,7 +26,7 @@ class Hug extends Command {
             .setImage(url)
             .setFooter(`by ${msg.member.displayName}`, msg.author.displayAvatarURL())
 
-        return msg.send(`${await this.badge(msg)} **|** Requested by **${msg.author.username}** ${await this.beta(msg) ? this.betaemoji : ''}`, { embed: embed });
+        return msg.send(`${await this.badge(msg)}  Requested by **${msg.author.username}** ${await this.beta(msg) ? this.betaemoji : ''}`, { embed: embed });
     }
 }
 

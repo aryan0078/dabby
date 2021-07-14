@@ -27,7 +27,7 @@ class Slap extends Command {
             .setFooter(`from ${msg.member.displayName}`, msg.author.displayAvatarURL())
 
 
-        return msg.send(`${await this.badge(msg)} **|** Requested by **${msg.author.username}** ${await this.beta(msg) ? this.betaemoji : ''}`, { embed: embed });
+        return msg.send(`${await this.badge(msg)}  Requested by **${msg.author.username}** ${await this.beta(msg) ? this.betaemoji : ''}`, { embed: embed });
     }
 }
 

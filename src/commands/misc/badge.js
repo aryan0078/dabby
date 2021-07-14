@@ -35,7 +35,7 @@ class Badge extends Command {
     let em = new MessageEmbed()
       .setDescription(b)
       .setColor("#7289DA");
-    return msg.send(`${await this.badge(msg)} **|** Badges of **${msg.author.username}** ${await this.beta(msg) ? this.betaemoji : ''}`, { embed: em })
+    return msg.send(`${await this.badge(msg)}  Badges of **${msg.author.username}** ${await this.beta(msg) ? this.betaemoji : ''}`, { embed: em })
 
   }
 }

@@ -22,7 +22,7 @@ class Stats extends Command {
     db = await db.db();
     
     let users_ = await db.collection("members").countDocuments();
-    return msg.send(`${await this.badge(msg)} **|** Requested by **${msg.author.username}** ${await this.beta(msg) ? this.betaemoji : ''}`, {
+    return msg.send(`${await this.badge(msg)}  Requested by **${msg.author.username}** ${await this.beta(msg) ? this.betaemoji : ''}`, {
       embed: this.client
         .embed(this.client.user)
         .setColor("#7289DA")

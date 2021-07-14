@@ -76,7 +76,7 @@ class Coin extends Command {
           msg,
           "**🚫 | " +
             msg.author.username +
-            `**, You don't have enough ${result.currencyEmoji} !`,
+          `**, You don't have enough ${flaps} !`,
           3000
         );
         return;
@@ -88,7 +88,7 @@ class Coin extends Command {
         } else if (bet <= 0) {
           replyError(
             msg,
-            `, you don't have any ${result.currencyEmoji}  silly!`,
+            `, you don't have any ${flaps} silly!`,
             3000
           );
 
@@ -118,7 +118,7 @@ class Coin extends Command {
             : heads) +
           " and you ";
         if (win) {
-          text2 += "won **" + flaps + " " + toFancyNum(bet * percentage) + "**!!";
+          text2 += "won **" + toFancyNum(bet * percentage) + " " + flaps + "**!!";
         } else text2 += "lost it all... :c";
         text += "\nThe coin spins... " + spin;
         win

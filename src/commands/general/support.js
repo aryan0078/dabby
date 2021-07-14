@@ -14,7 +14,7 @@ class Support extends Command {
       
       
       
-      `${await this.badge(msg)} **|** Requested by **${msg.author.username}** ${await this.beta(msg) ? this.betaemoji : ''}\n` +
+      `${await this.badge(msg)}  Requested by **${msg.author.username}** ${await this.beta(msg) ? this.betaemoji : ''}\n` +
               "Support server :- https://discord.gg/MEaMMjG7VJ",
 
       {
