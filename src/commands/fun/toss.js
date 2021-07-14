@@ -105,7 +105,7 @@ class Coin extends Command {
 
         result = result;
         msg.member.takePoints(bet)
-        let text = `${await this.badge(msg)} | **` + msg.member.displayName + `** ${await this.beta(msg) ? this.betaemoji : ''}` + " spent **" + flaps + " " + toFancyNum(bet) + "** and chose " + (choice == "h" ? "**heads**" : "**tails**");
+        let text = `${await this.badge(msg)} | **` + msg.member.displayName + `** ${await this.beta(msg) ? this.betaemoji : ''}` + " spent **" + toFancyNum(bet) + " " + flaps + "** and chose " + (choice == "h" ? "**heads**" : "**tails**");
         let text2 = text;
         text2 +=
           "\nThe coin spins... " +

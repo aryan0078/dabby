@@ -88,7 +88,7 @@ class Slots extends Command {
             msg.member.givePoints(amount * percentage);
           }
 
-          win == 4 ? m.edit(`**${msg.author.username}** ${await this.beta(msg) ? this.betaemoji : ''} ${await this.beta(msg) ? this.betaemoji : ''} bet ${toFancyNum(amount)} <:dabs:851218687255773194> dabs and won **${toFancyNum(parseInt(amount * percentage))}**`, { embed: loosembed }) : m.edit(`**${msg.author.username}** ${await this.beta(msg) ? this.betaemoji : ''} bet ${toFancyNum(amount)} <:dabs:851218687255773194> dabs \n and lost.`, { embed: winembed })
+          win == 4 ? m.edit(`**${msg.author.username}** ${await this.beta(msg) ? this.betaemoji : ''} bet **${toFancyNum(amount)}** <:dabs:851218687255773194> dabs and won **${toFancyNum(parseInt(amount * percentage))}** <:dabs:851218687255773194> dabs`, { embed: loosembed }) : m.edit(`**${msg.author.username}** ${await this.beta(msg) ? this.betaemoji : ''} bet **${toFancyNum(amount)}** <:dabs:851218687255773194> dabs \n and lost.`, { embed: winembed })
 
         }, 3000)
       })
