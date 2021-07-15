@@ -13,8 +13,8 @@ class VerifyServer extends Command {
     }
 
     async run(msg,) {
-        return replyError(msg, 'This command is for only Global partners', 5000)
-        /* let db = this.client.dbClient;
+
+        let db = this.client.dbClient;
         db = await db.db();
         let u = await db.collection("partners");
         let p = await u.findOne({ id: msg.author.id, server: msg.guild.id })
@@ -23,7 +23,7 @@ class VerifyServer extends Command {
         } else {
             await u.insertOne({ id: msg.author.id, server: msg.guild.id, at: new Date(), channel: msg.channel.id, verified: false })
         }
-        return msg.send(`**${msg.author.username}** Successfully added this server on profile \n Soon partner will come and verify it \nThank you`) */
+        return msg.send(`**${msg.author.username}** Successfully added this server on profile \n Soon partner will come and verify it \nThank you`)
 
 
     }
