@@ -11,7 +11,7 @@ class PartnerServer extends Command {
         });
     }
 
-    async run(msg,) {
+    async run(msg) {
 
         let db = this.client.dbClient;
         db = await db.db();
