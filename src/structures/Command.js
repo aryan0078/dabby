@@ -23,7 +23,7 @@ class Command extends Base {
     this.badges = {
       "1": { emoji: '<:bughunter:864570206894686238>', name: 'Bug Hunter', id: 1 }, "2": { id: 2, emoji: '<:supporter:864572703918129172>', name: 'Supporter' }, "3": { id: 3, emoji: '<:partner:864571816932933672>', name: 'Partner' }, "4": { name: 'Beta User', emoji: '<a:arrowmain:859510039740022814>' }, "5": { name: 'Top Global', emoji: '<:TopGlobal:864596160547127297>' }, "6": {
         emoji: '<:reputation:864607883949375498>', name: "Reputed one's"
-      }, "7": { emoji: '<:worker:864861064247902208>', name: 'Worker' }, "8": { emoji: '<:guide:864861063681540128>', name: 'Guider' }
+      }, "7": { emoji: '<:worker:865247421458415646>', name: 'Worker' }, "8": { emoji: '<:guide:865249524369063956>', name: 'Guider' }
     }
     this.botPermissions = new Permissions(options.botPermissions || []).freeze();
     this.userPermissions = new Permissions(options.userPermissions || []).freeze();
