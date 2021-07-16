@@ -93,20 +93,15 @@ class CommandHandler extends Monitor {
     if (m === "dab enable") {
       console.log("Enabling");
     } else {
-      msg.author.settings.prefix.forEach(p => {
-        if (m.toLowerCase().startsWith(p)) {
-          if (!enabled) {
-            return replyError(
-              msg,
-              "Dabby commands are disabled on this channel",
-              5000
-            );
-
-          }
+      if (m.includes("dab")) {
+        if (!enabled) {
+          return replyError(
+            msg,
+            "Dabby commands are disabled on this channel",
+            5000
+          );
         }
-
-      });
-
+      }
     }
 
     // Ensure the bot itself is in the member cache.
