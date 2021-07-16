@@ -1,6 +1,6 @@
 const Command = require("../../structures/Command.js");
 
-class Enable extends Command {
+class EnableRole extends Command {
   constructor(...args) {
     super(...args, {
       description: "Enables a command or event.",
@@ -26,4 +26,4 @@ class Enable extends Command {
   }
 }
 
-module.exports = Enable;
+module.exports = EnableRole;
