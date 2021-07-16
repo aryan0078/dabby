@@ -24,7 +24,7 @@ class VerifyServer extends Command {
         let u = await db.collection("partners");
         let serverVal = await serverValue(msg.guild, msg);
         let check = await u.findOne({ verified: true })
-        if (check) {
+        if (check.verified) {
             return replyError(msg, `<@${check.id}> is already verifed partner of this server\nPlease Ask developers to change or update it`, 8000)
         }
         let p = await u.findOneAndUpdate({ server: msg.guild.id }, { $set: { verified: true, verifiedAt: new Date(), verifiedBy: msg.author.id } });
