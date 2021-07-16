@@ -17,7 +17,13 @@ class CheckPartner extends Command {
 
         let db = this.client.dbClient;
         db = await db.db();
-        if (!await this.globalpartnercheck(msg) && !await this.workercheck(msg) && !await this.guidercheck(msg)) {
+        if (!await this.globalpartnercheck(msg)) {
+            return replyError(msg, 'This command is only for global partners,partners,workers,guiders', 5000)
+        }
+        if (!await this.workercheck(msg)) {
+            return replyError(msg, 'This command is only for global partners,partners,workers,guiders', 5000)
+        }
+        if (!await this.guidercheck(msg)) {
             return replyError(msg, 'This command is only for global partners,partners,workers,guiders', 5000)
         }
         let user = await this.verifyMember(msg, msg.author.user, true);
