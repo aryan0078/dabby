@@ -8,16 +8,17 @@ async function getPools(d) {
   let pools = db.collection("pools");
   return pools.find().toArray();
 }
-async function generateCoupons(amount, id, d) {
+async function generateCoupons(amount, id, d, p = false) {
   let db = d;
   let coupon = db.collection("coupons");
   let code = uid(16);
   await coupon.insertOne({
     id: code,
-    claimed: false,
+    claimed: p ? true : false,
     amount: amount,
     generatedBy: id,
     generatedAt: new Date(),
+    activeafter: p ? p : new Date()
   });
   return code;
 }
@@ -222,6 +223,7 @@ async function addPool(d) {
     users: [{}],
   });
 }
+
 const dabbyflowchart = async (title, data, db) => {
   const chart = new QuickChart();
   var db_ = db;

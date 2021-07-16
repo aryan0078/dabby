@@ -1,14 +1,12 @@
 const Command = require("../../structures/Command.js");
 const { addPool } = require("../../structures/database.js");
-const { replyError } = require("../../utils/constants.js");
 
 class CheckPartner extends Command {
     constructor(...args) {
         super(...args, {
             description: "Check partner for the server",
-
+            ownerOnly: true,
             usage: "cp",
-            aliases: ['cp']
         });
     }
 
@@ -17,16 +15,15 @@ class CheckPartner extends Command {
 
         let db = this.client.dbClient;
         db = await db.db();
-        if (!await this.globalpartnercheck(msg)) {
-            return replyError(msg, 'This command is only for global partners', 5000)
-        }
-        let user = await this.verifyMember(msg, msg.author.user, true);
+
 
         let u = await db.collection("partners");
-        let f = `Partners for **${msg.guild.name}** Please check time carefully then verify otherwise we have to take actions\nIn DM\n`
+        let f = `Requested by **${msg.author.username}**\n`
         let p = await u.find({ server: msg.guild.id }).sort({ at: 1 }).toArray()
         p.forEach(async (element, index) => {
-
+            if (index > 5) {
+                return
+            }
 
             let user = await this.client.users.fetch(element.id)
 
@@ -34,7 +31,7 @@ class CheckPartner extends Command {
         });
 
         return msg.send(f).then(ms => {
-            user.send(f);
+            ms.edit(f);
         })
 
 

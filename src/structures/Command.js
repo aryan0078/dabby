@@ -79,6 +79,40 @@ class Command extends Base {
     if (!user) throw "I couldn't find that user! Make sure the ID is correct.";
     return user;
   }
+  async globalpartnercheck(msg) {
+    let db = this.client.dbClient;
+    db = await db.db();
+    let u = await db.collection("members");
+    let user = await u.findOne({ id: msg.author.id })
+    if (user.gp) {
+      return true
+    } else {
+      return false
+    }
+  }
+  async workercheck(msg) {
+    let db = this.client.dbClient;
+    db = await db.db();
+    let u = await db.collection("members");
+    let user = await u.findOne({ id: msg.author.id })
+    if (user.worker) {
+      return true
+    } else {
+      return false
+    }
+  }
+  async guidercheck(msg) {
+    let db = this.client.dbClient;
+    db = await db.db();
+    let u = await db.collection("members");
+    let user = await u.findOne({ id: msg.author.id })
+    if (user.guider) {
+      return true
+    } else {
+      return false
+    }
+  }
+
 
   /**
    * Verifies that a member is given.

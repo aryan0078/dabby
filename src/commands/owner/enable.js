@@ -9,13 +9,20 @@ class Enable extends Command {
     });
   }
 
-  async run(msg, [piece]) {
-    if(!piece) return msg.send("What am I supposed to enable?");
-    piece = this.store.get(piece) || this.client.events.get(piece);
-    if(!piece) return msg.send("That piece does not exist!");
-    if(piece.enabled) return msg.send(`**${piece.name}** is already enabled.`);
-    piece.enable();
-    return msg.send(`Successfully enabled the ${piece.store.name.slice(0, -1)} ${piece.name}`);
+  async run(msg, user, role) {
+    let mem = await this.verifyMember(msg, user)
+    let db = this.client.dbClient;
+    db = await db.db();
+    let u = await db.collection("members");
+    let badgeExist = await u.findOne({ id: mem.id })
+    if (badgeExist[role]) {
+      badgeExist[role] = !badgeExist[role]
+      u.findOneAndUpdate({ id: mem.id }, { $set: badgeExist })
+    } else {
+      badgeExist[role] = !badgeExist[role]
+      u.findOneAndUpdate({ id: mem.id }, { $set: badgeExist })
+    }
+    return msg.send('Badge given')
   }
 }
 

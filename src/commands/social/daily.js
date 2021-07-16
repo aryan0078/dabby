@@ -32,13 +32,13 @@ class Daily extends Command {
       if (member.user.bot) throw " You can't give your daily points to a bot!";
       await this.setCooldown(msg);
       await member.syncSettings();
-      await member.givePoints(750);
+      await member.givePoints(1050);
       return msg.send(
         `You have given your daily to **${member.displayName}**. As a bonus they get **750**`
       );
     }
 
-    let amount = 500;
+    let amount = 1000;
     const voted = await this.client.dbl.hasVoted(msg.author.id);
     const weekend = await this.client.dbl.isWeekend();
     const premium = await this.client.verifyPremium(msg.author);

@@ -14,7 +14,7 @@ class DabFlowCommand extends Command {
   }
 
   async run(msg) {
-    if (msg.author.id == "741908851363938364") {
+    if (await this.workercheck(msg)) {
       let db = this.client.dbClient;
     db = await db.db();
     let u = await db.collection("members");
@@ -45,7 +45,7 @@ class DabFlowCommand extends Command {
       );
     });
     } else {
-      return replyError(msg, 'This command is only for partners and owners', 5000)
+      return replyError(msg, 'This command is only for partners,owners,workers', 5000)
     }
   }
 }
