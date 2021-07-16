@@ -86,23 +86,7 @@ class CommandHandler extends Monitor {
     } */
 
     if (msg.webhookID || msg.author.bot) return; // Ignore bots and webhooks.
-    let db = this.client.dbClient;
-    db = await db.db();
-    let enabled = await checkChannelEandD(msg.channel.id, db);
-    let m = msg.content.toLowerCase();
-    if (m === "dab enable") {
-      console.log("Enabling");
-    } else {
-      if (m.includes("dab")) {
-        if (!enabled) {
-          return replyError(
-            msg,
-            "Dabby commands are disabled on this channel",
-            5000
-          );
-        }
-      }
-    }
+
 
     // Ensure the bot itself is in the member cache.
     if (msg.guild && !msg.guild.me)
@@ -112,6 +96,7 @@ class CommandHandler extends Monitor {
     const prefix = msg.guild
       ? msg.guild.settings.prefix
       : this.prefix[this.prefix.indexOf(msg.split(" ")[0])];
+
 
     // If we don't have permissions to send messages don't run the command.
     if (!msg.channel.postable) return;
@@ -142,6 +127,23 @@ class CommandHandler extends Monitor {
 
     // If the message is not a command do nothing.
     if (!prefixMatch) return;
+    let db = this.client.dbClient;
+    db = await db.db();
+    let enabled = await checkChannelEandD(msg.channel.id, db);
+    let m = msg.content.toLowerCase();
+    if (m === "dab enable") {
+      console.log("Enabling");
+    } else {
+      if (m.startsWith("dab") || prefixMatch) {
+        if (!enabled) {
+          return replyError(
+            msg,
+            "Dabby commands are disabled on this channel",
+            5000
+          );
+        }
+      }
+    }
     let u = await verifyUser(msg.author.id, db);
     if (!u && msg.content != "dab help") {
       let users_ = await db.collection("members").countDocuments();
