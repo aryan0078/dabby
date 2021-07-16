@@ -23,7 +23,7 @@ class VerifyServer extends Command {
         db = await db.db();
         let u = await db.collection("partners");
         let serverVal = await serverValue(msg.guild, msg);
-        let check = await u.findOne({ verified: true })
+        let check = await u.findOne({ server: msg.guild.id, verified: true })
         if (check) {
             return replyError(msg, `<@${check.id}> is already verifed partner of this server\nPlease Ask developers to change or update it`, 8000)
         }
