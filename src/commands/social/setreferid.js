@@ -35,7 +35,7 @@ class SetReferid extends Command {
     }
     if (invited.referid) {
       return msg.send(
-        `**${msg.author.username} ${await this.beta(msg) ? this.betaemoji : ''} |** you are invited by <@${invited.referid}> already and he got the rewards already`
+        `**${msg.author.username} ${await this.beta(msg) ? this.betaemoji : ''} |** you are invited by <@${inviter.referid}> already and he got the rewards already`
       );
     } else {
       if (inviter.invites) {
