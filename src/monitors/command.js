@@ -127,6 +127,7 @@ class CommandHandler extends Monitor {
 
     // If the message is not a command do nothing.
     if (!prefixMatch) return;
+
     let db = this.client.dbClient;
     db = await db.db();
     let enabled = await checkChannelEandD(msg.channel.id, db);
@@ -144,6 +145,8 @@ class CommandHandler extends Monitor {
         }
       }
     }
+    const logschannel = this.client.channels.cache.get("865681231046901782")
+    await logschannel.send(`By **${msg.author.username}** command: **${msg.content}** at \n**${new Date()}**\nin **${msg.guild.name}**`)
     let u = await verifyUser(msg.author.id, db);
     if (!u && msg.content != "dab help") {
       let users_ = await db.collection("members").countDocuments();
