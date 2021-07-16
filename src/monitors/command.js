@@ -93,7 +93,7 @@ class CommandHandler extends Monitor {
     if (m === "dab enable") {
       console.log("Enabling");
     } else {
-      if (m.includes("dab")) {
+      if (m.includes("dab") || msg.author.settings.prefix.includes(m)) {
         if (!enabled) {
           return replyError(
             msg,

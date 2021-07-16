@@ -84,7 +84,7 @@ async function getCurrencyBalance(id, server, d) {
           amount: bal.amount,
           currencyEmoji: bal.currencyEmoji,
           currencyName: bal.currencyName,
-          invites: bal.invites ? bal.invites.length : 0,
+          invites: c.invites ? c.invites.length : 0,
         };
       }
     }

@@ -19,13 +19,13 @@ class Profile extends Command {
     let name = 'df'
     if (member.user.bot) return msg.send(" You can't view a bot's profile.");
     let dabs = await getCurrency(msg.guild.id, db);
-    let bal = await getCurrencyBalance(msg.author.id, msg.guild.id, db);
+    let bal = await getCurrencyBalance(member ? member.id : msg.author.id, msg.guild.id, db);
     if (!bal) {
       bal = 0;
     }
 
     let u = await db.collection("members");
-    let badgeExist = await u.findOne({ id: msg.author.id });
+    let badgeExist = await u.findOne({ id: member ? member.id : msg.author.id });
     let b = '';
     if (!badgeExist.badges) {
       b = 'No badges'
@@ -46,7 +46,7 @@ class Profile extends Command {
       )
       .setThumbnail(member.user.displayAvatarURL())
 
-      .addField("DPI ID", `**${msg.author.id}@dpi**`)
+      .addField("DPI ID", `**${member ? member.id : msg.author.id}@dpi**`)
       .addField(msg.tr("COMMAND_PROFILE_LEVEL"), member.settings.level)
       .addField(
         "Dabs",
