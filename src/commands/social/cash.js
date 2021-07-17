@@ -43,7 +43,7 @@ class Points extends Command {
     try {
       wallets = await user_.findOne({ id: msg.author.id });
       let bal = await getCurrencyBalance(msg.author.id, msg.guild.id, db);
-      let walstr = `${await this.badge(msg)} **| ${msg.author.username}** ${await this.beta(msg) ? this.betaemoji : ''}, \n`;
+      let walstr = `${await this.badge(msg)} **${msg.author.username}** ${await this.beta(msg) ? this.betaemoji : ''}, \n`;
 
       if (!bal) {
         bal = dabs;
