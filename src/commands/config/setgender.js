@@ -18,8 +18,8 @@ class SetGender extends Command {
         let user_ = db.collection("members");
         if (!gender) {
             return replyError(msg, 'Please Provide male or female properly', 5000)
-        }
 
+        }
 
         if (gender == 'male') {
             let user = await user_.findOne({ id: msg.author.id });
