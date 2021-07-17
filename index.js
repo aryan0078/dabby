@@ -44,7 +44,8 @@ const { toFancyNum } = require("./src/utils/constants.js");
 let d = new MiyakoClient(process.argv.includes("--dev"));
 d.login();
 
-require("discord-buttons")(d); 
+try {
+  require("discord-buttons")(d);
 d.on("clickButton", async (button) => {
   let l = d.dbClient;
   l = l.db();
@@ -103,3 +104,6 @@ d.on("clickButton", async (button) => {
    }
    
 });
+} catch (err) {
+  console.log('Error')
+}

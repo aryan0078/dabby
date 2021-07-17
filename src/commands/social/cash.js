@@ -54,10 +54,10 @@ class Points extends Command {
         `you own **${toFancyNum(
             member.settings.points
           )}** <:dabs:851218687255773194> dabs, `
-
+      wallets.wallet ?
       walstr += wallets.wallet.length > 0 ?
         `**${toFancyNum(bal.amount)}** ${bal.currencyEmoji} ${bal.currencyName} and **${wallets.wallet.length
-        }** more ...  ` : `**${toFancyNum(bal.amount)}** ${bal.currencyEmoji} ${bal.currencyName}`;
+    }** more ...  ` : `**${toFancyNum(bal.amount)}** ${bal.currencyEmoji} ${bal.currencyName}` : `**${toFancyNum(bal.amount)}** ${bal.currencyEmoji} ${bal.currencyName}`
       if (!wallets.wallet) {
         wallets["wallet"] = [];
       }
