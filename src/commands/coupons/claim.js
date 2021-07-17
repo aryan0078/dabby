@@ -32,7 +32,7 @@ class Claim extends Command {
       return msg.send(
         `${await this.badge(msg)} **| ${
           msg.author.username
-        } ${await this.beta(msg) ? this.betaemoji : ''} |** You have successfully claimed **${toFancyNum(
+        } ${await this.beta(msg) ? this.betaemoji : ''}  You have successfully claimed **${toFancyNum(
           c.amount
         )}** <:dabs:851218687255773194> coupon!`
       );

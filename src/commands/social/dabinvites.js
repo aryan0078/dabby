@@ -39,7 +39,7 @@ class Dabinvites extends Command {
       return replyError(msg, "You are not registered use **dab cash**", 5000);
     }
     return msg.send(
-      `**${msg.author.username} ${await this.beta(msg) ? this.betaemoji : ''} |** has invited **${
+      `**${msg.author.username} ${await this.beta(msg) ? this.betaemoji : ''}  has invited **${
         invited.invites ? invited.invites.length : 0
       }** users`
     );

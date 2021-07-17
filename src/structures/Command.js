@@ -144,9 +144,9 @@ class Command extends Base {
       return ''
     }
     if (badgeExist.badge) {
-      return this.badges[badgeExist.badge].emoji
+      return this.badges[badgeExist.badge].emoji + '**|**'
     } else {
-      return this.badges[badgeExist.badges[0].badgeid].emoji
+      return this.badges[badgeExist.badges[0].badgeid].emoji + '**|**'
     }
 
 

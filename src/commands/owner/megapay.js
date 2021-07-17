@@ -27,7 +27,7 @@ class MegaPay extends Command {
     return msg.send(
       `**${
         msg.author.username
-      } |**Paid <:dabs:851218687255773194> **${amount.toLocaleString()}** dabs to **${
+      } Paid <:dabs:851218687255773194> **${amount.toLocaleString()}** dabs to **${
         member.displayName
       }**`
     );

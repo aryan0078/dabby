@@ -42,7 +42,7 @@ class InvestPools extends Command {
     let check = await checkStaked(id, msg.author.id, db);
     if (check) {
       return msg.send(
-        `**${msg.author.username} |** You have already staked your <:dabs:851218687255773194> dabs  in the pool please type **dab getpool poolid amount**`
+        `**${msg.author.username}  You have already staked your <:dabs:851218687255773194> dabs  in the pool please type **dab getpool poolid amount**`
       );
     }
 

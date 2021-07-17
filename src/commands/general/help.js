@@ -106,10 +106,15 @@ const { link } = this.client.utils;
         .addField(category, map[category].join(", "))
         .setAuthor("Command List", msg.author.displayAvatarURL());
     }
-
-    return msg.send(`${await this.badge(msg)}  Requested by **${msg.author.username}** ${await this.beta(msg) ? this.betaemoji : ''}`, {
-      embed: embed,
-    });
+    try {
+      return msg.send(`${await this.badge(msg)}  Requested by **${msg.author.username}** ${await this.beta(msg) ? this.betaemoji : ''}`, {
+        embed: embed,
+      });
+    } catch (err) {
+      return msg.send(`Requested by **${msg.author.username}** ${await this.beta(msg) ? this.betaemoji : ''}`, {
+        embed: embed,
+      });
+    }
   }
 }
 

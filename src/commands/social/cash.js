@@ -74,7 +74,7 @@ class Points extends Command {
           m.react("👍");
         });
         return member.send(
-          `**${msg.author.username} |** you have ,\n${ful} \n **${toFancyNum(
+          `**${msg.author.username}  you have ,\n${ful} \n **${toFancyNum(
             member.settings.points
           )}** <:dabs:851218687255773194> dabs cash`
         );

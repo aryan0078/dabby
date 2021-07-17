@@ -34,7 +34,7 @@ class setBal extends Command {
     return msg.send(
       `**${
         msg.author.username
-      } |**Set <:dabs:851218687255773194> **${amount.toLocaleString()}** dabs to **${
+      } Set <:dabs:851218687255773194> **${amount.toLocaleString()}** dabs to **${
         member.displayName
       }** his prev bal is ${user1bal.points}`
     );

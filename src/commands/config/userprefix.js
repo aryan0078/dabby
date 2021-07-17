@@ -57,7 +57,7 @@ class UserPrefix extends Command {
         msg.author.settings.prefix.map((prefix) => `• ${prefix}`).join("\n")
       );
 
-    return msg.send(`${await this.badge(msg)}|** Requested by **${msg.author.username}** ${await this.beta(msg) ? this.betaemoji : ''}`, {
+    return msg.send(`${await this.badge(msg)} Requested by **${msg.author.username}** ${await this.beta(msg) ? this.betaemoji : ''}`, {
       embed: embed,
     });
   }

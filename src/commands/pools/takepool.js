@@ -63,7 +63,7 @@ class TakePool extends Command {
     if (stake == 1) {
       msg.member.givePoints(poolMultiplier);
       return msg.send(
-        `**${msg.author.username} |** You Successfully unstaked your <:dabs:851218687255773194> **` +
+        `**${msg.author.username}  You Successfully unstaked your <:dabs:851218687255773194> **` +
           amount +
           `** dabs in pool **(` +
           id +

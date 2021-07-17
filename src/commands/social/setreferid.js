@@ -35,7 +35,7 @@ class SetReferid extends Command {
     }
     if (invited.referid) {
       return msg.send(
-        `**${msg.author.username} ${await this.beta(msg) ? this.betaemoji : ''} |** you are invited by <@${inviter.referid}> already and he got the rewards already`
+        `**${msg.author.username} ${await this.beta(msg) ? this.betaemoji : ''}  you are invited by <@${inviter.referid}> already and he got the rewards already`
       );
     } else {
       if (inviter.invites) {
@@ -57,7 +57,7 @@ class SetReferid extends Command {
     member.givePoints(2500);
     msg.member.givePoints(1000);
     return msg.send(
-      `**${msg.author.username} ${await this.beta(msg) ? this.betaemoji : ''} |** you got **1000** <:dabs:851218687255773194> for setting up referid and <@${member.id}> will get **2500** <:dabs:851218687255773194> for inviting you`
+      `${await this.badge(msg)} **${msg.author.username} ${await this.beta(msg) ? this.betaemoji : ''}  you got **1000** <:dabs:851218687255773194> for setting up referid and <@${member.id}> will get **2500** <:dabs:851218687255773194> for inviting you`
     );
   }
 }

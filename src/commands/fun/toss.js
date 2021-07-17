@@ -132,7 +132,7 @@ class Coin extends Command {
     } catch (e) {
       console.log(e)
       msg.send(
-        `${await this.badge(msg)} **| ${msg.author.username} ${await this.beta(msg) ? this.betaemoji : ''} |** I guess you dont have enough ${flaps} use **dab convert <amount>** to convert your dabs`
+        `${await this.badge(msg)} **| ${msg.author.username} ${await this.beta(msg) ? this.betaemoji : ''}  I guess you dont have enough ${flaps} use **dab convert <amount>** to convert your dabs`
       );
     }
   }
