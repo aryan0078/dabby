@@ -39,6 +39,7 @@ class Help extends Command {
         embed: new MessageEmbed()
           .setTitle(msg.tr("COMMAND_HELP_FOR", cmd.name))
           .setColor("#7289DA")
+          .setFooter('Sponserd by ! HITESH BHOOTRA ᴴᴮ#7300')
           .setDescription(
             [
               `**${msg.tr("COMMAND_HELP_DESCRIPTION")}:** ${
