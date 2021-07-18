@@ -91,7 +91,8 @@ const { link } = this.client.utils;
       " for **support** and **updates**!" */
       .setDescription(
         "Here is the list of commands!\n for more info on specific command , use `dab help {command}`\n"
-      )
+    )
+      .setFooter('Sponserd by ! HITESH BHOOTRA ᴴᴮ#7300')
       .setColor("#7289DA");
      
 
@@ -105,6 +106,7 @@ const { link } = this.client.utils;
 
       embed
         .addField(category, map[category].join(", "))
+        .setFooter('Sponserd by ! HITESH BHOOTRA ᴴᴮ#7300')
         .setAuthor("Command List", msg.author.displayAvatarURL());
     }
     try {
@@ -112,7 +114,7 @@ const { link } = this.client.utils;
         embed: embed,
       });
     } catch (err) {
-      return msg.send(`Requested by **${msg.author.username}** ${await this.beta(msg) ? this.betaemoji : ''}`, {
+      return msg.send(`${await this.badge(msg)} Requested by **${msg.author.username}** ${await this.beta(msg) ? this.betaemoji : ''}`, {
         embed: embed,
       });
     }
