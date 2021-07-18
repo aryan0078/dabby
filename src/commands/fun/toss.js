@@ -95,7 +95,7 @@ class Coin extends Command {
           return;
         }
 
-        let rand = await random(0, 2);
+        let rand = await random(0, 1);
         let percentage = 2;
         let win = false;
         //tails

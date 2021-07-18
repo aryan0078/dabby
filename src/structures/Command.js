@@ -19,6 +19,7 @@ class Command extends Base {
     this.hidden = options.hidden || false;
     this.usage = options.usage || this.name;
     this.loading = options.loading;
+    this.crate = "<a:crate:866403905760133158>"
     this.betaemoji = "<:beta:864583906321367040>"
     this.badges = {
       "1": { emoji: '<:bughunter:864570206894686238>', name: 'Bug Hunter', id: 1 }, "2": { id: 2, emoji: '<:supporter:864572703918129172>', name: 'Supporter' }, "3": { id: 3, emoji: '<:partner:864571816932933672>', name: 'Partner' }, "4": { name: 'Beta User', emoji: '<a:arrowmain:859510039740022814>' }, "5": { name: 'Top Global', emoji: '<:TopGlobal:864596160547127297>' }, "6": {
@@ -144,9 +145,9 @@ class Command extends Base {
       return ''
     }
     if (badgeExist.badge) {
-      return this.badges[badgeExist.badge].emoji + '**|**'
+      return this.badges[badgeExist.badge].emoji + ' **|**'
     } else {
-      return this.badges[badgeExist.badges[0].badgeid].emoji + '**|**'
+      return this.badges[badgeExist.badges[0].badgeid].emoji + ' **|**'
     }
 
 

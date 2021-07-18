@@ -92,6 +92,50 @@ async function getCurrencyBalance(id, server, d) {
     return undefined;
   }
 }
+async function getAllCrates(msg, d) {
+  let db = d;
+  let crates = db.collection('crates');
+  let allc = await crates.find({ of: msg.author.id }).toArray()
+  if (allc) {
+    return allc
+  } else {
+    return []
+  }
+}
+async function addCrate(msg, ticketid, d) {
+  let db = d;
+  let crates = db.collection('crates');
+  let cid = uid(5);
+  await crates.insertOne({ id: cid, of: msg.author.id, opened: false, reciveat: new Date(), contains: ticketid });
+  return true
+}
+async function openCrate(msg, d) {
+  let db = d;
+  let crates = db.collection('crates');
+  let allc = await getAllCrates(msg, d);
+
+  if (allc.length == 0) {
+    return false
+  } else {
+    await giveTicket(msg, allc[0], d);
+    await crates.deleteOne({ id: allc[0].cid })
+    return allc[0].ticketid
+  }
+
+
+}
+async function giveTicket(msg, ticketid, d) {
+  let db = d;
+  let ut = db.collection('userTickets');
+  if (await ut.find({ ticketid: ticketid })) {
+    return false
+  } else {
+    await ut.insertOne({ ticketid: ticketid, recivedat: new Date(), of: msg.author.id })
+    return true
+  }
+
+
+}
 async function channelEandD(id, boolean, d) {
   let db = d;
   let pools = db.collection("channels");
@@ -374,5 +418,8 @@ module.exports = {
   transactionLog,
   topleaderboard,
   randomUser,
-  givedabs
+  givedabs,
+  openCrate,
+  addCrate,
+  getAllCrates
 };
