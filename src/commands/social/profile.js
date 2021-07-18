@@ -47,11 +47,16 @@ class Profile extends Command {
       .setThumbnail(member.user.displayAvatarURL())
 
       .addField("DPI ID", `**${member ? member.id : msg.author.id}@dpi**`)
+      .addField(
+        "Gender",
+        `**${member.settings.gender ? member.settings.gender : '`use dab sg to set gender`'}**`
+      )
       .addField(msg.tr("COMMAND_PROFILE_LEVEL"), member.settings.level)
       .addField(
         "Dabs",
         `**${toFancyNum(member.settings.points)}** <:dabs:851218687255773194>`
       )
+
       .addField(
         "Server Coins",
         `**${bal.amount ? parseInt(bal.amount).toLocaleString() : 0}** ${
