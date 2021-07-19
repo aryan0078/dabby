@@ -66,6 +66,9 @@ class Tickets extends Command {
 
 
         ticket = await getAllTickets(msg, false, db);
+        if (!ticket) {
+            return replyError(msg, 'You dont have any tickets buy crate from support server in #crate\nopen it by `dab crate open`\nyou will get ticket in crates', 12000)
+        }
         if (!ticket[0].link) {
             return msg.send(`${await this.badge(msg)} **${msg.author.username}** ${await this.beta(msg) ? this.betaemoji : ''},\nYour ticket is hidden will be show soon`)
         }
