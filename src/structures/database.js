@@ -109,6 +109,20 @@ async function addCrate(msg, ticketid, d) {
   await crates.insertOne({ id: cid, of: msg.author.id, opened: false, reciveat: new Date(), contains: ticketid });
   return true
 }
+async function removeOneCrate(msg, d) {
+  let db = d;
+  let crates = db.collection('crates');
+  let allc = await getAllCrates(msg, d);
+  await crates.deleteOne({ id: allc[0].id })
+}
+async function getTicket(id, d) {
+  let db = d;
+  let tc = db.collection('ticket');
+  let t = tc.findOne({ id: id });
+  return t
+
+}
+
 async function openCrate(msg, d) {
   let db = d;
   let crates = db.collection('crates');
@@ -117,21 +131,65 @@ async function openCrate(msg, d) {
   if (allc.length == 0) {
     return false
   } else {
-    await giveTicket(msg, allc[0], d);
-    await crates.deleteOne({ id: allc[0].cid })
-    return allc[0].ticketid
+
+    let t = await giveTicket(msg, allc[0].contains, d);
+    if (!t) {
+      return false
+    }
+    await crates.deleteOne({ id: allc[0].id })
+    return t
   }
 
 
 }
+async function getAllTickets(msg, ind = false, d) {
+  let db = d;
+  let ut = db.collection('userTickets');
+  let tc
+  if (ind) {
+    tc = await ut.find({ of: msg.author.id, id: ind }).toArray();
+  } else {
+    tc = await ut.find({ of: msg.author.id }).toArray();
+  }
+
+  for (let index = 0; index < tc.length; index++) {
+    const ticket = tc[index];
+    let eval = await evalTicket(ticket.id, d)
+    if (eval) {
+      tc[index]['link'] = eval.link
+    } else {
+      tc[index]['link'] = null
+    }
+
+
+  }
+  /* tc.map(async (tick) => {
+    arr.push(await evalTicket(tick.id, d))
+  }) */
+
+  if (tc.length == 0) {
+
+    return false
+
+  }
+
+  return tc
+}
+async function evalTicket(id, d) {
+  let db = d;
+  let ut = db.collection('tickets');
+  return await ut.findOne({ id: id })
+}
 async function giveTicket(msg, ticketid, d) {
   let db = d;
   let ut = db.collection('userTickets');
-  if (await ut.find({ ticketid: ticketid })) {
+  let tc = await ut.findOne({ id: ticketid })
+
+  if (tc) {
     return false
   } else {
-    await ut.insertOne({ ticketid: ticketid, recivedat: new Date(), of: msg.author.id })
-    return true
+    await ut.insertOne({ id: ticketid, recivedat: new Date(), of: msg.author.id })
+    return ticketid
   }
 
 
@@ -421,5 +479,9 @@ module.exports = {
   givedabs,
   openCrate,
   addCrate,
-  getAllCrates
+  getAllCrates,
+  getTicket,
+  giveTicket,
+  removeOneCrate,
+  getAllTickets
 };
