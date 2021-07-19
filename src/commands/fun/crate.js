@@ -40,10 +40,16 @@ class GenerateCoupons extends Command {
                 await removeOneCrate(msg, db)
                 return replyError(msg, `You got a refund of ${toFancyNum(500000)} <:dabs:851218687255773194> dabs`, 8000)
             }
-            if (!ticket) {
-                return replyError(msg, `${await this.badge(msg)} **${msg.author.username} ${await this.beta(msg) ? this.betaemoji : ''}**,\n**You Opend a crate**\nand Recived hidden character **will be visible soon**`, 8000)
-            }
             let embed = new MessageEmbed().setImage('https://media.giphy.com/media/5YrT02HhIpbiqFbF4j/giphy.gif')
+            if (!ticket) {
+                return msg.send(`${await this.badge(msg)} **${msg.author.username} ${await this.beta(msg) ? this.betaemoji : ''}**,\n**You Opend a crate **`, { embed: embed }).then(m => {
+                    setTimeout(async () => {
+                        m.edit(`${await this.badge(msg)} **${msg.author.username} ${await this.beta(msg) ? this.betaemoji : ''}**,\n**And recived hidden character will be visible soon**`)
+                    }, 5000)
+                })
+               // return replyError(msg, `${await this.badge(msg)} **${msg.author.username} ${await this.beta(msg) ? this.betaemoji : ''}**,\n**You Opend a crate**\nand Recived hidden character **will be visible soon**`, 8000)
+            }
+
             let ticketembed = new MessageEmbed().setImage(ticket.link)
  
              msg.send(`${await this.badge(msg)} **${msg.author.username} ${await this.beta(msg) ? this.betaemoji : ''}**,\n**You Opend a crate**`, { embed: embed }).then(m => {
