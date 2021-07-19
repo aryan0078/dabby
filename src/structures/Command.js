@@ -205,7 +205,7 @@ class Command extends Base {
    * @abstract
    */
   async run(msg) {
-    return msg.send(`${this.constructor.name} does not provide a \`run()\` implementation.${msg.author.id !== this.client.constants.ownerID ? " This is a bug, please report this in our server at https://discord.gg/mDkMbEh" : ""}`);
+    return msg.send(`${this.constructor.name} does not provide a \`run()\` implementation.${msg.author.id !== this.client.constants.ownerID ? " This is a bug, please report this in our server" : ""}`);
   }
 }
 
