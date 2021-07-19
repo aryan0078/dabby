@@ -141,6 +141,9 @@ class Command extends Base {
     db = await db.db();
     let u = await db.collection("members");
     let badgeExist = await u.findOne({ id: msg.author.id });
+    if (!badgeExist) {
+      return ""
+    }
     if (!badgeExist.badge && !badgeExist.badges) {
       return ''
     }
