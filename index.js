@@ -14,7 +14,7 @@ const moduleAlias = require("module-alias");
 const { paydab, getdabbal } = require("./src/structures/database.js");
 const express = require("express");
 const app = express();
-const port = 3000;
+const port = 3040;
 
 app.get("/", (req, res) => res.send("Hello World!"));
 
