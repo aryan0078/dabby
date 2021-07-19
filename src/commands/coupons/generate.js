@@ -53,7 +53,7 @@ class GenerateCoupons extends Command {
 
     try {
       msg.send(
-        `${await this.badge(msg)} **| ${msg.author.username} ${await this.beta(msg) ? this.betaemoji : ''} You have Successfully generated **${toFancyNum(amount)}** <:dabs:851218687255773194> redeem code \n check your DM for code`
+        `${await this.badge(msg)} **${msg.author.username}** ${await this.beta(msg) ? this.betaemoji : ''} You have Successfully generated **${toFancyNum(amount)}** <:dabs:851218687255773194> redeem code \n check your DM for code`
       );
       u.send(
         `>>> You code to claim **${toFancyNum(amount)}** dabs <:dabs:851218687255773194> use **dab claim {code}** to claim`
