@@ -26,7 +26,6 @@ class Claim extends Command {
       return;
     }
     let c = await claimCode(code[0], msg.author.id, db);
-    //console.log(c, code[0]);
     if (c) {
       msg.member.givePoints(c.amount);
       return msg.send(

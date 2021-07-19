@@ -28,10 +28,8 @@ async function claimCode(code, id, d) {
 
   let coupons = await coupon.findOne({ id: code });
   if (coupons && !coupons.claimed) {
-    await coupon.findOneAndUpdate(
-      { id: code },
-      { $set: { claimed: true, claimedAt: new Date(), claimedBy: id } }
-    );
+
+    await coupon.deleteOne({ id: code })
     return coupons;
   } else {
     return false;
