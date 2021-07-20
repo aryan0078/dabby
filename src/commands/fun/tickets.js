@@ -10,7 +10,7 @@ class Tickets extends Command {
             description: "See your tickets",
             usage: "ticket {ticketid} or ticket all",
             guildOnly: true,
-            cooldown: 10,
+            cooldown: 15,
             aliases: ["tickets", "ticket"],
         });
     }
@@ -30,26 +30,26 @@ class Tickets extends Command {
         
         if (index == 'all') {
             ticket = await getAllTickets(msg, false, db)
-            msg.author.send(`**Your All tickets**\n`)
-            let ticketids = 'You have '
-            ticket.map(t=>ticketids+=`**${t.id}**\n`)
-            ticket.forEach((ticket, index) => {
-                if (index > 2) {
-                    msg.author.send(`\n ${ticketids}`)
-                    return
-                }
-                if (!ticket.link) {
-                    msg.author.send(`Ticket id **${ticket.id}** is hidden will be shown soon`)
-                }
-                if (ticket.link) {
-                    let dmembed = new MessageEmbed()
-                    dmembed.setImage(ticket.link)
-                    msg.author.send(`Ticket id **${ticket.id}**`, { embed: dmembed })
-                }
-            });
-            return msg.send(`**Check Dm for all tickets**`).then(m => {
+            let str=`Your All ticket ids are, `
+           ticket.map(t=>str+=`**${t.id}**,`)
+            for (let index = 0; index < ticket.length; index++) {
+                const tic = ticket[index];
+                if (index > 1) {
+                      msg.author.send(str)
+                    return msg.send(`**Check Dm for all tickets**`).then(m => {
                 m.react('👍');
             })
+                }
+                if (!tic.link) {
+                    msg.author.send(`Ticket id **${tic.id}** is hidden will be shown soon`)
+                }
+                if (tic.link) {
+                    let dmembed = new MessageEmbed()
+                    dmembed.setImage(tic.link)
+                    msg.author.send(`Ticket id **${tic.id}**`, { embed: dmembed })
+                }
+            }
+          
 
         }
         if (index) {
