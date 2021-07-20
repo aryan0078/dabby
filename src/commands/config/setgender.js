@@ -7,7 +7,7 @@ class SetGender extends Command {
             description: "Set gender of yourself for battle with tickets ",
             usage: "setgender male|female",
             guildOnly: true,
-            cooldown: 100,
+            cooldown: 50,
             aliases: ["sg"],
         });
     }
@@ -24,17 +24,17 @@ class SetGender extends Command {
         if (gender == 'male') {
             let user = await user_.findOne({ id: msg.author.id });
             if (user.male || user.female) {
-                user_.findOneAndUpdate({ id: msg.author.id }, { $set: { gender: gender } })
+                user_.findOneAndUpdate({ id: msg.author.id }, { $set: { gender: 'male'} })
             } else {
-                user_.findOneAndUpdate({ id: msg.author.id }, { $set: { gender: gender } })
+                user_.findOneAndUpdate({ id: msg.author.id }, { $set: { gender: 'male' } })
             }
             return msg.send(`${await this.badge(msg)} **${msg.author.username}** ${await this.beta(msg) ? this.betaemoji : ''} you are now ${gender}`)
         } else if (gender == 'female') {
             let user = await user_.findOne({ id: msg.author.id });
             if (user.male || user.female) {
-                user_.findOneAndUpdate({ id: msg.author.id }, { $set: { gender: gender } })
+                user_.findOneAndUpdate({ id: msg.author.id }, { $set: { gender: 'male'} })
             } else {
-                user_.findOneAndUpdate({ id: msg.author.id }, { $set: { gender: gender } })
+                user_.findOneAndUpdate({ id: msg.author.id }, { $set: { gender: 'female'} })
             }
             return msg.send(`${await this.badge(msg)} **${msg.author.username}** ${await this.beta(msg) ? this.betaemoji : ''} you are now ${gender}`)
         } else {
