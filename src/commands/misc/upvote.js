@@ -11,7 +11,7 @@ class Upvote extends Command {
   }
 
   async run(msg) {
-    return msg.send(`Upvote me here: coming soon !`);
+    return msg.send(`Upvote me here: https://top.gg/bot/784717683454378024`);
   }
 }
 

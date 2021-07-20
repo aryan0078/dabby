@@ -7,4 +7,7 @@ manager.on('shardCreate', shard => {
 });
 
 manager.spawn(manager.totalShards, 10000);
+/* manager.on("message", (shard, message) => {
+    console.log(`Shard[${shard.id}]:${message._eval}`)
+}) */
 //manager.listeners()
