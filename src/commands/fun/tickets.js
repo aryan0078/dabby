@@ -26,12 +26,16 @@ class Tickets extends Command {
         if (ticket.length == 0) {
             return replyError(msg, 'You dont have any tickets', 5000)
         }
+       
+        
         if (index == 'all') {
             ticket = await getAllTickets(msg, false, db)
             msg.author.send(`**Your All tickets**\n`)
+            let ticketids = 'You have '
+            ticket.map(t=>ticketids+=`**${t.id}**\n`)
             ticket.forEach((ticket, index) => {
-                if (index > 10) {
-                    msg.author.send(`\n and **${ticket.length}** more....`)
+                if (index > 2) {
+                    msg.author.send(`\n ${ticketids}`)
                     return
                 }
                 if (!ticket.link) {
