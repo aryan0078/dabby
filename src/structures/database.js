@@ -192,14 +192,14 @@ async function giveTicket(msg, ticketid, d) {
 
 
 }
-async function channelEandD(id, boolean, d) {
+async function channelEandD(id, boolean,mimic=false, d) {
   let db = d;
   let pools = db.collection("channels");
   let c = await pools.findOne({ id: id });
   if (c) {
-    await pools.findOneAndUpdate({ id: id }, { $set: { enabled: boolean } });
+    await pools.findOneAndUpdate({ id: id }, { $set: { enabled: boolean,mimic:mimic } });
   } else {
-    await pools.insertOne({ id: id, enabled: boolean });
+    await pools.insertOne({ id: id, enabled: boolean,mimic:mimic });
   }
 }
 async function checkChannelEandD(id, d) {

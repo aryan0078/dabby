@@ -11,15 +11,24 @@ class enable extends Command {
     });
   }
 
-  async run(msg) {
+  async run(msg,[args]) {
     let db = this.client.dbClient;
     db = await db.db();
-    await channelEandD(msg.channel.id, true, db);
-    return replyError(
-      msg,
-      "Dabby commands are enabled now in this channel",
-      5000
-    );
+   
+    await channelEandD(msg.channel.id, true, args == "mimic" ? true : false, db);
+    if (args == "mimic") {
+      return replyError(
+        msg,
+        "Mimic command is enabled now in this channel",
+        5000
+      );
+    } else {
+      return replyError(
+        msg,
+        "Dabby commands are enabled now in this channel",
+        5000
+      );
+    }
   }
 }
 
