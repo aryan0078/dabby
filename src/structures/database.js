@@ -100,6 +100,17 @@ async function getAllCrates(msg, d) {
     return []
   }
 }
+async function checkUserHasTicket(user, id, d) {
+    let db = d;
+  let crates = db.collection('userTickets');
+  let f = await crates.findOne({ id: id, of: user });
+  if (f) {
+    return f
+  } else {
+    return false
+  }
+
+}
 async function addCrate(msg, ticketid, d) {
   let db = d;
   let crates = db.collection('crates');
@@ -118,7 +129,6 @@ async function getTicket(id, d) {
   let tc = db.collection('ticket');
   let t = tc.findOne({ id: id });
   return t
-
 }
 
 async function openCrate(msg, d) {
@@ -187,7 +197,7 @@ async function evalTicket(id, d) {
 async function giveTicket(msg, ticketid, d) {
   let db = d;
   let ut = db.collection('userTickets');
-  let tc = await ut.findOne({ id: ticketid })
+  let tc = await ut.findOne({ id: ticketid,of:msg.author.id })
 
   if (tc) {
     return false
@@ -487,5 +497,6 @@ module.exports = {
   getTicket,
   giveTicket,
   removeOneCrate,
-  getAllTickets
+  getAllTickets,
+  checkUserHasTicket
 };
