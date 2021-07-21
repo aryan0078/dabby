@@ -36,9 +36,9 @@ class GenerateCoupons extends Command {
             let ticket = await getTicket(tid, db);
 
             if (!tid) {
-                msg.member.givePoints(500000);
+              /*   msg.member.givePoints(500000); */
                 await removeOneCrate(msg, db)
-                return replyError(msg, `You got a refund of ${toFancyNum(500000)} <:dabs:851218687255773194> dabs`, 8000)
+                return replyError(msg, `**You got nothing**`, 8000)
             }
             let embed = new MessageEmbed().setImage('https://media.giphy.com/media/5YrT02HhIpbiqFbF4j/giphy.gif')
             if (!ticket) {

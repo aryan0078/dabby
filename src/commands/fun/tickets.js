@@ -30,7 +30,10 @@ class Tickets extends Command {
         
         if (index == 'all') {
             ticket = await getAllTickets(msg, false, db)
-            let str=`Your All ticket ids are, `
+            let str = `Your All ticket ids are, `
+            if (!ticket) {
+                return replyError(msg,'You dont have any tickets',5000)
+            }
            ticket.map(t=>str+=`**${t.id}**,`)
             for (let index = 0; index < ticket.length; index++) {
                 const tic = ticket[index];
