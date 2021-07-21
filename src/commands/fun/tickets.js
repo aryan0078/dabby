@@ -34,7 +34,7 @@ class Tickets extends Command {
            ticket.map(t=>str+=`**${t.id}**,`)
             for (let index = 0; index < ticket.length; index++) {
                 const tic = ticket[index];
-                if (index > 1) {
+                if (index > 1&&ticket.length==1) {
                       msg.author.send(str)
                     return msg.send(`**Check Dm for all tickets**`).then(m => {
                 m.react('👍');
@@ -54,7 +54,7 @@ class Tickets extends Command {
         }
         if (index) {
             if (!parseInt(index)) {
-                return replyError(msg, "please input proper index", 5000)
+                return replyError(msg, "please input proper ticket id", 5000)
             }
             ticket = await getAllTickets(msg, index, db)
             if (!ticket) {

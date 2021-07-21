@@ -145,11 +145,11 @@ async function getAllTickets(msg, ind = false, d) {
   let ut = db.collection('userTickets');
   let tc
   if (ind) {
-    tc = await ut.findOne({ of: msg.author.id, id: parseInt(ind )})
+    tc = await ut.findOne({ of: msg.author.id, id: parseInt(ind)})
    if(!tc){
      return false
    }
-   let evalt=await evalTicket(tc.id,db)
+   let evalt=await evalTicket(tc.id,d)
     
     return evalt
   } else {
