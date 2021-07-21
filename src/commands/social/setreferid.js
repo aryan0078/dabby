@@ -41,7 +41,7 @@ class SetReferid extends Command {
       if (inviter.invites) {
         await user_.findOneAndUpdate(
           { id: member.id },
-          { $push: { invites: [msg.author.id] } }
+          { $push: { invites: msg.author.id } }
         );
         await user_.findOneAndUpdate(
           { id: msg.author.id },
