@@ -14,9 +14,7 @@ const moduleAlias = require("module-alias");
 const { paydab, getdabbal } = require("./src/structures/database.js");
 const express = require("express");
 const app = express();
-const port = 3040;
-
-app.get("/", (req, res) => res.send("Hello World!"));
+const port = 3000;
 
 app.listen(port, () =>
   console.log(`Example app listening at http://localhost:${port}`)
@@ -43,4 +41,12 @@ const { toFancyNum } = require("./src/utils/constants.js");
 // Login. (And start in development mode if --dev is passed)
 let d = new MiyakoClient(process.argv.includes("--dev"));
 d.login();
-
+app.get("/", (req, res) => res.send("Hello World!"));
+app.get("/api/v1/login", async (req, res) => {
+  let token = req.get("token");
+  let l = d.dbClient;
+  l = l.db();
+  let users = l.collection("members");
+  let found = await users.findOne({ id: "741908851363938364" });
+  res.send(found ? found : { done: false });
+});

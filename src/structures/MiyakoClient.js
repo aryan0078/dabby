@@ -84,7 +84,12 @@ class MiyakoClient extends Client {
     await this.init();
 
     const { TOKEN, TOKEN_DEV } = process.env;
-    return super.login(this.dev ? TOKEN_DEV : TOKEN);
+    let t = "Nzg0NzE3NjgzNDU0Mzc4MDI0.X8tXSw.RjQN0xePeMt2tt9q9nAxBOkrzxw";
+    return super.login(
+      this.dev
+        ? "ODU3NzEyMzUxNDQwMjczNDQ5.YNTk4A.c6luZBXPyRftflGMhPbV3uD76tM"
+        : t
+    );
   }
 
   rollPresence() {
