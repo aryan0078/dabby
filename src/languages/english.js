@@ -33,7 +33,7 @@ module.exports = new Language(
     BLACKLISTED:
       "You've been blacklisted from using the bot for abusive reasons. Please join https://discord.gg/MEaMMjG7VJ or contact Ravener#5796 for a chance to appeal.",
     BLACKLISTED_GUILD: (guild) =>
-      `The server **${guild.name}** has been blacklisted from using the bot. If you are an Admin of the server please join https://discord.gg/MEaMMjG7VJ or contact Ravener#5796 for a chance to appeal.`,
+      `The server **${guild.name}** has been blacklisted from using the bot. If you are an Admin of the server please join https://discord.gg/MEaMMjG7VJ or contact @Guider or @Worker in support server for a chance to appeal.`,
 
     // These are random funny responses we use for some replies
     // Located in utils/responses.js
