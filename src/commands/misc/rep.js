@@ -24,6 +24,7 @@ class Reputation extends Command {
     await user.syncSettings();
     const reputation = user.settings.reputation + 1;
     await user.update({ reputation });
+    msg.members.up;
     await msg.author.update({ repcooldown: new Date(msg.createdTimestamp + 43200000) });
     return msg.send(`Successfully gave a reputation point to ${user}`);
   }

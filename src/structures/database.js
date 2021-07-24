@@ -429,7 +429,12 @@ async function paydab(id, recieveid, amt, server, d) {
   let users = db.collection("members");
   let user1bal = await users.findOne({ id: id });
   let user2bal = await users.findOne({ id: recieveid });
-
+  if (user1bal.points < amt) {
+    return {msg:"Insufficient Balance",success: false}
+  }
+  if (!user2bal) {
+    return {msg:"User is not a member of Dabby",success: false}
+  }
   await users.findOneAndUpdate(
     { id: id },
     { $set: { points: user1bal.points - amt } }
@@ -438,7 +443,8 @@ async function paydab(id, recieveid, amt, server, d) {
     { id: recieveid },
     { $set: { points: user2bal.points + amt } }
   );
-    transactionLog(amt, id, recieveid, server, d); 
+  transactionLog(amt, id, recieveid, server, d);
+  return  {msg:"Done",success: true}
 }
 async function givedabs(id, amount, d) {
   let db = d;

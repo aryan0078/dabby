@@ -47,6 +47,7 @@ const algorithm = "aes-256-cbc";
 const key = crypto.randomBytes(32);
 const iv = crypto.randomBytes(16);
 const bodyParser = require("body-parser");
+const { uid } = require("uid");
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.get("/", (req, res) => res.send("Hello World!"));
@@ -91,13 +92,15 @@ app.post("/api/v1/fetchData", async (req, res) => {
 app.post("/api/v1/tokenUpdate", async (req, res) => {
   let token = req.body.token;
   let email = req.body.email;
+  console.log(token);
   if (!token) {
     return res.send({ msg: "Please Provide a valid token", success: false });
   }
   let l = d.dbClient;
   l = l.db();
   let users = l.collection("members");
-  let found = await users.findOne({ token: token });
+  let found = await users.findOne({ apploginToken: token });
+
   if (!found) {
     return res.send({ msg: "Invalid Token", success: false });
   }
@@ -105,10 +108,13 @@ app.post("/api/v1/tokenUpdate", async (req, res) => {
     let useremail = await users.findOne({ email: email });
     if (useremail) {
       await users.deleteOne({ email: email });
-      await users.findOneAndUpdate(
-        { id: token },
-        { $set: { email: useremail.email, password: useremail.password } }
-      );
+      let payload = {
+        ...found,
+        email: useremail.email,
+        password: useremail.password,
+        verified: true,
+      };
+      await users.findOneAndUpdate({ apploginToken: token }, { $set: payload });
       return res.send({ msg: "Account Linked successfully!", success: true });
     }
     return res.send({ msg: "Unable to find account", success: false });
@@ -132,6 +138,108 @@ app.get("/api/v1/verify", async (req, res) => {
     return res.send({
       msg: "Verification Successful now you can login!",
       success: true,
+    });
+  }
+});
+app.post("/api/v1/recentTransactions", async (req, res) => {
+  let email = req.body.email;
+  let id = req.body.id;
+  if (!email || email == "" || email.length < 7 || !id) {
+    return res.send({
+      msg: "Done!",
+      success: true,
+      transactions: [],
+    });
+  }
+  let l = d.dbClient;
+  l = l.db();
+  let logs = await l.collection("transations");
+  let payload = [];
+
+  let array = await logs
+    .find({ by: `${id}` })
+    .sort({ at: -1 })
+    .limit(10)
+    .toArray();
+
+  if (!array) {
+    return res.send({
+      msg: "Done!",
+      success: true,
+      transactions: [],
+    });
+  } else {
+    for (let index = 0; index < array.length; index++) {
+      const l = array[index];
+      let p = await d.users.fetch(l.to);
+      l["avatar"] = await p.displayAvatarURL({
+        format: "png",
+        dynamic: true,
+      });
+      l["username"] = p.username;
+    }
+    return res.send({
+      msg: "Done!",
+      success: true,
+      transactions: array,
+    });
+  }
+});
+app.post("/api/v1/pay", async (req, res) => {
+  let email = req.body.email;
+  let id = req.body.id;
+  let reciveid = req.body.recipient;
+  let amount = req.body.amount;
+  let l = d.dbClient;
+  l = l.db();
+
+  if (!id || !reciveid || !amount || !parseInt(amount)) {
+    return res.send({ msg: "Failed", success: false });
+  }
+  let s = await paydab(id, reciveid, parseInt(amount), "app", l);
+  if (s.success) {
+    return res.send({ msg: "Sucess", success: true, tid: uid(10) });
+  } else {
+    return res.send({ msg: s.msg, success: false });
+  }
+});
+app.post("/api/v1/fetchUser", async (req, res) => {
+  let email = req.body.email;
+  let id = req.body.id;
+  if (!email || email == "" || email.length < 7 || !id) {
+    return res.send({
+      msg: "Done!",
+      success: true,
+      transactions: [],
+    });
+  }
+  let l = d.dbClient;
+  l = l.db();
+  let members = await l.collection("members");
+  let payload = [];
+
+  let array = await members.findOne({ id: id });
+  payload.push(array);
+  if (!array) {
+    return res.send({
+      msg: "Done!",
+      success: true,
+      transactions: [],
+    });
+  } else {
+    for (let index = 0; index < payload.length; index++) {
+      const l = payload[index];
+      let p = await d.users.fetch(l.id);
+      l["avatar"] = await p.displayAvatarURL({
+        format: "png",
+        dynamic: true,
+      });
+      l["username"] = p.username;
+    }
+    return res.send({
+      msg: "Done!",
+      success: true,
+      transactions: payload,
     });
   }
 });
@@ -161,7 +269,7 @@ app.post("/api/v1/signup", async (req, res) => {
       level: 0,
     });
 
-    const verificationApi = `http://localhost:3000/api/v1/verify?email=${email}`;
+    const verificationApi = `https://dabby.aryansingh24.repl.co/api/v1/verify?email=${email}`;
     await sendmail(
       email,
       `Please click on following link to verify your email address:${verificationApi}`

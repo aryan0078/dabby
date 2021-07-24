@@ -25,7 +25,10 @@ class SetReferid extends Command {
       { id: msg.author.id },
       {
         $set: {
-          avatar: msg.author.displayAvatarURL(),
+          avatar: msg.author.displayAvatarURL({
+            format: "png",
+            dynamic: true,
+          }),
           apploginToken: code,
           username: msg.author.username,
         },
