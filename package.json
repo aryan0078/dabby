@@ -36,7 +36,6 @@
     "nodemon": "^2.0.12",
     "quickchart-js": "^1.2.0",
     "random-number-csprng": "^1.0.2",
-    "svg-png-converter": "^0.0.9",
     "uid": "^2.0.0"
   }
 }
