@@ -21,6 +21,7 @@
   "dependencies": {
     "cheerio": "^1.0.0-rc.3",
     "cluster": "^0.7.7",
+    "crypto": "^1.0.1",
     "dblapi.js": "^2.4.0",
     "discord-buttons": "^3.2.1",
     "discord.js": "^12.5.3",
@@ -31,6 +32,7 @@
     "module-alias": "^2.2.2",
     "mongodb": "^3.6.0",
     "node-base64-image": "^2.0.3",
+    "nodemailer": "^6.6.3",
     "nodemon": "^2.0.12",
     "quickchart-js": "^1.2.0",
     "random-number-csprng": "^1.0.2",
