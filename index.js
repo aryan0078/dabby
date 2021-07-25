@@ -92,11 +92,24 @@ app.post("/api/v1/fetchData", async (req, res) => {
 
   return res.send(found);
 });
+
+app.post("/api/v1/getBanners", async (req, res) => {
+  let l = d.dbClient;
+  l = l.db();
+  let users = l.collection("banners");
+  let b = await users.find().toArray();
+  return res.send({ msg: "Succesfull", success: true, payload: b });
+});
 app.post("/api/v1/getNotifications", async (req, res) => {
   let fcm = req.body.fcm;
-  let id = req.body.id;
+  let id = req.body.for;
   let appVersion = req.body.appVersion;
-  if (appVersion != "1") {
+  let type = req.body.type;
+  let content = req.body.content;
+  let title = req.body.title;
+  let amount = req.body.amount;
+
+  if (appVersion != "0.0.2") {
     return res.send({
       payload: {
         title: "New App Update",
@@ -112,12 +125,25 @@ app.post("/api/v1/getNotifications", async (req, res) => {
   let l = d.dbClient;
   l = l.db();
   let users = l.collection("notifications");
-  let found = await users.findOne({ email: email });
-  if (!found) {
-    return res.send({ msg: "Something Went Wrong!", success: false });
+  let found;
+
+  found = await users
+    .find({
+      for: id,
+    })
+    .sort({ at: -1 })
+    .limit(2)
+    .toArray();
+
+  if (!found || !found[0]) {
+    return res.send({
+      msg: "Something Went Wrong!",
+      success: false,
+      payload: [],
+    });
+  } else {
+    return res.send({ msg: "Fetch success", success: true, payload: found[0] });
   }
-  found["success"] = true;
-  return res.send(found);
 });
 app.post("/api/v1/setfcm", async (req, res) => {
   let token = req.body.fcmtoken;
@@ -134,45 +160,25 @@ app.post("/api/v1/setfcm", async (req, res) => {
   return res.send({ msg: "Token set", success: true });
 });
 app.post("/api/v1/paymentNotification", async (req, res) => {
-  let from = req.body.from;
-  let to = req.body.to;
+  let f = req.body.for;
+  let to = req.body.title;
   let amount = req.body.amount;
-  var FCM = require("fcm-node");
-  var serverKey =
-    "AAAAG_OrKsY:APA91bHIU_HSFdgED9F3AnV4j5jWaAd5hEYK9vb3jwkJFDjFYExnS8SuukqCpDtH8XRpebz3ZewR6fD2BTZvBCt85Cg-oqhTNOdNx4p0C9zCzaXuwMN-XvFQMQLavt091YFiVCuwh8ZK"; //put your server key here
-  var fcm = new FCM(serverKey);
-  if (!to) {
-    return res.send({ msg: "Recipient not found", success: false });
-  }
+  let content = req.body.content;
   let l = d.dbClient;
+
   l = l.db();
-  let users = l.collection("members");
-  let found = await users.findOne({ id: to });
-
-  if (!found || !found.fcmtoken) {
-    return res.send({ msg: "Fcm token not found", success: false });
-  }
-  console.log(found, found.fcmtoken);
-  let fcmto = found.fcmtoken;
-  var message = {
-    //this may vary according to the message type (single recipient, multicast, topic, et cetera)
-    to: fcmto,
-    collapse_key: "your_collapse_key",
-
-    notification: {
-      title: `${amount} Recived!`,
-      body: `From ${from}`,
-    },
-  };
-
-  await fcm.send(message, function (err, response) {
-    if (err) {
-      console.log("Something has gone wrong!");
-    } else {
-      console.log("Successfully sent with response: ", response);
-    }
+  let id = uid(10);
+  let notifications = l.collection("notifications");
+  await notifications.insertOne({
+    type: "payment",
+    at: new Date(),
+    for: f,
+    title: to,
+    amount: amount,
+    content: content,
+    uid: id,
   });
-  return res.send({ msg: "Success", success: true });
+  return res.send({ msg: "Notification Send Successfully", success: true });
 });
 app.post("/api/v1/tokenUpdate", async (req, res) => {
   let token = req.body.token;
