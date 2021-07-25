@@ -19,6 +19,8 @@ class PayDab extends Command {
 
   async run(msg, [member, amount]) {
     member = await this.verifyMember(msg, member);
+    await msg.member.syncSettingsCache();
+    await member.syncSettingsCache();
     if (!amount) {
       return replyError(msg, "You don't have enough dabs ");
     }

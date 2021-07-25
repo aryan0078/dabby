@@ -89,6 +89,55 @@ app.post("/api/v1/fetchData", async (req, res) => {
 
   return res.send(found);
 });
+app.post("/api/v1/setfcm", async (req, res) => {
+  let token = req.body.fcmtoken;
+  let id = req.body.id;
+  let email = req.body.email;
+  let l = d.dbClient;
+  l = l.db();
+  let users = l.collection("members");
+  user = await users.findOneAndUpdate(
+    { id: id },
+    { $set: { fcmtoken: token } }
+  );
+  return res.send({ msg: "Token set", success: true });
+});
+app.post("/api/v1/paymentNotification", async (req, res) => {
+  let from = req.body.from;
+  let to = req.body.to;
+  let amount = req.body.amount;
+  var FCM = require("fcm-node");
+  var serverKey =
+    "AAAAG_OrKsY:APA91bHIU_HSFdgED9F3AnV4j5jWaAd5hEYK9vb3jwkJFDjFYExnS8SuukqCpDtH8XRpebz3ZewR6fD2BTZvBCt85Cg-oqhTNOdNx4p0C9zCzaXuwMN-XvFQMQLavt091YFiVCuwh8ZK"; //put your server key here
+  var fcm = new FCM(serverKey);
+  let l = d.dbClient;
+  l = l.db();
+  let users = l.collection("members");
+  let found = await users.findOne({ id: to });
+  if (!found || !found.fcmtoken) {
+    return res.send({ msg: "Fcm token not found", success: false });
+  }
+  let fcmto = found.fcmtoken;
+  var message = {
+    //this may vary according to the message type (single recipient, multicast, topic, et cetera)
+    to: fcmto,
+    collapse_key: "your_collapse_key",
+
+    notification: {
+      title: `${amount} Recived!`,
+      body: `From ${from}`,
+    },
+  };
+
+  fcm.send(message, function (err, response) {
+    if (err) {
+      console.log("Something has gone wrong!");
+    } else {
+      console.log("Successfully sent with response: ", response);
+    }
+  });
+  return res.send({ msg: "Success", success: true });
+});
 app.post("/api/v1/tokenUpdate", async (req, res) => {
   let token = req.body.token;
   let email = req.body.email;

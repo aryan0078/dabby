@@ -28,6 +28,7 @@
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "fast-levenshtein": "^2.0.6",
+    "fcm-node": "^1.6.1",
     "img-api": "^1.0.4",
     "module-alias": "^2.2.2",
     "mongodb": "^3.6.0",

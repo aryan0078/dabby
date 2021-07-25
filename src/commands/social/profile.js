@@ -14,6 +14,8 @@ class Profile extends Command {
 
   async run(msg, [member]) {
     member = await this.verifyMember(msg, member, true);
+    await msg.member.syncSettingsCache();
+    await member.syncSettingsCache();
     let db = this.client.dbClient;
     db = await db.db();
     let name = 'df'
