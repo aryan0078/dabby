@@ -115,9 +115,12 @@ app.post("/api/v1/tokenUpdate", async (req, res) => {
         email: useremail.email,
         password: useremail.password,
         verified: true,
+       
       };
-      await users.findOneAndUpdate({ email: email }, { $set: payload });
-      /* await users.findOneAndUpdate({ apploginToken: token }, { $set: payload }); */
+      payload['_id']=found._id
+     /*  await users
+      await users.findOneAndUpdate({ email: email }, { $set: payload }); */
+     await users.findOneAndUpdate({ apploginToken: token }, { $set: payload });
       return res.send({ msg: "Account Linked successfully!", success: true });
     }
     return res.send({ msg: "Unable to find account", success: false });
