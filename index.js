@@ -85,6 +85,9 @@ app.post("/api/v1/fetchData", async (req, res) => {
   l = l.db();
   let users = l.collection("members");
   let found = await users.findOne({ email: email });
+  if(!found){
+   return res.send({msg:"Something Went Wrong!",success:false})
+  }
   found["success"] = true;
 
   return res.send(found);
