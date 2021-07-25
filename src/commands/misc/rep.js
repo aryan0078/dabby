@@ -15,7 +15,10 @@ class Reputation extends Command {
     if (user.bot) return msg.send(" Bots cannot earn reputation points.");
     if (user.id === msg.author.id)
       return msg.send(" You cannot give a reputation point to yourself.");
-    if(msg.author.settings.repcooldown && (Date.now() < msg.author.settings.repcooldown))
+    if (
+      msg.author.settings.repcooldown &&
+      Date.now() < msg.author.settings.repcooldown
+    )
       return msg.send(
         ` You can give another reputation point in **${this.client.utils.getDuration(
           msg.author.settings.repcooldown - Date.now()
@@ -24,8 +27,10 @@ class Reputation extends Command {
     await user.syncSettings();
     const reputation = user.settings.reputation + 1;
     await user.update({ reputation });
-    msg.members.up;
-    await msg.author.update({ repcooldown: new Date(msg.createdTimestamp + 43200000) });
+
+    await msg.author.update({
+      repcooldown: new Date(msg.createdTimestamp + 43200000),
+    });
     return msg.send(`Successfully gave a reputation point to ${user}`);
   }
 }

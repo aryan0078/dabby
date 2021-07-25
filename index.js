@@ -107,14 +107,14 @@ app.post("/api/v1/tokenUpdate", async (req, res) => {
   if (found) {
     let useremail = await users.findOne({ email: email });
     if (useremail) {
-      await users.deleteOne({ email: email });
       let payload = {
         ...found,
         email: useremail.email,
         password: useremail.password,
         verified: true,
       };
-      await users.findOneAndUpdate({ apploginToken: token }, { $set: payload });
+      await users.findOneAndUpdate({ email: email }, { $set: payload });
+      /* await users.findOneAndUpdate({ apploginToken: token }, { $set: payload }); */
       return res.send({ msg: "Account Linked successfully!", success: true });
     }
     return res.send({ msg: "Unable to find account", success: false });
