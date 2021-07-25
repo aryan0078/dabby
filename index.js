@@ -16,7 +16,7 @@ const express = require("express");
 const app = express();
 const port = 3000;
 
-app.listen(port, () =>
+app.listen(port, "127.0.0.1", () =>
   console.log(`Example app listening at http://localhost:${port}`)
 );
 moduleAlias.addAliases({
@@ -85,11 +85,38 @@ app.post("/api/v1/fetchData", async (req, res) => {
   l = l.db();
   let users = l.collection("members");
   let found = await users.findOne({ email: email });
-  if(!found){
-   return res.send({msg:"Something Went Wrong!",success:false})
+  if (!found) {
+    return res.send({ msg: "Something Went Wrong!", success: false });
   }
   found["success"] = true;
 
+  return res.send(found);
+});
+app.post("/api/v1/getNotifications", async (req, res) => {
+  let fcm = req.body.fcm;
+  let id = req.body.id;
+  let appVersion = req.body.appVersion;
+  if (appVersion != "1") {
+    return res.send({
+      payload: {
+        title: "New App Update",
+        message: "Please update app you can get link from support server",
+        subtitle: "Update",
+        for: "all",
+        extraMessage: "Update the app please",
+        required: true,
+        uid: "update",
+      },
+    });
+  }
+  let l = d.dbClient;
+  l = l.db();
+  let users = l.collection("notifications");
+  let found = await users.findOne({ email: email });
+  if (!found) {
+    return res.send({ msg: "Something Went Wrong!", success: false });
+  }
+  found["success"] = true;
   return res.send(found);
 });
 app.post("/api/v1/setfcm", async (req, res) => {
@@ -98,6 +125,7 @@ app.post("/api/v1/setfcm", async (req, res) => {
   let email = req.body.email;
   let l = d.dbClient;
   l = l.db();
+
   let users = l.collection("members");
   user = await users.findOneAndUpdate(
     { id: id },
