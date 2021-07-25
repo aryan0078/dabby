@@ -113,13 +113,18 @@ app.post("/api/v1/paymentNotification", async (req, res) => {
   var serverKey =
     "AAAAG_OrKsY:APA91bHIU_HSFdgED9F3AnV4j5jWaAd5hEYK9vb3jwkJFDjFYExnS8SuukqCpDtH8XRpebz3ZewR6fD2BTZvBCt85Cg-oqhTNOdNx4p0C9zCzaXuwMN-XvFQMQLavt091YFiVCuwh8ZK"; //put your server key here
   var fcm = new FCM(serverKey);
+  if (!to) {
+    return res.send({ msg: "Recipient not found", success: false });
+  }
   let l = d.dbClient;
   l = l.db();
   let users = l.collection("members");
   let found = await users.findOne({ id: to });
+
   if (!found || !found.fcmtoken) {
     return res.send({ msg: "Fcm token not found", success: false });
   }
+  console.log(found, found.fcmtoken);
   let fcmto = found.fcmtoken;
   var message = {
     //this may vary according to the message type (single recipient, multicast, topic, et cetera)
@@ -132,7 +137,7 @@ app.post("/api/v1/paymentNotification", async (req, res) => {
     },
   };
 
-  fcm.send(message, function (err, response) {
+  await fcm.send(message, function (err, response) {
     if (err) {
       console.log("Something has gone wrong!");
     } else {
