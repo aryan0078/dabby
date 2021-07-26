@@ -109,7 +109,7 @@ app.post("/api/v1/getNotifications", async (req, res) => {
   let title = req.body.title;
   let amount = req.body.amount;
 
-  if (appVersion != "0.0.4") {
+  if (appVersion != "0.0.3") {
     return res.send({
       payload: {
         title: "New App Update",
