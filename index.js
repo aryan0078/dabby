@@ -16,7 +16,7 @@ const express = require("express");
 const app = express();
 const port = 3000;
 
-app.listen(port, "127.0.0.1", () =>
+app.listen(port, () =>
   console.log(`Example app listening at http://localhost:${port}`)
 );
 moduleAlias.addAliases({
@@ -109,7 +109,7 @@ app.post("/api/v1/getNotifications", async (req, res) => {
   let title = req.body.title;
   let amount = req.body.amount;
 
-  if (appVersion != "0.0.2") {
+  if (appVersion != "0.0.4") {
     return res.send({
       payload: {
         title: "New App Update",
