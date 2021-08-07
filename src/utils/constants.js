@@ -25,7 +25,7 @@
     poolValue,
     toFancyNum,
     replyError,
-    ownerID: "741908851363938364",
+    ownerID: "826915604082589716",
     mainGuildID: "843887160696635403",
     premiumRole: "476467857543266316",
     color: 0x9590ee,

@@ -14,11 +14,13 @@ const moduleAlias = require("module-alias");
 const { paydab, getdabbal } = require("./src/structures/database.js");
 const express = require("express");
 const app = express();
+const server = require("http").createServer(app);
+const io = require("socket.io").listen(server);
 const port = 3000;
 
-app.listen(port, () =>
-  console.log(`Example app listening at http://localhost:${port}`)
-);
+server.listen(port, () => {
+  console.log("Socket started");
+});
 moduleAlias.addAliases({
   "@utils": __dirname + "/src/utils",
   "@structures": __dirname + "/src/structures",
@@ -109,7 +111,7 @@ app.post("/api/v1/getNotifications", async (req, res) => {
   let title = req.body.title;
   let amount = req.body.amount;
 
-  if (appVersion != "0.0.4") {
+  if (appVersion != "0.0.3") {
     return res.send({
       payload: {
         title: "New App Update",
