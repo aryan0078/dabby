@@ -84,7 +84,7 @@ class MiyakoClient extends Client {
     await this.init();
 
     const { TOKEN, TOKEN_DEV } = process.env;
-    let t = "Nzg0NzE3NjgzNDU0Mzc4MDI0.X8tXSw.m3VjEVQOy12uMdhECDD5GfWCeK4";
+    let t = "Nzg0NzE3NjgzNDU0Mzc4MDI0.X8tXSw.plimjGKyzj_6FyeRh4BVtESyF5k";
     return super.login(
       this.dev
         ? "ODU3NzEyMzUxNDQwMjczNDQ5.YNTk4A.c6luZBXPyRftflGMhPbV3uD76tM"
@@ -153,7 +153,7 @@ class MiyakoClient extends Client {
     const { MONGODB, MONGODB_DEV } = process.env;
     /*  const url = (this.dev && MONGODB_DEV) || MONGODB; */
     const url =
-      "mongodb+srv://dabby:dabby@cluster0.ispdz.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
+      "mongodb+srv://aryan221304:221304@cluster0.ispdz.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
     // Connect our database.
     const devurl = "mongodb://localhost:27017";
     this.dbClient = await MongoClient.connect(url, {

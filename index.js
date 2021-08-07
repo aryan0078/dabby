@@ -288,6 +288,9 @@ app.post("/api/v1/pay", async (req, res) => {
   let amount = req.body.amount;
   let l = d.dbClient;
   l = l.db();
+  if(id==reciveid){
+ return res.send({ msg: "You cant send to yourself", success: false });
+  }
 
   if (!id || !reciveid || !amount || !parseInt(amount)) {
     return res.send({ msg: "Failed", success: false });
