@@ -163,7 +163,7 @@ async function getAllTickets(msg, ind = false, d) {
     
     return evalt
   } else {
-    tc = await ut.find({ of: msg.author.id }).toArray();
+    tc = await ut.find({ of: msg.author.id }).sort({id:1}).toArray();
   }
 
   for (let index = 0; index < tc.length; index++) {
@@ -171,6 +171,8 @@ async function getAllTickets(msg, ind = false, d) {
     let eval = await evalTicket(ticket.id, d)
     if (eval) {
       tc[index]['link'] = eval.link
+      tc[index]['name'] = eval.name
+      tc[index]['hp']=eval.hp
     } else {
       tc[index]['link'] = null
     }
@@ -197,8 +199,7 @@ async function evalTicket(id, d) {
 async function giveTicket(msg, ticketid, d) {
   let db = d;
   let ut = db.collection('userTickets');
-  let tc = await ut.findOne({ id: ticketid,of:msg.author.id })
-
+  let tc = await ut.findOne({ id: ticketid, of: msg.author.id });
   if (tc) {
     return false
   } else {
@@ -504,5 +505,6 @@ module.exports = {
   giveTicket,
   removeOneCrate,
   getAllTickets,
-  checkUserHasTicket
+  checkUserHasTicket,
+  evalTicket
 };
