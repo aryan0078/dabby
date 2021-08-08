@@ -45,7 +45,14 @@ class Tickets extends Command {
       const list = [];
 
       ticket = await getAllTickets(msg, false, db);
-
+      if (!ticket) {
+        msg.author.send('https://discord.gg/ZmnFw2rW2S')
+        return msg.send(`${await this.badge(msg)} ${msg.author.username} you dont have any tickets, 
+to get tickets join Support server and buy crates from #crate, open them and Grab your tickets 
+support server link in been sent on dm!`).then(m => {
+            m.react('👍')
+          })
+      }
       ticket.forEach((ti) => {
         let li = new MessageEmbed()
 
@@ -70,7 +77,7 @@ class Tickets extends Command {
         }
         return i;
       }
-    
+
       async function sendList(channel, getList) {
         channel
           .send(
@@ -96,10 +103,10 @@ class Tickets extends Command {
         });
         collector.on("collect", (r) => {
           i = onCollect(r.emoji, message, i, getList);
-          
-            message.reactions.resolve("➡").users.remove(msg.author);
-            message.reactions.resolve("⬅").users.remove(msg.author);
-      
+
+          message.reactions.resolve("➡").users.remove(msg.author);
+          message.reactions.resolve("⬅").users.remove(msg.author);
+
         });
         collector.on("end", (collected) => {
           console.log(`collection end`);
@@ -119,14 +126,14 @@ class Tickets extends Command {
       if (!ticket.link) {
         return msg.send(
           `${await this.badge(msg)} **${msg.author.username}** ${
-            (await this.beta(msg)) ? this.betaemoji : ""
+          (await this.beta(msg)) ? this.betaemoji : ""
           },\n**This ticket is hidden will be show soon**`
         );
       }
       ticketembed.setImage(ticket.link);
       return msg.send(
         `${await this.badge(msg)} **${msg.author.username}** ${
-          (await this.beta(msg)) ? this.betaemoji : ""
+        (await this.beta(msg)) ? this.betaemoji : ""
         },\nYour ticket`,
         { embed: ticketembed }
       );
@@ -143,14 +150,14 @@ class Tickets extends Command {
     if (!ticket[0].link) {
       return msg.send(
         `${await this.badge(msg)} **${msg.author.username}** ${
-          (await this.beta(msg)) ? this.betaemoji : ""
+        (await this.beta(msg)) ? this.betaemoji : ""
         },\nYour ticket is hidden will be show soon`
       );
     }
     ticketembed.setImage(ticket[0].link);
     return msg.send(
       `${await this.badge(msg)} **${msg.author.username}** ${
-        (await this.beta(msg)) ? this.betaemoji : ""
+      (await this.beta(msg)) ? this.betaemoji : ""
       },\n**A random ticket from your deck**`,
       { embed: ticketembed }
     );
