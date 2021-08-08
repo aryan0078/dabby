@@ -45,7 +45,18 @@ class Tickets extends Command {
       const list = [];
 
       ticket = await getAllTickets(msg, false, db);
-
+      if (!ticket || ticket.length == 0) {
+        msg
+          .send(
+            `${await this.badge(msg)} **${
+              msg.author.username
+            }** You don't have any tickets buy crate from support server in #crate\nopen it by \`dab crate open\`\nyou will get ticket in crates \nsupport server link in been sent on dm!`
+          )
+          .then((m) => {
+            m.react("👍");
+          });
+        return msg.author.send(`https://discord.gg/aJzkWA329r`);
+      }
       ticket.forEach((ti) => {
         let li = new MessageEmbed()
 
@@ -70,11 +81,14 @@ class Tickets extends Command {
         }
         return i;
       }
-      function sendList(channel, getList) {
+      async function sendList(channel, getList) {
         channel
-          .send(`Requested by **${msg.author.username}**`, {
-            embed: getList(0),
-          })
+          .send(
+            `${await this.badge(msg)} Requested by **${msg.author.username}**`,
+            {
+              embed: getList(0),
+            }
+          )
           .then((msg) => msg.react(emojiPrevious))
           .then((msgReaction) => msgReaction.message.react(emojiNext))
           .then((msgReaction) =>
@@ -92,10 +106,9 @@ class Tickets extends Command {
         });
         collector.on("collect", (r) => {
           i = onCollect(r.emoji, message, i, getList);
-          
-            message.reactions.resolve("➡").users.remove(msg.author);
-            message.reactions.resolve("⬅").users.remove(msg.author);
-      
+
+          message.reactions.resolve("➡").users.remove(msg.author);
+          message.reactions.resolve("⬅").users.remove(msg.author);
         });
         collector.on("end", (collected) => {
           console.log(`collection end`);
