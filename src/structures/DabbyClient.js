@@ -3,7 +3,7 @@ const { MongoClient } = require("mongodb");
 const CommandStore = require("./CommandStore.js");
 const EventStore = require("./EventStore.js");
 const MemorySweeper = require("@utils/cleanup");
-const MonitorStore = require("../structures/MonitorStore.js");
+const MonitorStore = require("./MonitorStore.js");
 const DBL = require("dblapi.js");
 const DBLMock = require("../utils/DBLMock.js");
 const Settings = require("./Settings.js");
@@ -11,7 +11,7 @@ const presences = require("@json/presences");
 const imgapi = require("img-api");
 const schema = require("@utils/schema");
 
-class MiyakoClient extends Client {
+class DabbyClient extends Client {
   constructor(dev = false) {
     super({
       fetchAllMembers: false,
@@ -44,7 +44,7 @@ class MiyakoClient extends Client {
       port: process.env.IMGAPI_PORT,
       host: process.env.IMGAPI_HOST,
     });
-    
+
     /* this */
 
     // Settings.
@@ -73,10 +73,10 @@ class MiyakoClient extends Client {
 
     setInterval(() => {
       this.user.setActivity(`${this.guilds.cache.size} servers`, {
-      type: "WATCHING",
-      url: "https://discord.com/api/oauth2/authorize?client_id=784717683454378024&permissions=2081291377&scope=bot"
-   });
-   }, 60000)
+        type: "WATCHING",
+        url: "https://discord.com/api/oauth2/authorize?client_id=784717683454378024&permissions=2081291377&scope=bot",
+      });
+    }, 60000);
     this.emit("dabbyReady");
   }
 
@@ -95,12 +95,16 @@ class MiyakoClient extends Client {
   rollPresence() {
     const { message, type } = this.utils.random(presences);
     const users = this.guilds.cache
-      .filter(guild => guild.available)
+      .filter((guild) => guild.available)
       .reduce((sum, guild) => sum + guild.memberCount, 0);
 
-    return this.user.setActivity(message
-      .replace(/{{guilds}}/g, this.guilds.cache.size)
-      .replace(/{{users}}/g, users), { type })
+    return this.user
+      .setActivity(
+        message
+          .replace(/{{guilds}}/g, this.guilds.cache.size)
+          .replace(/{{users}}/g, users),
+        { type }
+      )
       .catch(() => null);
   }
 
@@ -117,7 +121,7 @@ class MiyakoClient extends Client {
       const member = await guild.members.fetch(user);
       // See if they have the role.
       return member.roles.cache.has(this.constants.premiumRole);
-    } catch(err) {
+    } catch (err) {
       // If an error happens, e.g member is not in the support guild then just return false.
       return false;
     }
@@ -130,13 +134,12 @@ class MiyakoClient extends Client {
    * @returns {MessageEmbed}
    */
   embed(user, data = {}) {
-    const embed = new MessageEmbed(data).setColor("#7289DA")
+    const embed = new MessageEmbed(data).setColor("#7289DA");
 
-    if (user) embed.setAuthor('', user.displayAvatarURL({ size: 64 }));
+    if (user) embed.setAuthor("", user.displayAvatarURL({ size: 64 }));
 
     return embed;
   }
-
 
   async init() {
     // Load pieces.
@@ -152,10 +155,10 @@ class MiyakoClient extends Client {
 
     const { MONGODB, MONGODB_DEV } = process.env;
     /*  const url = (this.dev && MONGODB_DEV) || MONGODB; */
-    const url =
-      "mongodb+srv://aryan221304:221304@cluster0.ispdz.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
-    // Connect our database.
-    const devurl = "mongodb://localhost:27017";
+    /* const url =
+      "mongodb+srv://aryan221304:221304@cluster0.ispdz.mongodb.net/myFirstDatabase?retryWrites=true&w=majority"; */
+
+    const url = "mongodb://localhost:27017";
     this.dbClient = await MongoClient.connect(url, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
@@ -174,4 +177,4 @@ class MiyakoClient extends Client {
   }
 }
 
-module.exports = MiyakoClient;
+module.exports = DabbyClient;
