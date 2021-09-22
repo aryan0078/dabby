@@ -84,12 +84,8 @@ class DabbyClient extends Client {
     await this.init();
 
     const { TOKEN, TOKEN_DEV } = process.env;
-    let t = "Nzg0NzE3NjgzNDU0Mzc4MDI0.X8tXSw.plimjGKyzj_6FyeRh4BVtESyF5k";
-    return super.login(
-      this.dev
-        ? "ODU3NzEyMzUxNDQwMjczNDQ5.YNTk4A.c6luZBXPyRftflGMhPbV3uD76tM"
-        : t
-    );
+    
+    return super.login(this.dev ? TOKEN_DEV : TOKEN);
   }
 
   rollPresence() {
