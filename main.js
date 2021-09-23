@@ -1,5 +1,5 @@
 const { ShardingManager } = require('discord.js');
-const manager = new ShardingManager('./index.js', { token: 'INSERT TOKEN HERE', totalShards: "auto" });
+const manager = new ShardingManager('./index.js', { token: 'ODkwNTYxOTY5MDQyNjQwOTI2.YUxmdw.hMf3aElfffrzph7o9EfVzbQRqaU', totalShards: "auto" });
 
 manager.on('shardCreate', shard => {
     console.log(`Launched shard ${shard.id}`);
